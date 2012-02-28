@@ -4,7 +4,7 @@ namespace :metrics do
   desc "Generate all metrics reports"
   task :all do
     MetricFu::Configuration.run {}
-    MetricFu.metrics.each {|metric| MetricFu.report.add(metric) }
+    MetricFu.metrics.each {|metric| MetricFu.report.add(metric) unless metric == :flog }
     MetricFu.report.save_output(MetricFu.report.to_yaml,
                                 MetricFu.base_directory,
                                 "report.yml")
