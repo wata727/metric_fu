@@ -1,8 +1,10 @@
 require 'rake'
 require 'ruby-debug'
+require 'yaml'
 namespace :metrics do
   desc "Generate all metrics reports"
   task :all do
+    YAML::ENGINE.yamler = 'syck'
     MetricFu::Configuration.run {}
     MetricFu.metrics.each {|metric| MetricFu.report.add(metric) unless metric == :flog }
     MetricFu.report.save_output(MetricFu.report.to_yaml,
