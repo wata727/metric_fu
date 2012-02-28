@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency("fattr", ">= 2.2.0")
   s.add_dependency("arrayfields", ">= 4.7.4")
   s.add_dependency("map", ">= 4.3.0")
+  s.add_dependency("syntax", ">= 1.0.0")
 
   s.add_development_dependency("rspec", ["= 1.3.0"])
   s.add_development_dependency("test-construct", [">= 1.2.0"])
