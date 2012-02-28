@@ -14,7 +14,7 @@ module MetricFu
         dir_files = remove_excluded_files(dir_files)
         files += dir_files
       end
-      options = ::Flog.parse_options ["--all", "--details"]
+      options = ::Flog.parse_options ["--all", "--details", "--continue"]
 
       @flogger = ::Flog.new options
       @flogger.flog files
