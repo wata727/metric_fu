@@ -1,6 +1,7 @@
 module MetricFu
 
   class Saikuro < Generator
+    include ::Rake::DSL
 
     def emit
       options_string = MetricFu.saikuro.inject("") do |options, option|
