@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency("rails_best_practices", ">=0.6.4")
   s.add_dependency("chronic", "~> 0.3.0")
   s.add_dependency("churn", ">= 0.0.7")
-  s.add_dependency("Saikuro", ">= 1.1.0")
+  s.add_dependency("japgolly-Saikuro", ">= 1.1.1.0")
   s.add_dependency("activesupport", ">= 2.0.0")
   s.add_dependency("fattr", ">= 2.2.0")
   s.add_dependency("arrayfields", ">= 4.7.4")
