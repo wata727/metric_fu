@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = "Code metrics from Flog, Flay, Simplecov-RCov, Saikuro, Churn, Reek, Roodi, Rails' stats task and Rails Best Practices"
   s.authors     = ["Jake Scruggs", "Sean Soper", "Andre Arko", "Petrik de Heus", "Grant McInnes", "Nick Quaranto", "Édouard Brière", "Carl Youngblood", "Richard Huang", "Dan Mayer", "Benjamin Fleischer"]
   s.rubyforge_project = 'metric_fu'
-  s.required_ruby_version     = ">= 1.8.7"
+  s.required_ruby_version     = ">= 1.9.0"
   s.required_rubygems_version = ">= 1.3.6"
   s.files              = `git ls-files`.split($\)
   s.test_files         =  s.files.grep(%r{^(test|spec|features)/})
@@ -43,19 +43,10 @@ Gem::Specification.new do |s|
       s.add_dependency(gem,version)
     end
   end
-  # string comparison ftw
-  if RUBY_VERSION < '1.9'
-    s.add_dependency("ripper",[" =1.0.5"])
-    s.add_dependency("rcov", ["~> 0.8"])
-    s.add_dependency("Saikuro", ["= 1.1.0"])
-  else
-    s.add_dependency("rcov", ["~> 0.8"])
-    s.add_dependency("japgolly-Saikuro", ">= 1.1.1.0")
-    # still using rcov in ruby 1.9 till some errors are fleshed out
-    # s.add_dependency("simplecov", [">= 0.5.4"])
-    # s.add_dependency("simplecov-rcov", [">= 0.2.3"])
-  end
-
+  s.add_dependency("rcov", ["~> 0.8"])
+  s.add_dependency("japgolly-Saikuro", ">= 1.1.1.0")
+  # still using rcov in ruby 1.9 till some errors are fleshed out
+  # s.add_dependency("simplecov", [">= 0.5.4"])
+  # s.add_dependency("simplecov-rcov", [">= 0.2.3"])
 
 end
-
