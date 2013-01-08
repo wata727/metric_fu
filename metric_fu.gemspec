@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.description = "(Ruby 1.8) Code metrics from Flog, Flay, RCov, Saikuro, Churn, Reek, Roodi, Rails' stats task and Rails Best Practices"
   s.authors     = ["Jake Scruggs", "Sean Soper", "Andre Arko", "Petrik de Heus", "Grant McInnes", "Nick Quaranto", "Édouard Brière", "Carl Youngblood", "Richard Huang", "Dan Mayer", "Benjamin Fleischer"]
   s.rubyforge_project = 'metric_fu'
-  s.required_ruby_version     = [">= 1.8.7","<=1.9.0"]
-  s.required_rubygems_version = ">= 1.3.6"
+  s.required_ruby_version     = "~> 1.8.7"
+  # s.required_rubygems_version = ">= 1.3.6" per http://docs.rubygems.org/read/chapter/20#required_ruby_version, do not use
   s.license     = 'MIT'
   {
     "flay"                  => ["= 1.2.1"],
