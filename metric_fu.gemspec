@@ -13,6 +13,10 @@ Gem::Specification.new do |s|
   s.rubyforge_project = 'metric_fu'
   s.required_ruby_version     = "~> 1.8.7"
   # s.required_rubygems_version = ">= 1.3.6" per http://docs.rubygems.org/read/chapter/20#required_ruby_version, do not use
+  s.files              = `git ls-files`.split($\)
+  s.test_files         =  s.files.grep(%r{^(test|spec|features)/})
+  s.executables        =  s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  s.require_paths = ["lib"]
   s.license     = 'MIT'
   {
     "flay"                  => ["= 1.2.1"],
