@@ -15,12 +15,13 @@ describe MetricFu::Report do
     @report = MetricFu::Report.new
   end
 
-  describe "#to_yaml" do
+  describe "#as_yaml" do
     it 'should call #report_hash' do
       report_hash = mock('report_hash')
       report_hash.should_receive(:to_yaml)
+
       @report.should_receive(:report_hash).and_return(report_hash)
-      @report.to_yaml
+      @report.as_yaml
     end
   end
 
@@ -51,6 +52,7 @@ describe MetricFu::Report do
       report_inst.should_receive(:generate_report).and_return({:a => 'b'})
       report_inst.should_receive(:respond_to?).and_return(false)
 
+      MetricFu.should_receive(:send).with(report_type).and_return({})
       MetricFu.should_receive(:const_get).
                with('Type').and_return(report_type)
       report_hash = mock('report_hash')

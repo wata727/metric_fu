@@ -24,7 +24,7 @@ module MetricFu
     # @return YAML
     #   A YAML object containing the results of the report generation
     #   process
-    def to_yaml
+    def as_yaml
       report_hash.to_yaml
     end
 
@@ -57,7 +57,8 @@ module MetricFu
       mf_debug "report requested #{report_type}"
       clazz = MetricFu.const_get(report_type.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase })
       mf_debug "report class found #{clazz}"
-      inst = clazz.new
+      metric_options = MetricFu.send(report_type)
+      inst = clazz.new(metric_options)
 
       report_hash.merge!(inst.generate_report)
 

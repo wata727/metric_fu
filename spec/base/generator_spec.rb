@@ -4,8 +4,6 @@ describe MetricFu::Generator do
 
   include Construct::Helpers
 
-  MetricFu::Configuration.run do |config|
-  end
 
   class ConcreteClass < MetricFu::Generator
     def emit
@@ -19,6 +17,9 @@ describe MetricFu::Generator do
   end
 
   before(:each) do
+    ENV['CC_BUILD_ARTIFACTS'] = nil
+    MetricFu.configuration.reset
+    MetricFu.configure
     @concrete_class = ConcreteClass.new
   end
 

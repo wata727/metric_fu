@@ -1,13 +1,8 @@
-MetricFu.lib_require { 'configuration' }
+MetricFu.configure
 module MetricFu
   class Run
     def initialize
       STDOUT.sync = true
-      MetricFu::Configuration.run do |config|
-        config.roodi    = config.roodi.merge(:roodi_config => "#{MetricFu.root_dir}/config/roodi_config.yml")
-        config.churn    = { :start_date => "1 year ago", :minimum_churn_count => 10}
-        config.hotspots = { :start_date => "1 year ago", :minimum_churn_count => 10}
-      end
     end
     def run
       add_metrics
@@ -24,11 +19,11 @@ module MetricFu
     end
     def save_reports
       mf_debug "** SAVING REPORT YAML OUTPUT TO #{MetricFu.base_directory}"
-      MetricFu.report.save_output(MetricFu.report.to_yaml,
+      MetricFu.report.save_output(MetricFu.report.as_yaml,
                                   MetricFu.base_directory,
                                   "report.yml")
       mf_debug "** SAVING REPORT DATA OUTPUT TO #{MetricFu.data_directory}"
-      MetricFu.report.save_output(MetricFu.report.to_yaml,
+      MetricFu.report.save_output(MetricFu.report.as_yaml,
                                   MetricFu.data_directory,
                                   "#{Time.now.strftime("%Y%m%d")}.yml")
       mf_debug "** SAVING TEMPLATIZED REPORT"

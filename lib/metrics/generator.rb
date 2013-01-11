@@ -30,9 +30,10 @@ module MetricFu
   # in general setup the directory structure that the MetricFu system
   # expects.
   class Generator
-    attr_reader :report, :template
+    attr_reader :report, :template, :options
 
     def initialize(options={})
+      @options = options
       create_metric_dir_if_missing
       create_output_dir_if_missing
       create_data_dir_if_missing
@@ -121,9 +122,7 @@ module MetricFu
     # methods to allow extra hooks into the processing methods, and help
     # to keep the logic of your Generators clean.
     def generate_report
-      if MetricFu.configuration.verbose
-        puts "Executing #{self.class.to_s.gsub(/.*::/, '')}"
-      end
+      mf_debug "Executing #{self.class.to_s.gsub(/.*::/, '')}"
 
       %w[emit analyze].each do |meth|
         send("before_#{meth}".to_sym)
