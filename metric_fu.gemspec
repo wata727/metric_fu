@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
     s.add_dependency("fattr", ["= 2.2.0"])
     s.add_dependency("hirb", ["= 0.5.0"])
     s.add_dependency("jeweler", ["= 1.6.4"]) # depends on bundler, git, rake
-      s.add_dependency("bundler", ["= 1.2.1"])
+      s.add_dependency("bundler", ["~> 1.2.1"])
       s.add_dependency("git", ["= 1.2.5"])
       s.add_dependency("rake", ["= 0.9.2.2"])
     s.add_dependency("json", ["= 1.6.1"])
