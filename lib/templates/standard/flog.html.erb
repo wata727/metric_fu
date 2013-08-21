@@ -31,26 +31,28 @@
     <% end %>
   </table>
 
-  <% @flog[:method_containers].each do |method_container| %>
-    <h2 id="<%= method_container[:path].gsub(/[^a-z]+/, '_') %>"><%= link_to_filename(method_container[:path]) %></h2>
+  <% if MetricFu.flog[:show_call_list] %>
+    <% @flog[:method_containers].each do |method_container| %>
+      <h2 id="<%= method_container[:path].gsub(/[^a-z]+/, '_') %>"><%= link_to_filename(method_container[:path]) %></h2>
 
-      <% method_container[:methods].each do |full_method_name, method_info| %>
-        <% path, line = method_info[:path].split(":") if method_info[:path] %>
-        <p><%= link_to_filename(path, line, full_method_name) %></p>
-        <p>Total Score: <%= round_to_tenths method_info[:score]%></p>
-        <table>
-          <tr>
-            <th>Score</th>
-            <th>Operator</th>
-          </tr>
-          <% method_info[:operators].each do |operator, score| %>
+        <% method_container[:methods].each do |full_method_name, method_info| %>
+          <% path, line = method_info[:path].split(":") if method_info[:path] %>
+          <p><%= link_to_filename(path, line, full_method_name) %></p>
+          <p>Total Score: <%= round_to_tenths method_info[:score]%></p>
+          <table>
             <tr>
-              <td><%= round_to_tenths score %></td>
-              <td><%= operator %></td>
+              <th>Score</th>
+              <th>Operator</th>
             </tr>
-          <% end %>
-        </table>
-      <% end %>
+            <% method_info[:operators].each do |operator, score| %>
+              <tr>
+                <td><%= round_to_tenths score %></td>
+                <td><%= operator %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+    <% end %>
   <% end %>
   <p>Generated on <%= Time.now.localtime %></p>
 </body>

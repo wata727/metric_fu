@@ -115,7 +115,8 @@ module MetricFu
       @flay     = { :dirs_to_flay => @code_dirs,
                     :minimum_score => 100,
                     :filetypes => ['rb'] }
-      @flog     = { :dirs_to_flog => @code_dirs  }
+      @flog     = { :dirs_to_flog => @code_dirs,
+                    :show_call_list => true}
       @reek     = { :dirs_to_reek => @code_dirs,
                     :config_file_pattern => nil}
       @roodi    = { :dirs_to_roodi => @code_dirs,
