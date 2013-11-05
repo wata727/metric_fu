@@ -7,4 +7,4 @@ options = {
   metric_name:  'churn',
   args:         ARGV.dup,
 }
-MetricFu::GemRun.new(options).run
+STDOUT.puts MetricFu::GemRun.new(options).run.output

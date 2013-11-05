@@ -5,13 +5,14 @@ MetricFu.lib_require { 'gem_version' }
 module MetricFu
   class GemRun
 
-    attr_reader :gem_name, :library_name, :version, :arguments
+    attr_reader :output, :gem_name, :library_name, :version, :arguments
     def initialize(arguments={})
       @gem_name    = arguments.fetch(:gem_name)
       @library_name = arguments.fetch(:metric_name)
       @version = arguments.fetch(:version) { MetricFu::GemVersion.for(library_name) }
       args = arguments.fetch(:args)
       @arguments = args.respond_to?(:scan) ? Shellwords.shellwords(args) : args
+      @output = ''
     end
 
     def summary
@@ -19,7 +20,7 @@ module MetricFu
     end
 
     def run
-      execute
+      @output = execute
     rescue StandardError => run_error
       handle_run_error(run_error)
     rescue SystemExit => system_exit
@@ -32,7 +33,9 @@ module MetricFu
       require 'rubygems'
       gem gem_name, version
       handle_argv
-      load Gem.bin_path(gem_name, library_name, version)
+      capture_stdout do
+        load Gem.bin_path(gem_name, library_name, version)
+      end
     end
 
     def handle_argv
@@ -42,13 +45,23 @@ module MetricFu
       end
     end
 
+   require 'stringio'
+    def capture_stdout(&block)
+      real_stdout = STDOUT.clone
+      $stdout = fake_stdout = StringIO.new
+      yield
+    ensure
+      $stdout = real_stdout
+      return fake_stdout.string
+    end
+
     def handle_run_error(run_error)
-      STDERR.puts "ERROR: #{run_error.inspect}"
+      puts "ERROR: #{run_error.inspect}"
     end
 
     def handle_system_exit(system_exist)
       status =  system_exit.success? ? "SUCCESS" : "FAILURE"
-      STDERR.puts "#{status} with code #{system_exit.status}: #{e.inspect}"
+      puts "#{status} with code #{system_exit.status}: #{e.inspect}"
     end
 
   end
