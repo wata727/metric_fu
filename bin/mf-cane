@@ -1,8 +1,10 @@
-#!/usr/bin/env ruby_noexec_wrapper
+#!/usr/bin/env ruby
 require 'rubygems'
 
-require 'metric_fu_requires'
-
-version = MetricFu::MetricVersion.cane
-gem 'cane', version
-load Gem.bin_path('cane', 'cane', version)
+require 'metric_fu/gem_run'
+options = {
+  gem_name:     'cane',
+  metric_name:  'cane',
+  args:         ARGV.dup,
+}
+MetricFu::GemRun.new(options).run

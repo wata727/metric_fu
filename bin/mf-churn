@@ -1,9 +1,10 @@
-#!/usr/bin/env ruby_noexec_wrapper
+#!/usr/bin/env ruby
 require 'rubygems'
 
-
-require 'metric_fu_requires'
-
-version = MetricFu::MetricVersion.churn
-gem 'churn', version
-load Gem.bin_path('churn', 'churn', version)
+require 'metric_fu/gem_run'
+options = {
+  gem_name:     'churn',
+  metric_name:  'churn',
+  args:         ARGV.dup,
+}
+MetricFu::GemRun.new(options).run
