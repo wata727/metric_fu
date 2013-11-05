@@ -47,9 +47,14 @@ module MetricFu
     end
 
     def run_external(args = default_run_args)
-      command = "mf-#{name} #{args}"
-      mf_log "** #{command}"
-      `#{command}`
+      runner = GemRun.new({
+        gem_name: gem_name.to_s,
+        metric_name: name.to_s,
+        # version: ,
+        args: args,
+      })
+      mf_debug "Running #{runner.summary}"
+      runner.run
     end
 
     def configured_run_options

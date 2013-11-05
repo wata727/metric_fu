@@ -1,3 +1,5 @@
+# encoding: utf-8
+require 'open3'
 require 'shellwords'
 require 'metric_fu'
 MetricFu.lib_require { 'logging/mf_debugger' }
@@ -13,6 +15,7 @@ module MetricFu
       args = arguments.fetch(:args)
       @arguments = args.respond_to?(:scan) ? Shellwords.shellwords(args) : args
       @output = ''
+      @errors = []
     end
 
     def summary
@@ -21,47 +24,34 @@ module MetricFu
 
     def run
       @output = execute
+    end
+
+    def execute
+      captured_output = ''
+      Open3.popen3("#{library_name}", *arguments) do |stdin, stdout, stderr, wait_thr|
+        captured_output << stdout.read.chomp
+      end
     rescue StandardError => run_error
       handle_run_error(run_error)
     rescue SystemExit => system_exit
       handle_system_exit(system_exit)
     ensure
-      return self
-    end
-
-    def execute
-      require 'rubygems'
-      gem gem_name, version
-      handle_argv
-      capture_stdout do
-        load Gem.bin_path(gem_name, library_name, version)
-      end
-    end
-
-    def handle_argv
-      ARGV.clear
-      arguments.each do |arg|
-        ARGV << arg
-      end
-    end
-
-   require 'stringio'
-    def capture_stdout(&block)
-      real_stdout = STDOUT.clone
-      $stdout = fake_stdout = StringIO.new
-      yield
-    ensure
-      $stdout = real_stdout
-      return fake_stdout.string
+      print_errors
+      return captured_output
     end
 
     def handle_run_error(run_error)
-      puts "ERROR: #{run_error.inspect}"
+      @errors << "ERROR: #{run_error.inspect}"
     end
 
-    def handle_system_exit(system_exist)
+    def handle_system_exit(system_exit)
       status =  system_exit.success? ? "SUCCESS" : "FAILURE"
-      puts "#{status} with code #{system_exit.status}: #{e.inspect}"
+      @errors << "#{status} with code #{system_exit.status}: #{system_exit.inspect}"
+    end
+
+    def print_errors
+      return unless defined?(@errors) and not @errors.empty?
+      STDERR.puts @errors.map(&:inspect).join(", ")
     end
 
   end
