@@ -8,10 +8,8 @@ module MetricFu
 
     def emit
       minimum_score_parameter = options[:minimum_score] ? "--mass #{options[:minimum_score]} " : ""
-
-      command = %Q(mf-flay #{minimum_score_parameter} #{options[:dirs_to_flay].join(" ")})
-      mf_debug "** #{command}"
-      @output = `#{command}`
+      args =  "#{minimum_score_parameter} #{options[:dirs_to_flay].join(" ")}"
+      @output = run!(args)
     end
 
     def analyze

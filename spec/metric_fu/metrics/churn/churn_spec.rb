@@ -8,7 +8,6 @@ describe MetricFu::ChurnGenerator do
   let(:config_setup) {
     ENV['CC_BUILD_ARTIFACTS'] = nil
     MetricFu.configure.reset
-    File.stub(:directory?).and_return(true)
   }
 
   describe "new method" do

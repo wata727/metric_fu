@@ -52,6 +52,10 @@ module MetricFu
       @generators
     end
 
+    def self.metric
+      not_implemented
+    end
+
     def self.get_generator(metric)
       generators.find{|generator|generator.metric.to_s == metric.to_s.downcase}
     end
@@ -82,6 +86,18 @@ module MetricFu
         files_to_remove.concat(Dir[glob])
       end
       paths - files_to_remove
+    end
+
+    def metric
+      self.class.metric
+    end
+
+    def metric_config
+      MetricFu::Metric.get_metric(metric)
+    end
+
+    def run!(args)
+      metric_config.run_external(args)
     end
 
     # Provides a template method to drive the production of a metric
