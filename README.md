@@ -1,4 +1,4 @@
-# MetricFu [![Gem Version](https://badge.fury.io/rb/metric_fu.png)](http://badge.fury.io/rb/metric_fu) [![Build Status](https://travis-ci.org/metricfu/metric_fu.png?branch=master)](http://travis-ci.org/metricfu/metric_fu) 
+# MetricFu [![Gem Version](https://badge.fury.io/rb/metric_fu.png)](http://badge.fury.io/rb/metric_fu) [![Build Status](https://travis-ci.org/metricfu/metric_fu.png?branch=master)](http://travis-ci.org/metricfu/metric_fu)
 
 [![Code Climate](https://codeclimate.com/github/metricfu/metric_fu.png)](https://codeclimate.com/github/metricfu/metric_fu) [![Dependency Status](https://gemnasium.com/metricfu/metric_fu.png)](https://gemnasium.com/metricfu/metric_fu)
 
@@ -45,34 +45,34 @@ See `metric_fu --help` for more options
 
 * metric_fu no longer runs rcov itself. You may still use rcov metrics as documented below
 
-* The Cane, Flog, and Rails Best Practices metrics are disabled when Ripper is not available 
+* The Cane, Flog, and Rails Best Practices metrics are disabled when Ripper is not available
 
 ## Documentation
 
-*[See wiki](https://github.com/metricfu/metric_fu/wiki#usage)
+* [See wiki](https://github.com/metricfu/metric_fu/wiki#usage)
 
 ## Formatters
 
 ### Built-in Formatters
 
-By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs. 
+By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs.
 
 These reports are generated in metric_fu's output directory (```tmp/metric_fu/output```) by default. You can customize the output directory by specifying an out directory at the command line
 using a relative path:
 
-	metric_fu --out custom_directory  	# outputs to tmp/metric_fu/custom_directory
+  metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
 
 or a full path:
 
-	metric_fu --out /home/metrics	  	# outputs to /home/metrics
+  metric_fu --out /home/metrics      # outputs to /home/metrics
 
 You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
 
 
-	metric_fu --format yaml --out custom_report.yml
+  metric_fu --format yaml --out custom_report.yml
 or
 
-	metric_fu --format MyCustomFormatter
+  metric_fu --format MyCustomFormatter
 
 ### Custom Formatters
 
@@ -83,14 +83,14 @@ that takes an options hash and responds to one or more notifications:
 
 ```ruby
  class MyCustomFormatter
-   def initialize(opts={}); end  	# metric_fu will pass in an output param if provided.
+   def initialize(opts={}); end    # metric_fu will pass in an output param if provided.
 
    # Should include one or more of...
-   def start; end 					# Sent before metric_fu starts metric measurements.
-   def start_metric(metric); end 	# Sent before individual metric is measured.
-   def finish_metric(metric); end 	# Sent after individual metric measurement is complete.
-   def finish; end 					# Sent after metric_fu has completed all measurements.
-   def display_results; end 		# Used to open results in browser, etc.
+   def start; end           # Sent before metric_fu starts metric measurements.
+   def start_metric(metric); end   # Sent before individual metric is measured.
+   def finish_metric(metric); end   # Sent after individual metric measurement is complete.
+   def finish; end           # Sent after metric_fu has completed all measurements.
+   def display_results; end     # Used to open results in browser, etc.
  end
 ```
 
@@ -165,8 +165,8 @@ See [CONTRIBUTING](https://github.com/metricfu/metric_fu/blob/master/CONTRIBUTIN
 This is the official repository for metric_fu.  The original repository by Jake Scruggs at [https://github.com/jscruggs/metric_fu](https://github.com/jscruggs/metric_fu) has been deprecated.
 
 * [Official Repository](http://github.com/metricfu/metric_fu)
-* [Issue Tracker](http://metricfu.github.io/metric_fu/)
-* [Google Group](http://metricfu.github.io/metric_fu/)
+* [Issue Tracker](http://github.com/metricfu/metric_fu/issues)
+* [Google Group](https://groups.google.com/forum/#!forum/metric_fu)
 * [Outdated Homepage](http://metricfu.github.io/metric_fu/)
 * [List of code tools](https://github.com/metricfu/metric_fu/wiki/Code-Tools)
 * [Roadmap](https://github.com/metricfu/metric_fu/wiki/Roadmap)
