@@ -96,7 +96,7 @@ module MetricFu
 
     def cli_options(files)
       config_file_param = options[:config_file_pattern] ? "--config #{options[:config_file_pattern]}" : ''
-      cli_options = "#{config_file_param} #{files.join(' ')}"
+      "--line-number #{config_file_param} #{files.join(' ')}"
     end
 
   end
