@@ -95,8 +95,15 @@ module MetricFu
     end
 
     def cli_options(files)
-      config_file_param = options[:config_file_pattern] ? "--config #{options[:config_file_pattern]}" : ''
-      "--line-number #{config_file_param} #{files.join(' ')}"
+      '--line-number ' <<
+        config_option(options[:config_file_pattern]) << ' ' <<
+        files.join(' ')
+    end
+
+    def config_option(location)
+      return '' if location.to_s.empty?
+      option = "--config #{location}"
+      '--config .reek ' << option unless location == '.reek'
     end
 
   end
