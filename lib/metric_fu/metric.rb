@@ -53,7 +53,6 @@ module MetricFu
         # version: ,
         args: args,
       })
-      mf_debug "Running #{runner.summary}"
       runner.run
     end
 

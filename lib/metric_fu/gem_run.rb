@@ -27,6 +27,7 @@ module MetricFu
     end
 
     def execute
+      mf_debug "Running #{summary}"
       captured_output = ''
       Open3.popen3("#{library_name}", *arguments) do |stdin, stdout, stderr, wait_thr|
         captured_output << stdout.read.chomp
