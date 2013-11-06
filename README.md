@@ -4,52 +4,41 @@
 
 [Rdoc](http://rdoc.info/github/metricfu/metric_fu/)
 
-## Metrics
-
-* [Cane](https://rubygems.org/gems/cane), [Source](http://github.com/square/cane)
-* [Churn](https://rubygems.org/gems/churn), [Source](http://github.com/danmayer/churn)
-* [Flog](https://rubygems.org/gems/flog), [Source](https://github.com/seattlerb/flog)
-* [Flay](https://rubygems.org/gems/flay), [Source](https://github.com/seattlerb/flay)
-* [Reek](https://rubygems.org/gems/reek) [Source](https://github.com/troessner/reek)
-* [Roodi](https://rubygems.org/gems/metric_fu-roodi), [Source](https://github.com/metricfu/roodi)
-* [Saikuro](https://rubygems.org/gems/metric_fu-Saikuro), [Source](https://github.com/metricfu/Saikuro)
-  [Code Statistics](https://rubygems.org/gems/code_metrics), [Source](https://github.com/bf4/code_metrics) )
-* Rails-only
-  * [Rails Best Practices](https://rubygems.org/gems/rails_best_practices), [Source](https://github.com/railsbp/rails_best_practices)
-* Test Coverage
-  * 1.9: [SimpleCov](http://rubygems.org/gems/simplecov) and [SimpleCov-Rcov-Text](http://rubygems.org/gems/simplecov-rcov-text)
-  * 1.8: [Rcov](http://rubygems.org/gems/rcov)
-* Hotspots (a meta-metric of the above)
-
 ## Installation
 
     gem install metric_fu
 
-If you have trouble installing the gem, try adding metric_fu to your Gemfile. You may also want to file a ticket on the issues page.
-
-See documentation on the rubyforge page for how to customize your metrics. Otherwise, all current information is either in this repo or on the wiki.
+If you have trouble installing the gem
+- try adding metric_fu to your Gemfile and bundling.
+- file a ticket on the issues page.
 
 ## Usage
 
-By default, you can run all metrics from the root of an app with the command `metric_fu`
+From your application root. Running via Rake is still supported.
 
-See `metric_fu --help` for more options
+```sh
+metric_fu
+```
 
-## Compatibility
+See:
+- `metric_fu --help` for more options
+- the [.metrics file](https://github.com/metricfu/metric_fu/blob/master/.metrics)
+- Documentation and Compatibility below
+- There is also a [wiki page of user-maintained usage information](https://github.com/metricfu/metric_fu/wiki#usage)
 
-* It is currently testing on MRI (1.9.3 and 2.0.0), JRuby (19 mode), and Rubinius (19 mode). Ruby 1.8 is no longer supported due to the cane library.
+## Contact
 
-* For 1.8.7 support, see version 3.0.0 for partial support, or 2.1.3.7.18.1 (where [Semantic Versioning](http://semver.org/) goes to die)
+*Code and Bug Reports*
 
-* The `metric_fu-Saikuro` fork and `metric_fu-roodi` fork are a part of an attempt to get metric_fu working in a modern Ruby environment, specifically compatibility with Ruby 1.9 and Bundler.
+* [Issue Tracker](http://github.com/metricfu/metric_fu/issues)
+  * See [CONTRIBUTING](https://github.com/metricfu/metric_fu/blob/master/CONTRIBUTING.md) for how to contribute
 
-* metric_fu no longer runs rcov itself. You may still use rcov metrics as documented below
+*Questions, Problems, Suggestions, etc.*
 
-* The Cane, Flog, and Rails Best Practices metrics are disabled when Ripper is not available
+* [Google Group](https://groups.google.com/forum/#!forum/metric_fu)
 
 ## Documentation
 
-* [See wiki](https://github.com/metricfu/metric_fu/wiki#usage)
 
 ## Formatters
 
@@ -60,19 +49,28 @@ By default, metric_fu will use the built-in html formatter to generate HTML repo
 These reports are generated in metric_fu's output directory (```tmp/metric_fu/output```) by default. You can customize the output directory by specifying an out directory at the command line
 using a relative path:
 
+```sh
   metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
+```
 
 or a full path:
 
+```sh
   metric_fu --out /home/metrics      # outputs to /home/metrics
+```
 
 You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
 
 
+```sh
   metric_fu --format yaml --out custom_report.yml
+```
+
 or
 
+```sh
   metric_fu --format MyCustomFormatter
+```
 
 ### Custom Formatters
 
@@ -108,22 +106,19 @@ For instance, to require a formatter in your app's lib directory:
 require './lib/my_custom_formatter.rb'
 ```
 
-### Configuration
-
-see the .metrics file
-
 ### Using Coverage Metrics
 
 in your .metrics file add the below to run pre-generated metrics
 
+```ruby
     MetricFu::Configuration.run do |config|
       config.configure_metric(:rcov) do |rcov|
         rcov.enabled = true
-        coverage_file = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
-        rcov.external = coverage_file
+        rcov.external = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
         rcov.activate
       end
     end
+```
 
 If you want metric_fu to actually run rcov itself (1.8 only), don't specify an external file to read from
 
@@ -131,45 +126,75 @@ If you want metric_fu to actually run rcov itself (1.8 only), don't specify an e
 
 To generate the same metrics metric_fu has been generating run from the root of your project before running metric_fu
 
-    RAILS_ENV=test rcov $(ruby -e "puts Dir['{spec,test}/**/*_{spec,test}.rb'].join(' ')") --sort coverage --no-html --text-coverage --no-color --profile --exclude-only '.*' --include-file "\Aapp,\Alib" -Ispec >> coverage/rcov/rcov.txt
+```sh
+    RAILS_ENV=test rcov $(ruby -e "puts Dir['{spec,test}/**/*_{spec,test}.rb'].join(' ')") --sort coverage --no-html --text-coverage --no-color --profile --exclude-only '.*' --include-file "\Aapp,\Alib" -Ispec > coverage/rcov/rcov.txt
+```
 
 #### Simplecov metrics with Ruby 1.9 and 2.0
 
 Add to your Gemfile or otherwise install
 
+```ruby
     gem 'simplecov'
     # https://github.com/kina/simplecov-rcov-text
     gem 'simplecov-rcov-text'
+```
 
-Modify your spec_helper as per the SimpleCov docs and run your tests before running metric_fu
+Modify your [spec_helper](https://github.com/metricfu/metric_fu/blob/master/spec/spec_helper.rb) as per the SimpleCov docs and run your tests before running metric_fu
 
+```ruby
     #in your spec_helper
     require 'simplecov'
     require 'simplecov-rcov-text'
     SimpleCov.formatter = SimpleCov::Formatter::RcovTextFormatter
+    # or
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::RcovTextFormatter
+      ]
     SimpleCov.start
-    # SimpleCov.start 'rails'
+```
+
+## Compatibility
+
+* It is currently testing on MRI (>= 1.9.3), JRuby (19 mode), and Rubinius (19 mode). Ruby 1.8 is no longer supported.
+
+* For 1.8.7 support, see version 3.0.0 for partial support, or 2.1.3.7.18.1 (where [Semantic Versioning](http://semver.org/) goes to die)
+
+* MetricFu  no longer runs any of the analyzed code. For code coverage, You may still use rcov metrics as documented below
+
+* The Cane, Flog, and Rails Best Practices metrics are disabled when Ripper is not available
 
 ### Historical
 
-There is some useful-but-out-of-date documentation about configuring metric_fu at http://metric-fu.rubyforge.org/ and a change log in the the HISTORY file.
-
-## Contributions
-
-See the TODO for some ideas
-
-See [CONTRIBUTING](https://github.com/metricfu/metric_fu/blob/master/CONTRIBUTING.md) for how to contribute
+There is some useful-but-out-of-date documentation about configuring metric_fu at http://metricfu.github.io/metric_fu and a change log in the the HISTORY file.
 
 ## Resources:
 
 This is the official repository for metric_fu.  The original repository by Jake Scruggs at [https://github.com/jscruggs/metric_fu](https://github.com/jscruggs/metric_fu) has been deprecated.
 
 * [Official Repository](http://github.com/metricfu/metric_fu)
-* [Issue Tracker](http://github.com/metricfu/metric_fu/issues)
-* [Google Group](https://groups.google.com/forum/#!forum/metric_fu)
 * [Outdated Homepage](http://metricfu.github.io/metric_fu/)
 * [List of code tools](https://github.com/metricfu/metric_fu/wiki/Code-Tools)
 * [Roadmap](https://github.com/metricfu/metric_fu/wiki/Roadmap)
+
+### Metrics
+
+* [Cane](https://rubygems.org/gems/cane), [Source](http://github.com/square/cane)
+* [Churn](https://rubygems.org/gems/churn), [Source](http://github.com/danmayer/churn)
+* [Flog](https://rubygems.org/gems/flog), [Source](https://github.com/seattlerb/flog)
+* [Flay](https://rubygems.org/gems/flay), [Source](https://github.com/seattlerb/flay)
+* [Reek](https://rubygems.org/gems/reek) [Source](https://github.com/troessner/reek)
+* [Roodi](https://rubygems.org/gems/roodi), [Source](https://github.com/roodi/roodi)
+* [Saikuro](https://rubygems.org/gems/metric_fu-Saikuro), [Source](https://github.com/metricfu/Saikuro)
+  [Code Statistics](https://rubygems.org/gems/code_metrics), [Source](https://github.com/bf4/code_metrics) )
+* Rails-only
+  * [Rails Best Practices](https://rubygems.org/gems/rails_best_practices), [Source](https://github.com/railsbp/rails_best_practices)
+* Test Coverage
+  * 1.9: [SimpleCov](http://rubygems.org/gems/simplecov) and [SimpleCov-Rcov-Text](http://rubygems.org/gems/simplecov-rcov-text)
+  * 1.8: [Rcov](http://rubygems.org/gems/rcov)
+* Hotspots (a meta-metric of the above)
+
 
 ### Original Resources:
 

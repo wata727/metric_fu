@@ -4,6 +4,7 @@ How to contribute:
 
   * Is something broken or not working as expected? Check for an existing issue or [create a new one](https://github.com/metricfu/metric_fu/issues/new)
   * See [Quick guide to writing good bug reports](https://github.com/metricfu/metric_fu/wiki/Issues:-Quick-guide-to-writing-good-bug-reports)
+  * IMPORTANT: Include the output of `metric_fu --debug-info`
 
 ## Code
 
