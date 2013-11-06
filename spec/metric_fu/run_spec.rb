@@ -184,7 +184,8 @@ describe MetricFu do
         # Catch system exit so that it doesn't halt spec.
       rescue SystemExit => system_exit
         status =  system_exit.success? ? "SUCCESS" : "FAILURE"
-        message << "#{status} with code #{system_exit.status}: #{system_exit.inspect}"
+        message << "#{status} with code #{system_exit.status}: " <<
+          "#{system_exist.message} #{system_exit.backtrace}"
       end
     }
     STDERR.puts message if message.start_with?('FAILURE')

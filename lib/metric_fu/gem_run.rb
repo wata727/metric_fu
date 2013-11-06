@@ -46,12 +46,21 @@ module MetricFu
 
     def handle_system_exit(system_exit)
       status =  system_exit.success? ? "SUCCESS" : "FAILURE"
-      @errors << "#{status} with code #{system_exit.status}: #{system_exit.inspect}"
+      message = "#{status} with code #{system_exit.status}: " <<
+        "#{system_exit.message}: #{system_exit.backtrace.inspect}"
+      if status == 'SUCCESS'
+        mf_debug message
+      else
+        @errors << message
+      end
     end
 
     def print_errors
-      return unless defined?(@errors) and not @errors.empty?
-      STDERR.puts @errors.map(&:inspect).join(", ")
+      return if @errors.empty?
+      STDERR.puts "ERRORS running #{summary}"
+      @errors.each do |error|
+        STDERR.puts "\t" << error
+      end
     end
 
   end
