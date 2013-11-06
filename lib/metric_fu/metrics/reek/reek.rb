@@ -13,9 +13,8 @@ module MetricFu
         mf_log "Skipping Reek, no files found to analyze"
         @output = ""
       else
-        command = %Q(mf-reek #{cli_options(files)})
-        mf_debug "** #{command}"
-        @output = `#{command}`
+        args =  cli_options(files)
+        @output = run!(args)
         @output = massage_for_reek_12 if reek_12?
       end
     end

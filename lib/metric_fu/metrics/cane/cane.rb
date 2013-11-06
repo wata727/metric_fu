@@ -7,9 +7,13 @@ module MetricFu
     end
 
     def emit
-      command = %Q{mf-cane#{abc_max_param}#{style_measure_param}#{no_doc_param}#{no_readme_param}}
-      mf_debug "** #{command}"
-      @output = `#{command}`
+      args =  [
+        abc_max_param,
+        style_measure_param,
+        no_doc_param,
+        no_readme_param
+      ].join
+      @output = run!(args)
     end
 
     def analyze

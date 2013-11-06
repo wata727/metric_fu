@@ -26,7 +26,12 @@ module MetricFu
     private
 
     def generate_churn_metrics
-      ensure_output_is_valid_yaml(churn_code)
+      output = churn_code
+      ensure_output_is_valid_yaml(output)
+    end
+
+    def churn_code
+      run!(build_churn_options)
     end
 
     def ensure_output_is_valid_yaml(output)
@@ -36,12 +41,6 @@ module MetricFu
       else
         nil
       end
-    end
-
-    def churn_code
-      command = "mf-churn #{build_churn_options}"
-      mf_debug "** #{command}"
-      `#{command}`
     end
 
     def build_churn_options

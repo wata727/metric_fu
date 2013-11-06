@@ -19,9 +19,7 @@ module MetricFu
         options_string += "--input_directory #{input_dir} "
       end
 
-      command = %Q(mf-saikuro #{options_string})
-      mf_debug "** #{command}"
-      `#{command}`
+      @output = run!(options_string)
     end
 
     def analyze
