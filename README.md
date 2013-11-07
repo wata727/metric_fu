@@ -12,6 +12,11 @@ If you have trouble installing the gem
 - try adding metric_fu to your Gemfile and bundling.
 - file a ticket on the issues page.
 
+MetricFu is cryptographically signed. To be sure the gem you install hasn't been tampered with:
+- Add my public key (if you haven't already) as a trusted certificate `gem cert --add <(curl -Ls https://raw.github.com/metricfu/metric_fu/master/certs/bf4.pem)`
+- `gem install metric_fu -P HighSecurity`
+- This may cause installation to fail if non-signed dependent gems are also being installed.
+
 ## Usage
 
 From your application root. Running via Rake is still supported.

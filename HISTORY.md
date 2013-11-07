@@ -7,6 +7,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 ### Master
 
 * Features
+  * Signed gem; added certs/bf4.pem
   * Run metrics without shelling out; use Open3.popen3 (Benjamin Fleischer, #157)
     - GemRun runs external libraries, outputs nice error messages
     - GemVersion returns version requirements for a gem dependency; replaces metric_fu_requires

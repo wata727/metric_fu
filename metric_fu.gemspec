@@ -11,6 +11,9 @@ Gem::Specification.new do |s|
   author_file   = File.expand_path('AUTHORS', File.dirname(__FILE__))
   s.authors     = File.readlines(author_file).map(&:strip)
 
+  # used with gem i metric_fu -P HighSecurity
+  s.cert_chain  = ['certs/bf4.pem']
+
   s.rubyforge_project           = 'metric_fu'
   s.license                     = 'MIT'
   s.platform                    = Gem::Platform::RUBY
