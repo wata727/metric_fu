@@ -1,0 +1,173 @@
+digraph classes {
+	graph [rotate=0, rankdir="LR"]
+	node [fillcolor="#c4ddec", style="filled", fontname="Helvetica Neue"]
+	edge [color="#444444"]
+	Exception [label="Exception"]
+	MetricFu__AnalysisError [label="MetricFu::AnalysisError"]
+	MetricFu__AnalyzerTables [label="MetricFu::AnalyzerTables"]
+	MetricFu__CaneGenerator [label="MetricFu::CaneGenerator"]
+	MetricFu__CaneGrapher [label="MetricFu::CaneGrapher"]
+	MetricFu__CaneViolations__AbcComplexity [label="MetricFu::CaneViolations::AbcComplexity"]
+	MetricFu__CaneViolations__Comment [label="MetricFu::CaneViolations::Comment"]
+	MetricFu__CaneViolations__Documentation [label="MetricFu::CaneViolations::Documentation"]
+	MetricFu__CaneViolations__LineStyle [label="MetricFu::CaneViolations::LineStyle"]
+	MetricFu__CaneViolations__Others [label="MetricFu::CaneViolations::Others"]
+	MetricFu__ChurnGenerator [label="MetricFu::ChurnGenerator"]
+	MetricFu__ChurnHotspot [label="MetricFu::ChurnHotspot"]
+	MetricFu__ClassMethodNode [label="MetricFu::ClassMethodNode"]
+	MetricFu__Configuration [label="MetricFu::Configuration"]
+	MetricFu__FlayGenerator [label="MetricFu::FlayGenerator"]
+	MetricFu__FlayGrapher [label="MetricFu::FlayGrapher"]
+	MetricFu__FlayHotspot [label="MetricFu::FlayHotspot"]
+	MetricFu__FlogGenerator [label="MetricFu::FlogGenerator"]
+	MetricFu__FlogGrapher [label="MetricFu::FlogGrapher"]
+	MetricFu__FlogHotspot [label="MetricFu::FlogHotspot"]
+	MetricFu__Formatter__HTML [label="MetricFu::Formatter::HTML"]
+	MetricFu__Formatter__YAML [label="MetricFu::Formatter::YAML"]
+	MetricFu__GemRun [label="MetricFu::GemRun"]
+	MetricFu__GemVersion [label="MetricFu::GemVersion"]
+	MetricFu__Generator [label="MetricFu::Generator"]
+	MetricFu__Graph [label="MetricFu::Graph"]
+	MetricFu__Grapher [label="MetricFu::Grapher"]
+	MetricFu__Grouping [label="MetricFu::Grouping"]
+	MetricFu__Hotspot [label="MetricFu::Hotspot"]
+	MetricFu__HotspotAnalyzedProblems [label="MetricFu::HotspotAnalyzedProblems"]
+	MetricFu__HotspotAnalyzer [label="MetricFu::HotspotAnalyzer"]
+	MetricFu__HotspotGroupings [label="MetricFu::HotspotGroupings"]
+	MetricFu__HotspotProblems [label="MetricFu::HotspotProblems"]
+	MetricFu__HotspotRankedProblemLocation [label="MetricFu::HotspotRankedProblemLocation"]
+	MetricFu__HotspotRankings [label="MetricFu::HotspotRankings"]
+	MetricFu__HotspotsGenerator [label="MetricFu::HotspotsGenerator"]
+	MetricFu__InstanceMethodNode [label="MetricFu::InstanceMethodNode"]
+	MetricFu__LineNumbers [label="MetricFu::LineNumbers"]
+	MetricFu__Loader [label="MetricFu::Loader"]
+	MetricFu__Location [label="MetricFu::Location"]
+	MetricFu__MethodContainer [label="MetricFu::MethodContainer"]
+	MetricFu__Metric [label="MetricFu::Metric"]
+	MetricFu__MetricCane [label="MetricFu::MetricCane"]
+	MetricFu__MetricChurn [label="MetricFu::MetricChurn"]
+	MetricFu__MetricFlay [label="MetricFu::MetricFlay"]
+	MetricFu__MetricFlog [label="MetricFu::MetricFlog"]
+	MetricFu__MetricHotspots [label="MetricFu::MetricHotspots"]
+	MetricFu__MetricRailsBestPractices [label="MetricFu::MetricRailsBestPractices"]
+	MetricFu__MetricRcov [label="MetricFu::MetricRcov"]
+	MetricFu__MetricReek [label="MetricFu::MetricReek"]
+	MetricFu__MetricRoodi [label="MetricFu::MetricRoodi"]
+	MetricFu__MetricSaikuro [label="MetricFu::MetricSaikuro"]
+	MetricFu__MetricStats [label="MetricFu::MetricStats"]
+	MetricFu__RailsBestPracticesGenerator [label="MetricFu::RailsBestPracticesGenerator"]
+	MetricFu__RailsBestPracticesGrapher [label="MetricFu::RailsBestPracticesGrapher"]
+	MetricFu__Ranking [label="MetricFu::Ranking"]
+	MetricFu__RcovGenerator [label="MetricFu::RcovGenerator"]
+	MetricFu__RcovGenerator__Line [label="MetricFu::RcovGenerator::Line"]
+	MetricFu__RcovGrapher [label="MetricFu::RcovGrapher"]
+	MetricFu__RcovHotspot [label="MetricFu::RcovHotspot"]
+	MetricFu__Record [label="MetricFu::Record"]
+	MetricFu__ReekGenerator [label="MetricFu::ReekGenerator"]
+	MetricFu__ReekGrapher [label="MetricFu::ReekGrapher"]
+	MetricFu__Reporter [label="MetricFu::Reporter"]
+	MetricFu__Result [label="MetricFu::Result"]
+	MetricFu__RoodiGenerator [label="MetricFu::RoodiGenerator"]
+	MetricFu__RoodiGrapher [label="MetricFu::RoodiGrapher"]
+	MetricFu__RoodiHotspot [label="MetricFu::RoodiHotspot"]
+	MetricFu__Run [label="MetricFu::Run"]
+	MetricFu__SaikuroGenerator [label="MetricFu::SaikuroGenerator"]
+	MetricFu__SaikuroHotspot [label="MetricFu::SaikuroHotspot"]
+	MetricFu__SaikuroParsingElement [label="MetricFu::SaikuroParsingElement"]
+	MetricFu__SaikuroScratchFile [label="MetricFu::SaikuroScratchFile"]
+	MetricFu__SexpNode [label="MetricFu::SexpNode"]
+	MetricFu__SingletonMethodNode [label="MetricFu::SingletonMethodNode"]
+	MetricFu__StatsGenerator [label="MetricFu::StatsGenerator"]
+	MetricFu__StatsGrapher [label="MetricFu::StatsGrapher"]
+	MetricFu__StatsHotspot [label="MetricFu::StatsHotspot"]
+	MetricFu__Table [label="MetricFu::Table"]
+	MetricFu__Template [label="MetricFu::Template"]
+	Object [label="Object"]
+	RuntimeError [label="RuntimeError"]
+	StandardError [label="StandardError"]
+	Struct [label="Struct"]
+	Exception -> Object
+	MetricFu__AnalysisError -> RuntimeError
+	MetricFu__AnalyzerTables -> Object
+	MetricFu__CaneGenerator -> MetricFu__Generator
+	MetricFu__CaneGrapher -> MetricFu__Grapher
+	MetricFu__CaneViolations__AbcComplexity -> Object
+	MetricFu__CaneViolations__Comment -> Object
+	MetricFu__CaneViolations__Documentation -> Object
+	MetricFu__CaneViolations__LineStyle -> Object
+	MetricFu__CaneViolations__Others -> Object
+	MetricFu__ChurnGenerator -> MetricFu__Generator
+	MetricFu__ChurnHotspot -> MetricFu__Hotspot
+	MetricFu__ClassMethodNode -> MetricFu__SexpNode
+	MetricFu__Configuration -> Object
+	MetricFu__FlayGenerator -> MetricFu__Generator
+	MetricFu__FlayGrapher -> MetricFu__Grapher
+	MetricFu__FlayHotspot -> MetricFu__Hotspot
+	MetricFu__FlogGenerator -> MetricFu__Generator
+	MetricFu__FlogGrapher -> MetricFu__Grapher
+	MetricFu__FlogHotspot -> MetricFu__Hotspot
+	MetricFu__Formatter__HTML -> Object
+	MetricFu__Formatter__YAML -> Object
+	MetricFu__GemRun -> Object
+	MetricFu__GemVersion -> Object
+	MetricFu__Generator -> Object
+	MetricFu__Graph -> Object
+	MetricFu__Grapher -> Object
+	MetricFu__Grouping -> Object
+	MetricFu__Hotspot -> Object
+	MetricFu__HotspotAnalyzedProblems -> Object
+	MetricFu__HotspotAnalyzer -> Object
+	MetricFu__HotspotGroupings -> Object
+	MetricFu__HotspotProblems -> Object
+	MetricFu__HotspotRankedProblemLocation -> Object
+	MetricFu__HotspotRankings -> Object
+	MetricFu__HotspotsGenerator -> MetricFu__Generator
+	MetricFu__InstanceMethodNode -> MetricFu__SexpNode
+	MetricFu__LineNumbers -> Object
+	MetricFu__Loader -> Object
+	MetricFu__Location -> Object
+	MetricFu__MethodContainer -> Object
+	MetricFu__Metric -> Object
+	MetricFu__MetricCane -> MetricFu__Metric
+	MetricFu__MetricChurn -> MetricFu__Metric
+	MetricFu__MetricFlay -> MetricFu__Metric
+	MetricFu__MetricFlog -> MetricFu__Metric
+	MetricFu__MetricHotspots -> MetricFu__Metric
+	MetricFu__MetricRailsBestPractices -> MetricFu__Metric
+	MetricFu__MetricRcov -> MetricFu__Metric
+	MetricFu__MetricReek -> MetricFu__Metric
+	MetricFu__MetricRoodi -> MetricFu__Metric
+	MetricFu__MetricSaikuro -> MetricFu__Metric
+	MetricFu__MetricStats -> MetricFu__Metric
+	MetricFu__RailsBestPracticesGenerator -> MetricFu__Generator
+	MetricFu__RailsBestPracticesGrapher -> MetricFu__Grapher
+	MetricFu__Ranking -> Object
+	MetricFu__RcovGenerator -> MetricFu__Generator
+	MetricFu__RcovGenerator__Line -> Object
+	MetricFu__RcovGrapher -> MetricFu__Grapher
+	MetricFu__RcovHotspot -> MetricFu__Hotspot
+	MetricFu__Record -> Object
+	MetricFu__ReekGenerator -> MetricFu__Generator
+	MetricFu__ReekGrapher -> MetricFu__Grapher
+	MetricFu__Reporter -> Object
+	MetricFu__Result -> Object
+	MetricFu__RoodiGenerator -> MetricFu__Generator
+	MetricFu__RoodiGrapher -> MetricFu__Grapher
+	MetricFu__RoodiHotspot -> MetricFu__Hotspot
+	MetricFu__Run -> Object
+	MetricFu__SaikuroGenerator -> MetricFu__Generator
+	MetricFu__SaikuroHotspot -> MetricFu__Hotspot
+	MetricFu__SaikuroParsingElement -> Object
+	MetricFu__SaikuroScratchFile -> Object
+	MetricFu__SexpNode -> Struct
+	MetricFu__SingletonMethodNode -> MetricFu__SexpNode
+	MetricFu__StatsGenerator -> MetricFu__Generator
+	MetricFu__StatsGrapher -> MetricFu__Grapher
+	MetricFu__StatsHotspot -> MetricFu__Hotspot
+	MetricFu__Table -> Object
+	MetricFu__Template -> Object
+	Object -> BasicObject
+	RuntimeError -> StandardError
+	StandardError -> Exception
+	Struct -> Object
+}
