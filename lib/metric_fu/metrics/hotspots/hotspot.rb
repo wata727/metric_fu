@@ -8,10 +8,10 @@ module MetricFu
       @analyzers.values
     end
     def self.analyzer_for_metric(metric)
-      mf_debug "Getting analyzer for #{metric}"
-      @analyzers.fetch(metric.to_sym) {
-        raise MetricFu::AnalysisError, "Unknown metric #{metric}. We only know #{@analyzers.keys.inspect}"
-      }
+      @analyzers.fetch(metric.to_sym) do
+        message = "Unknown metric #{metric}. We only know #{@analyzers.keys.inspect}"
+        fail MetricFu::AnalysisError, message
+      end
     end
     def self.inherited(subclass)
       mf_debug "Adding #{subclass} to #{@analyzers.inspect}"
@@ -42,7 +42,9 @@ module MetricFu
         :average => MetricFu::HotspotScoringStrategies.average(scores),
         :sum     => MetricFu::HotspotScoringStrategies.sum(scores),
         :absent  => 0,
-      }.fetch(reduce_strategy) { raise "#{reduce_strategy} not a know reduce strategy" }
+      }.fetch(reduce_strategy) do
+        fail "#{reduce_strategy} not a known reduce strategy"
+      end
     end
 
     def reduce_strategy
