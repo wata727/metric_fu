@@ -10,9 +10,17 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 * Fixes
 * Misc
 
+### MetricFu [4.5.1 / 2013-11-07](https://github.com/metricfu/metric_fu/compare/v4.4.4...v4.5.1)
+
+* Features
+* Fixes
+* Misc
+  * Releasing the signed gem didn't work. See ed2f96d8
+
 ### MetricFu [4.5.0 / 2013-11-07](https://github.com/metricfu/metric_fu/compare/v4.4.4...v4.5.0)
 
 * Features
+  * Signed gem; added certs/bf4.pem
   * Run metrics without shelling out; use Open3.popen3 (Benjamin Fleischer, #157)
     - GemRun runs external libraries, outputs nice error messages
     - GemVersion returns version requirements for a gem dependency; replaces metric_fu_requires
