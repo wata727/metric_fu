@@ -7,8 +7,47 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 ### Master
 
 * Features
+  * Run metrics without shelling out; use Open3.popen3 (Benjamin Fleischer, #157)
+    - GemRun runs external libraries, outputs nice error messages
+    - GemVersion returns version requirements for a gem dependency; replaces metric_fu_requires
+    - Consolidate code that runs external metrics to the generator
+    - `--debug-info` now outputs metric dependencies
+  * Add new MetricFu.run_dir that defaults to Pathname.pwd, but can be set (Benjamin Fleischer, #160)
+    - Used in dummy app for testing 9fcc085
+  * User config (.metrics) now loaded when metric_fu required (Benjamin Fleischer, #158)
+  * Consolidate grapher code; remove gchart grapher (Benjamin Fleischer, 5fd8f4)
+    - Remove bluff gem; bluff grapher is a js library.  (Benjamin Fleischer, 8b534c7)
+  * Better rake tasks: can set options form the task (Benjamin Fleischer, 11ac27)
+    - Add ::run(options) and ::run_only(metric_name) to MetricFu namespace
 * Fixes
+  * Churn hotspot no longer tries to read directories as if they were files (Adrien Montfort, #169)
+  * Set default Reek config to config/*.reek, per Reek docs (Benjamin Fleischer, #165)
+    - Ensure .reek still loaded, for backwards-compatibility
+  * Bump reek patch version due to change in meaning in reek config (Benjamin Fleischer, #166)
+  * Cleanup scratch files Saikuro leaves behind; else they are re-used! (Benjamin Fleischer, 91ac9af)
+  * Various IO-related fixes
+    - Close read pipe when capturing output, per @eclubb, Earle Clubb (6696d42)
+    - Stop leaving files open everywhere, even though 'everyone does it'. (Benjamin Fleischer, #159)
+    - Isolate file-system interactions in specs; rbx specs can pass (Benjamin Fleischer, #161)
+  * Remove unused before/after generator methods; standardize not_implemented message (Benjamin Fleischer, 5842d83)
 * Misc
+  * Update README, and how to contribute (Benjamin Fleischer, #114)
+  * Set sane defaults for generator per_file_data hash (Benjamin Fleischer, d991fb8)
+  * Ensure gemspec reads AUTHORS from relative path (Benjamin Fleischer, ee0274f)
+  * Configure SimpleCov to run with the html and rcov text formatters (Benjamin Fleischer, d372d00)
+  * Extract CLI option parsing methods (Benjamin Fleischer, a54d018)
+  * Test improvements
+    - Update setup, add pry (Benjamin Fleischer)
+      - Add rspec FAIL_FAST option (bd2745a)
+      - Update spec_helper, add filters, defer gc (3db59d7)
+      - Configure tests not to manage GC under JRuby (000200b)
+      - Remove FakeFS; doesn't seem to be speeding up the tests, but it does break them (afc5518)
+    - Cache test fixtures. (And rename from resources to fixtures.) (Benjamin Fleischer, #164)
+    - Set timeout on each test (Benjamin Fleischer, f1d5f20)
+    - Add devtools-derived guardfile and configs (Benjamin Fleischer, e2463de)
+   - Ensure RailsBestPractices test runs when available (Benjamin Fleischer, #150)
+
+add all contriubtors
 
 ### MetricFu [4.4.4 / 2013-09-27](https://github.com/metricfu/metric_fu/compare/v4.4.3...v4.4.4)
 
@@ -44,7 +83,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 
 * Features
 * Fixes
-  * No longer consider an ampty sexp in LineNumbers an error.  A file with only comments is empty of code. (Benjamin Fleischer)
+  * No longer consider an empty sexp in LineNumbers an error.  A file with only comments is empty of code. (Benjamin Fleischer)
   * Prevent encoding errors when using syntax highlighting via coderay (Benjamin Fleischer #120, #131)
 * Misc
   * Update dependencies: cane, flay, flog, reek; switch from metric_fu-roodi to revived roodi (Benjamin Fleischer #130)
