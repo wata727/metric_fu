@@ -10,6 +10,11 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 * Fixes
 * Misc
 
+### MetricFu [4.5.2 / 2013-11-07](https://github.com/metricfu/metric_fu/compare/v4.4.4...v4.5.2)
+
+* Misc
+  * Exclude etc dir from built gem; save 1.1MB by not including erd.png. (Benjamin Fleischer, #173)
+
 ### MetricFu [4.5.1 / 2013-11-07](https://github.com/metricfu/metric_fu/compare/v4.4.4...v4.5.1)
 
 * Features
