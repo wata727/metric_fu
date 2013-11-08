@@ -22,10 +22,15 @@ Gem::Specification.new do |s|
   s.required_ruby_version       = ">= 1.9.0"
   s.required_rubygems_version   = ">= 1.3.6"
 
-  s.files                       = `git ls-files`.split($\)
-  s.test_files                  =  s.files.grep(%r{^(test|spec|features)/})
+    tracked_files = `git ls-files`.split($\)
+    excluded_dirs = %r{\Aetc}
+    files         = tracked_files.reject{|file| file[excluded_dirs] }
+    test_files    = files.grep(%r{^(test|spec|features)/})
+    executables   = files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  s.files                       = files
+  s.test_files                  = test_files
+  s.executables                 = executables
   s.default_executable          = %q{metric_fu}
-  s.executables                 =  s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.require_paths               = ["lib"]
 
   s.has_rdoc                    = true
