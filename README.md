@@ -208,3 +208,7 @@ This is the official repository for metric_fu.  The original repository by Jake 
 * Historical Homepage: http://metric-fu.rubyforge.org/
 * Jake's Blog: http://jakescruggs.blogspot.com/
 * Jake's Post about stepping down: http://jakescruggs.blogspot.com/2012/08/why-i-abandoned-metricfu.html
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/metricfu/metric_fu/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
