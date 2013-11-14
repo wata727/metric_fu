@@ -7,6 +7,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 ### Master
 
 * Features
+  * Allow configuration of the generation template, eg link_prefix (Adrien Montfort, #171)
 * Fixes
 * Misc
 
