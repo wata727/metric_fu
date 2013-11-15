@@ -178,8 +178,6 @@ module MetricFu
 
       if render_as_txmt_protocol?
         "txmt://open/?url=file://#{filename}" << (line ? "&line=#{line}" : "")
-      # elsif render_as_mvim_protocol?
-      #   "mvim://open/?url=file://#{filename}" << (line ? "&line=#{line}" : "")
       else
         link_prefix = MetricFu.configuration.templates_option('link_prefix')
         if link_prefix == MetricFu::Templates::Configuration::FILE_PREFIX
@@ -202,14 +200,6 @@ module MetricFu
     def render_as_txmt_protocol? # :nodoc:
       if MetricFu.configuration.osx?
         !MetricFu.configuration.templates_option('darwin_txmt_protocol_no_thanks')
-      else
-        false
-      end
-    end
-
-    def render_as_mvim_protocol? # :nodoc:
-      if MetricFu.configuration.osx?
-        !MetricFu.configuration.templates_option('darwin_mvim_protocol_no_thanks')
       else
         false
       end
