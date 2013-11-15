@@ -175,15 +175,17 @@ module MetricFu
     def file_url(name, line) # :nodoc:
       return '' unless name
       filename = complete_file_path(name)
-      link_prefix = MetricFu::Formatter::Templates.option('link_prefix')
-      if link_prefix
-        "#{link_prefix}/#{name.gsub(/:.*$/, '')}"
-      elsif render_as_txmt_protocol?
+
+      if render_as_txmt_protocol?
         "txmt://open/?url=file://#{filename}" << (line ? "&line=#{line}" : "")
-      # elsif render_as_mvim_protocol?
-      #   "mvim://open/?url=file://#{filename}" << (line ? "&line=#{line}" : "")
       else
-       "file://#{filename}"
+        link_prefix = MetricFu.configuration.templates_option('link_prefix')
+        if link_prefix == MetricFu::Templates::Configuration::FILE_PREFIX
+          path = filename
+        else
+          path = name.gsub(/:.*$/, '')
+        end
+        "#{link_prefix}/#{path}"
       end
     end
 
@@ -197,15 +199,7 @@ module MetricFu
 
     def render_as_txmt_protocol? # :nodoc:
       if MetricFu.configuration.osx?
-        !MetricFu::Formatter::Templates.option('darwin_txmt_protocol_no_thanks')
-      else
-        false
-      end
-    end
-
-    def render_as_mvim_protocol? # :nodoc:
-      if MetricFu.configuration.osx?
-        !MetricFu::Formatter::Templates.option('darwin_mvim_protocol_no_thanks')
+        !MetricFu.configuration.templates_option('darwin_txmt_protocol_no_thanks')
       else
         false
       end
