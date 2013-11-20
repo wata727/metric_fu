@@ -61,6 +61,24 @@ describe StatsGenerator do
       model_data[:methods_per_class].should == 3
       model_data[:loc_per_method].should == 7
     end
+
+    it 'handles code to test ratio is ratio is 1:NaN' do
+      lines =  <<-HERE.gsub(/^\s*/, "")
+      +----------------------+-------+-------+---------+---------+-----+-------+
+      | Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |
+      +----------------------+-------+-------+---------+---------+-----+-------+
+      +----------------------+-------+-------+---------+---------+-----+-------+
+        Code LOC: 0     Test LOC: 0     Code to Test Ratio: 1:NaN
+
+      HERE
+      ENV['CC_BUILD_ARTIFACTS'] = nil
+      MetricFu.configure.reset
+      File.stub(:directory?).and_return(true)
+      stats = MetricFu::StatsGenerator.new(MetricFu::Metric.get_metric(:stats).run_options)
+      stats.instance_variable_set('@output', lines)
+      @results = stats.analyze
+      expect(@results[:code_to_test_ratio]).to eq(0.0)
+    end
   end
 
   describe "to_h method" do

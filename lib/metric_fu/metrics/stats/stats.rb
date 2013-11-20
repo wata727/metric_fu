@@ -39,10 +39,16 @@ module MetricFu
 
     def set_global_stats(totals)
       return if totals.nil?
-      totals = totals.split("  ").find_all {|el| ! el.empty? }
-      @stats[:codeLOC] = totals[0].match(/\d.*/)[0].to_i
-      @stats[:testLOC] = totals[1].match(/\d.*/)[0].to_i
-      @stats[:code_to_test_ratio] = totals[2].match(/1\:(\d.*)/)[1].to_f
+      parsed_totals = totals.split("  ").find_all {|el| ! el.empty? }
+      @stats[:codeLOC] = parsed_totals.shift.match(/\d.*/)[0].to_i
+      @stats[:testLOC] = parsed_totals.shift.match(/\d.*/)[0].to_i
+      matched_numbers  = Array(parsed_totals.shift.match(/1\:(\d.*)/))
+      if matched_numbers.size == 2
+        @stats[:code_to_test_ratio] = matched_numbers[1].to_f
+      else
+        mf_log "Unexpected code to test ratio #{matched_numbers.inspect} over directories #{dirs.inspect}"
+        @stats[:code_to_test_ratio] = 0.0
+      end
     end
 
     def set_granular_stats(lines)
