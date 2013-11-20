@@ -7,6 +7,12 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 ### Master
 
 * Features
+* Fixes
+* Misc
+
+### MetricFu [4.6.0 / 2013-11-20](https://github.com/metricfu/metric_fu/compare/v4.5.2...v4.6.0)
+
+* Features
   * Allow configuration of the generation template, eg link_prefix (Adrien Montfort, #171)
 * Fixes
   * Return 0% coverage when the file has no lines. (Chirag Viradiya #152, Benjamin Fleischer, Michael Foley)
