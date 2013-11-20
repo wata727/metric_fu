@@ -1,4 +1,5 @@
 MetricFu.lib_require { 'utility' }
+MetricFu.lib_require { 'calculate' }
 
 module MetricFu
 
@@ -126,17 +127,19 @@ module MetricFu
       files
     end
 
+    # TODO: remove multiple side effects
+    #   sets global ivars and
+    #   modifies the param passed in
     def add_coverage_percentage(files)
       files.each_pair do |fname, content|
         lines = content[:lines]
-        @global_total_lines_run += lines_run = lines.find_all {|line| line[:was_run] == true }.length
-        @global_total_lines += total_lines = lines.length
-        if total_lines.zero?
-          percent_run = 0
-        else
-          percent_run = (Float(lines_run) / Float(total_lines) * 100).round
-        end
-        files[fname][:percent_run] = percent_run
+        lines_run = lines.count {|line| line[:was_run] == true }
+        total_lines = lines.length
+        integer_percent = Calculate.integer_percent(lines_run, total_lines)
+
+        files[fname][:percent_run] = integer_percent
+        @global_total_lines_run += lines_run
+        @global_total_lines += total_lines
       end
     end
 
