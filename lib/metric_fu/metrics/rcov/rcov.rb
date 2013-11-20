@@ -119,7 +119,8 @@ module MetricFu
       files.each_pair {|fname, content| files[fname] = content.split("\n") }
       files.each_pair do |fname, content|
         content.map! do |raw_line|
-          Line.new(raw_line[3..-1], !raw_line.match(/^!!/)).to_h
+          covered_line = raw_line.match(/^!!/).nil?
+          Line.new(raw_line[3..-1], covered_line).to_h
         end
         content.reject! {|line| line[:content].to_s == '' }
         files[fname] = {:lines => content}
@@ -133,7 +134,7 @@ module MetricFu
     def add_coverage_percentage(files)
       files.each_pair do |fname, content|
         lines = content[:lines]
-        lines_run = lines.count {|line| line[:was_run] == true }
+        lines_run = lines.count {|line| line[:was_run] }
         total_lines = lines.length
         integer_percent = Calculate.integer_percent(lines_run, total_lines)
 
