@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'rspec/autorun'
 
 if ENV['COVERAGE']
