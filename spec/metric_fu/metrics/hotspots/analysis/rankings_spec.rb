@@ -1,7 +1,9 @@
 require 'spec_helper'
+MetricFu.metrics_require { 'hotspots/analysis/rankings' }
 
 describe MetricFu::HotspotRankings do
 
+  # TODO: This helper method is a huge smell. Make unnecessary
   def rankings(result_hash)
     @rankings ||= {}
     @rankings.fetch(result_hash) do
