@@ -21,7 +21,7 @@ module MetricFu
         MetricFu::VERSION
       end
       def shutdown
-        out "\nShuting down. Bye"
+        out "\nShutting down. Bye"
         MetricFu::Cli.immediate_shutdown!
       end
       def banner
