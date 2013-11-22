@@ -120,8 +120,8 @@ module MetricFu
     # @return String
     #   The contents of the css file
     def inline_css(css)
-      css_file = File.join(template_directory, css)
-      open(css_file) {|f| f.read }
+      css_file = File.join(MetricFu.lib_dir,'templates', css)
+      MetricFu::Utility.binread(css_file)
     end
 
     # Provides a link to open a file through the textmate protocol

@@ -27,7 +27,8 @@ module MetricFu
       end
 
       def highlight_options(line_number)
-        if line_number.to_i > 0
+        line_number = line_number.to_i
+        if line_number > 0
           @options.merge(@line_number_options.merge(:line_number_start => line_number))
         else
           @options

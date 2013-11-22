@@ -33,5 +33,9 @@ module MetricFu
       YAML.load_file(file)
     end
 
+    def binread(file)
+      File.binread(file)
+    end
+
   end
 end
