@@ -1,3 +1,16 @@
+def enable_hotspots
+  MetricFu.configure
+  hotspot_metrics = MetricFu::Metric.metrics.map(&:name)
+  hotspot_metrics.each do |metric_name|
+    path = "#{metric_name}/#{metric_name}_hotspot"
+    begin
+      MetricFu.metrics_require { path }
+    rescue LoadError
+      # No hotspot, but that's ok
+    end
+  end
+end
+
 def metric_not_activated?(metric_name)
   MetricFu.configuration.configure_metrics
   if MetricFu::Metric.get_metric(metric_name.intern).activate
