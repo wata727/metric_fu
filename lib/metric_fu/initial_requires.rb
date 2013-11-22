@@ -8,6 +8,3 @@ require 'redcard'
 require 'multi_json'
 
 MetricFu.configure
-MetricFu.logging_require { 'mf_debugger' }
-include MfDebugger
-MfDebugger::Logger.debug_on = !!(ENV['MF_DEBUG'] =~ /true/i)
