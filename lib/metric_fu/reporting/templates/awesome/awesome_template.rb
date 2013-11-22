@@ -1,7 +1,6 @@
 require 'fileutils'
-require 'coderay'
 MetricFu.metrics_require { 'base_template' }
-MetricFu.lib_require { 'utility' }
+MetricFu.lib_require { 'formatter/syntax' }
 
 class AwesomeTemplate < MetricFu::Template
 
@@ -45,25 +44,9 @@ class AwesomeTemplate < MetricFu::Template
   end
 
   def convert_ruby_to_html(ruby_text, line_number)
-    tokens = CodeRay.scan(MetricFu::Utility.clean_ascii_text(ruby_text), :ruby)
-    options = { :css => :class, :style => :alpha }
-    if line_number.to_i > 0
-      options = options.merge({:line_numbers => :inline, :line_number_start => line_number.to_i })
-    end
-    tokens.div(options)
-    # CodeRay options
-    # used to analyze source code, because object Tokens is a list of tokens with specified types.
-    # :tab_width – tabulation width in spaces. Default: 8
-    # :css – how to include the styles (:class и :style). Default: :class)
-    #
-    # :wrap – wrap result in html tag :page, :div, :span or not to wrap (nil)
-    #
-    # :line_numbers – how render line numbers (:table, :inline, :list or nil)
-    #
-    # :line_number_start – first line number
-    #
-    # :bold_every – make every n-th line number bold. Default: 10
+    MetricFu::Formatter::Syntax.new.highlight(ruby_text, line_number)
   end
+
   def write_file_data
 
     per_file_data.each_pair do |file, lines|
