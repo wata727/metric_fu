@@ -12,8 +12,6 @@ Dir.glob(File.join(MetricFu.lib_dir, '*.rb')).
     require file
 end
 
-MetricFu.load_tasks('metric_fu.rake', task_name: 'metrics:all')
-
 Dir.glob(File.join(MetricFu.data_structures_dir, '**/*.rb')).each do |file|
   require file
 end

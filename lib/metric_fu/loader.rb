@@ -83,6 +83,8 @@ module MetricFu
       # Load a few things to make our lives easier elsewhere.
       MetricFu.lib_require { 'load_files' }
       load_user_configuration
+
+      MetricFu.load_tasks('metric_fu.rake', task_name: 'metrics:all')
     end
 
     def load_user_configuration
