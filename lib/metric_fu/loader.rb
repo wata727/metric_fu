@@ -78,6 +78,9 @@ module MetricFu
 
       MetricFu.lib_require { 'configuration' }
       MetricFu.lib_require { 'metric' }
+
+      Dir.glob(File.join(MetricFu.metrics_dir, '**/init.rb')).each{|init_file|require(init_file)}
+      #
       # TODO: consolidate these setup files
       MetricFu.lib_require { 'initial_requires' }
       # Load a few things to make our lives easier elsewhere.
