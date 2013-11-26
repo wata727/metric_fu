@@ -7,8 +7,6 @@ group :test, :coverage do
 end
 
 group :test do
-  gem 'test-construct'
-  gem 'json'
   gem 'pry'
   gem 'pry-nav'
 end
