@@ -32,6 +32,7 @@ describe MetricFu do
         if metric.name == :churn
           metric.enable
           metric.activated = true
+          metric.should_receive(:run_external).and_return('')
         else
           metric.enabled = false
         end

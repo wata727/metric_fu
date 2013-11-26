@@ -14,11 +14,12 @@ describe MetricFu::Formatter::HTML do
     if config.mri?
        @metric_with_graph = :cane
     else
-       @metric_with_graph = :flay
+       @metric_with_graph = :stats
        config.templates_configuration do |c|
          c.syntax_highlighting = false
        end
     end
+    MetricFu::Metric.get_metric(@metric_with_graph).stub(:run_external).and_return('')
     @metric_without_graph = :hotspots
     config.configure_metrics.each do |metric|
       metric.enabled = true if [@metric_with_graph, @metric_without_graph].include?(metric.name)
