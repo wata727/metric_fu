@@ -6,7 +6,15 @@ describe MetricFu::Formatter::YAML do
   before do
     setup_fs
 
-    @metric1 = MetricFu.configuration.mri? ? :cane : :flay
+    config = MetricFu.configuration
+    if config.mri?
+       @metric1 = :cane
+    else
+       @metric1 = :flay
+       config.templates_configuration do |c|
+         c.syntax_highlighting = false
+       end
+    end
     @metric2 = :hotspots
     MetricFu.result.add(@metric1)
     MetricFu.result.add(@metric2)

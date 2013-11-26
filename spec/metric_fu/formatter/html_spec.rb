@@ -10,9 +10,17 @@ describe MetricFu::Formatter::HTML do
     # Right now, have to select from metrics
     # based on platform, resulting in slow specs
     # for some platforms.
-    @metric_with_graph = MetricFu.configuration.mri? ? :cane : :flay
+    config = MetricFu.configuration
+    if config.mri?
+       @metric_with_graph = :cane
+    else
+       @metric_with_graph = :flay
+       config.templates_configuration do |c|
+         c.syntax_highlighting = false
+       end
+    end
     @metric_without_graph = :hotspots
-    MetricFu.configuration.configure_metrics.each do |metric|
+    config.configure_metrics.each do |metric|
       metric.enabled = true if [@metric_with_graph, @metric_without_graph].include?(metric.name)
     end
 
