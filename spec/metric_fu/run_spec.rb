@@ -32,6 +32,7 @@ describe MetricFu do
         if metric.name == :churn
           metric.enable
           metric.activated = true
+          metric.should_receive(:run_external).and_return('')
         else
           metric.enabled = false
         end
@@ -184,8 +185,8 @@ describe MetricFu do
         # Catch system exit so that it doesn't halt spec.
       rescue SystemExit => system_exit
         status =  system_exit.success? ? "SUCCESS" : "FAILURE"
-        message << "#{status} with code #{system_exit.status}: " <<
-          "#{system_exist.message} #{system_exit.backtrace}"
+        message << "#{status} with code #{system_exit.status}: "
+        message << "#{system_exit.message} #{system_exit.backtrace}"
       end
     }
     STDERR.puts message if message.start_with?('FAILURE')
