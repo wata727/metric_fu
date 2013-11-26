@@ -101,21 +101,21 @@ module MetricFu
     #   Given an existing io stream, the stream will not
     #   be automatically closed. Cleanup, if necessary, is
     #   the responsibility of the caller.
-    def io_for(path_or_io)
+    def io_for(path_or_io, &block)
       raise ArgumentError, "No path or io provided." if path_or_io.nil?
       raise ArgumentError, "No block given. Cannot yield io stream." unless block_given?
 
       if path_or_io.respond_to?(:write)
         # We have an existing open stream...
-        yield path_or_io
+        block.call(path_or_io)
       else # Otherwise, we assume its a file path...
-        file_for(path_or_io) {|io| yield io }
+        file_for(path_or_io, &block)
       end
     end
 
-    def file_for(path)
+    def file_for(path, &block)
       File.open(path_relative_to_base(path), 'w') do |file|
-        yield file
+        block.call(file)
       end
     end
 
