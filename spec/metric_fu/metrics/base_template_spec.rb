@@ -76,11 +76,11 @@ describe MetricFu::Template do
   describe "#inline_css" do
     it 'should return the contents of a css file' do
       css = 'mycss.css'
-      @template.should_receive(:template_directory).and_return('dir')
-      io = double('io', :read => "css contents")
-      @template.should_receive(:open).and_yield(io)
+      dir = File.join(MetricFu.lib_dir, 'templates', css)
+      contents = "css contents"
+      MetricFu::Utility.should_receive(:binread).with(dir).and_return(contents)
       result = @template.send(:inline_css, css)
-      result.should == 'css contents'
+      expect(result).to eq(contents)
     end
   end
 

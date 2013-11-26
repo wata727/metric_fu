@@ -1,7 +1,6 @@
 require 'fileutils'
-require 'coderay'
 MetricFu.metrics_require { 'base_template' }
-MetricFu.lib_require { 'utility' }
+MetricFu.lib_require { 'templates/report' }
 
 class AwesomeTemplate < MetricFu::Template
 
@@ -44,70 +43,20 @@ class AwesomeTemplate < MetricFu::Template
     write_file_data
   end
 
-  def convert_ruby_to_html(ruby_text, line_number)
-    tokens = CodeRay.scan(MetricFu::Utility.clean_ascii_text(ruby_text), :ruby)
-    options = { :css => :class, :style => :alpha }
-    if line_number.to_i > 0
-      options = options.merge({:line_numbers => :inline, :line_number_start => line_number.to_i })
-    end
-    tokens.div(options)
-    # CodeRay options
-    # used to analyze source code, because object Tokens is a list of tokens with specified types.
-    # :tab_width – tabulation width in spaces. Default: 8
-    # :css – how to include the styles (:class и :style). Default: :class)
-    #
-    # :wrap – wrap result in html tag :page, :div, :span or not to wrap (nil)
-    #
-    # :line_numbers – how render line numbers (:table, :inline, :list or nil)
-    #
-    # :line_number_start – first line number
-    #
-    # :bold_every – make every n-th line number bold. Default: 10
-  end
   def write_file_data
-
     per_file_data.each_pair do |file, lines|
       next if file.to_s.empty?
       next unless File.file?(file)
+      report = MetricFu::Templates::Report.new(file, lines).render(@metrics)
 
-      data = File.readlines(file)
-      fn = "#{file.gsub(%r{/}, '_')}.html"
-
-      out = <<-HTML
-        <html><head><style>
-          #{inline_css('css/syntax.css')}
-          #{inline_css('css/bluff.css') if MetricFu.configuration.graph_engine == :bluff}
-          #{inline_css('css/rcov.css') if @metrics.has_key?(:rcov)}
-        </style></head><body>
-      HTML
-      out << "<table cellpadding='0' cellspacing='0' class='ruby'>"
-      data.each_with_index do |line, idx|
-        line_number = (idx + 1).to_s
-        out << "<tr>"
-        out << "<td valign='top'>"
-        if lines.has_key?(line_number)
-          out << "<ul>"
-          lines[line_number].each do |problem|
-            out << "<li>#{problem[:description]} &raquo; #{problem[:type]}</li>"
-          end
-          out << "</ul>"
-        else
-          out << "&nbsp;"
-        end
-        out << "</td>"
-        if MetricFu::Formatter::Templates.option('syntax_highlighting')
-          line_for_display = convert_ruby_to_html(line, line_number)
-        else
-          line_for_display = "<a name='n#{line_number}' href='n#{line_number}'>#{line_number}</a>#{line}"
-        end
-        out << "<td valign='top'>#{line_for_display}</td>"
-        out << "</tr>"
-      end
-      out << "<table></body></html>"
-
-      formatter.write_template(out, fn)
+      formatter.write_template(report, html_filename(file))
     end
   end
+
+  def html_filename(file)
+    "#{file.gsub(%r{/}, '_')}.html"
+  end
+
   def template_directory
     File.dirname(__FILE__)
   end
