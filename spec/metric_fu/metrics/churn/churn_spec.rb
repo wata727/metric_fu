@@ -4,41 +4,17 @@ MetricFu.metrics_require { 'churn/churn' }
 describe MetricFu::ChurnGenerator do
 
   # TODO extract yaml
-  let(:churn_yaml) { "--- \n:churn: \n  :changed_files: \n  - spec/graphs/flog_grapher_spec.rb\n  - spec/base/graph_spec.rb\n  - lib/templates/awesome/layout.html.erb\n  - lib/graphs/rcov_grapher.rb\n  - lib/base/base_template.rb\n  - spec/graphs/grapher_spec.rb\n  - lib/templates/awesome/flog.html.erb\n  - lib/templates/awesome/flay.html.erb\n  - lib/graphs/roodi_grapher.rb\n  - lib/graphs/reek_grapher.rb\n  - HISTORY\n  - spec/graphs/roodi_grapher_spec.rb\n  - lib/generators/rcov.rb\n  - spec/graphs/engines/gchart_spec.rb\n  - spec/graphs/rcov_grapher_spec.rb\n  - lib/templates/javascripts/excanvas.js\n  - lib/templates/javascripts/bluff-min.js\n  - spec/graphs/reek_grapher_spec.rb\n" }
+  let(:churn_hash) { YAML::load("--- \n:churn: \n  :changed_files: \n  - spec/graphs/flog_grapher_spec.rb\n  - spec/base/graph_spec.rb\n  - lib/templates/awesome/layout.html.erb\n  - lib/graphs/rcov_grapher.rb\n  - lib/base/base_template.rb\n  - spec/graphs/grapher_spec.rb\n  - lib/templates/awesome/flog.html.erb\n  - lib/templates/awesome/flay.html.erb\n  - lib/graphs/roodi_grapher.rb\n  - lib/graphs/reek_grapher.rb\n  - HISTORY\n  - spec/graphs/roodi_grapher_spec.rb\n  - lib/generators/rcov.rb\n  - spec/graphs/engines/gchart_spec.rb\n  - spec/graphs/rcov_grapher_spec.rb\n  - lib/templates/javascripts/excanvas.js\n  - lib/templates/javascripts/bluff-min.js\n  - spec/graphs/reek_grapher_spec.rb\n") }
 
   let(:config_setup) {
     ENV['CC_BUILD_ARTIFACTS'] = nil
     MetricFu.configure.reset
   }
 
-  describe "new method" do
-    before :each do
-      config_setup
-    end
-
-    it "initializes with yaml option" do
-      churn = MetricFu::ChurnGenerator.new
-      churn.send(:build_churn_options).should == "--yaml"
-    end
-
-    it "initializes with given minimum_churn_count option" do
-      churn = MetricFu::ChurnGenerator.new( { :minimum_churn_count => 5 })
-      churn.send(:build_churn_options).should == "--yaml --minimum_churn_count=5"
-    end
-  end
-
-
   describe "analyze method" do
     before :each do
       config_setup
       @changes = {"lib/generators/flog.rb" => 2, "lib/metric_fu.rb" => 3}
-    end
-
-    it "should be empty on error text" do
-      churn = MetricFu::ChurnGenerator.new
-      churn.instance_variable_set(:@output, "Churning requires a subversion or git repo")
-      result = churn.analyze
-      result.should == {:churn => {}}
     end
 
     it "should be empty on error no output captured" do
@@ -50,7 +26,7 @@ describe MetricFu::ChurnGenerator do
 
     it "should return yaml results" do
       churn = MetricFu::ChurnGenerator.new
-      churn.instance_variable_set(:@output, churn_yaml)
+      churn.instance_variable_set(:@output, churn_hash)
       result = churn.analyze
       result.should == {:churn => {:changed_files => ["spec/graphs/flog_grapher_spec.rb", "spec/base/graph_spec.rb", "lib/templates/awesome/layout.html.erb", "lib/graphs/rcov_grapher.rb", "lib/base/base_template.rb", "spec/graphs/grapher_spec.rb", "lib/templates/awesome/flog.html.erb", "lib/templates/awesome/flay.html.erb", "lib/graphs/roodi_grapher.rb", "lib/graphs/reek_grapher.rb", "HISTORY", "spec/graphs/roodi_grapher_spec.rb", "lib/generators/rcov.rb", "spec/graphs/engines/gchart_spec.rb", "spec/graphs/rcov_grapher_spec.rb", "lib/templates/javascripts/excanvas.js", "lib/templates/javascripts/bluff-min.js", "spec/graphs/reek_grapher_spec.rb"]}}
     end
@@ -78,13 +54,13 @@ describe MetricFu::ChurnGenerator do
     end
 
     it "returns churn output" do
-      @churn.stub(:churn_code).and_return("  master\n#{churn_yaml}")
+      @churn.stub(:run).and_return(churn_hash)
       result = @churn.emit
-      result.should == churn_yaml
+      result.should == churn_hash
     end
 
     it "returns nil, when churn result is not yaml" do
-      @churn.stub(:churn_code).and_return("  master\n")
+      @churn.stub(:run).and_return(nil)
       result = @churn.emit
       result.should be nil
     end

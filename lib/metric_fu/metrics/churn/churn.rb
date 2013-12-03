@@ -6,61 +6,35 @@ module MetricFu
       :churn
     end
 
+    ###
+    # options available are what can be passed to churn_calculator
+    # https://github.com/danmayer/churn#library-options
+    ###
     def emit
-      @output = generate_churn_metrics
+      @output = run(options)
     end
 
     def analyze
-      if @output.nil? || @output.match(/Churning requires.*git/)
+      if @output.nil? || @output.size.zero?
         @churn = {:churn => {}}
       else
-        @churn = YAML::load(@output)
+        @churn = @output
       end
+      @churn
     end
 
     # ensure hash only has the :churn key
     def to_h
       {:churn => @churn[:churn]}
     end
-
-    private
-
-    def generate_churn_metrics
-      output = churn_code
-      ensure_output_is_valid_yaml(output)
-    end
-
-    def churn_code
-      run!(build_churn_options)
-    end
-
-    def ensure_output_is_valid_yaml(output)
-      yaml_start = output.index("---")
-      if yaml_start
-        output[yaml_start...output.length]
-      else
-        nil
-      end
-    end
-
-    def build_churn_options
-      opts = ["--yaml"]
-      churn_options.each do |churn_option, command_flag|
-        if has_option?(churn_option)
-          opts << "#{command_flag}=#{options[churn_option]}"
-        end
-      end
-      opts.join(" ")
-    end
-
-    def has_option?(churn_option)
-      options.include?(churn_option)
-    end
-    def churn_options
-      {
-        :minimum_churn_count => '--minimum_churn_count',
-        :start_date => '--start_date'
-      }
+    
+    # @param args [Hash] churn metric run options
+    # @return [Hash] churn results
+    # @example {something}
+    def run(args)
+      # @note passing in false to report will return a hash
+      #    instead of the default String
+      ::Churn::ChurnCalculator.new(args).report(false)
     end
 
   end

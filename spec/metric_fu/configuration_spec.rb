@@ -192,7 +192,7 @@ describe MetricFu::Configuration do
       it 'should set @churn to {}' do
         load_metric 'churn'
         expect(MetricFu::Metric.get_metric(:churn).run_options).to eq(
-                { :start_date => %q("1 year ago"), :minimum_churn_count => 10}
+                { :start_date => %q("1 year ago"), :minimum_churn_count => 10, :ignore_files=>[], :data_directory=> MetricFu::Io::FileSystem.scratch_directory('churn')}
         )
       end
 
