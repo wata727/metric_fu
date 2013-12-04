@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.description = "Code metrics from Flog, Flay, Saikuro, Churn, Reek, Roodi, Code Statistics, and Rails Best Practices. (and optionally RCov)"
   s.email       = "github@benjaminfleischer.com"
   author_file   = File.expand_path('AUTHORS', File.dirname(__FILE__))
-  s.authors     = File.readlines(author_file, :encoding => "utf-8").map(&:strip)
+  s.authors     = File.readlines(author_file, :encoding => Encoding::UTF_8).map(&:strip)
 
   # used with gem i metric_fu -P HighSecurity
   s.cert_chain  = ['certs/bf4.pem']
