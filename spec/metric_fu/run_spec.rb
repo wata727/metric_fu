@@ -166,8 +166,13 @@ describe MetricFu do
     end
 
     it "errors on unknown flags" do
-      out = metric_fu "--asdasdasda"
+      failure = false
+      out = metric_fu "--asdasdasda" do |message|
+        # swallow the error message
+        failure = true
+      end
       out.should include 'invalid option'
+      expect(failure).to be_true
     end
 
   end
@@ -189,7 +194,9 @@ describe MetricFu do
         message << "#{system_exit.message} #{system_exit.backtrace}"
       end
     }
-    STDERR.puts message if message.start_with?('FAILURE')
+    if message.start_with?('FAILURE')
+      block_given? ? yield(message) : STDERR.puts(message)
+    end
     out
   end
 
