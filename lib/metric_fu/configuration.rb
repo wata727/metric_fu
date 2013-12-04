@@ -12,8 +12,6 @@ module MetricFu
   end
 
   def self.configure
-    Dir.glob(File.join(MetricFu.metrics_dir, '**/init.rb')).each{|init_file|require(init_file)}
-    Dir.glob(File.join(MetricFu.reporting_dir, '**/init.rb')).each{|init_file|require(init_file)}
     configuration.tap do |config|
       config.configure_metrics
     end
