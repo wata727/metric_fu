@@ -3,11 +3,6 @@ MetricFu.metrics_require { 'hotspots/hotspots' }
 
 describe MetricFu::HotspotsGenerator do
   describe "analyze method" do
-    before :each do
-      MetricFu::Configuration.run {}
-      File.stub(:directory?).and_return(true)
-      @yaml = HOTSPOT_DATA["generator.yml"]
-    end
 
     it "should be empty on error" do
       hotspots = MetricFu::HotspotsGenerator.new
@@ -44,7 +39,8 @@ describe MetricFu::HotspotsGenerator do
     # really testing the output of analyzed_problems#worst_items
     it "should return the worst item granularities: files, classes, methods" do
       hotspots = MetricFu::HotspotsGenerator.new
-      analyzer = HotspotAnalyzer.new(@yaml)
+      yaml = HOTSPOT_DATA["generator.yml"]
+      analyzer = HotspotAnalyzer.new(yaml)
       expect(hotspots.analyze.keys).to eq([:files, :classes, :methods])
     end
   end
