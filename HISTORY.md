@@ -8,7 +8,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 
 * Features
 * Fixes
-  * Force gemspec to use utf-8 encoding when importing the AUTHORS file (Paul Swagerty)
+  * Force gemspec to use utf-8 encoding when importing the AUTHORS file (Paul Swagerty, #183)
 * Misc
 
 ### MetricFu [4.6.0 / 2013-11-20](https://github.com/metricfu/metric_fu/compare/v4.5.2...v4.6.0)
