@@ -17,7 +17,6 @@ describe MetricFu::HotspotsGenerator do
     end
 
     it "should put the changes into a hash" do
-      MetricFu.result.should_receive(:result_hash).and_return(@yaml)
       hotspots = MetricFu::HotspotsGenerator.new
       hotspots.analyze
       result = hotspots.to_h[:hotspots]
