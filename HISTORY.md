@@ -7,6 +7,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 ### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.6.0...master)
 
 * Features
+  * Move to using churn library and allowing all churn options to be passed through to churn library. (Dan Mayer, #182)
 * Fixes
   * Force gemspec to use utf-8 encoding when importing the AUTHORS file (Paul Swagerty, #183)
 * Misc

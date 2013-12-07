@@ -22,6 +22,12 @@
 #     cane.no_doc = 'y'
 #     cane.no_readme = 'y'
 #   end
+# 
+#   config.configure_metric(:churn) do |churn|
+#     churn.enabled = true
+#     churn.ignore_files = 'HISTORY.md, TODO.md'
+#     churn.start_date = '6 months ago'
+#   end
 #
 #   Or, to configure a group of metrics...
 #   config.configure_metrics.each do |metric|

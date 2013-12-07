@@ -6,7 +6,12 @@ module MetricFu
     end
 
     def default_run_options
-      { :start_date => %q("1 year ago"), :minimum_churn_count => 10}
+      { 
+        :start_date => %q("1 year ago"),
+        :minimum_churn_count => 10,
+        :ignore_files => [],
+        :data_directory => MetricFu::Io::FileSystem.scratch_directory(name)
+      }
     end
 
     def has_graph?
@@ -18,6 +23,7 @@ module MetricFu
     end
 
     def activate
+      activate_library('churn/churn_calculator')
       super
     end
 
