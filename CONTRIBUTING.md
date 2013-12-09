@@ -8,11 +8,11 @@ How to contribute:
 
 ## Code
 
-1. Clone the repo: `git clone git://github.com/metricfu/metric_fu.git && cd metric_fu`
+1. Fork and clone the repo: `git clone git://github.com/yourghname/metric_fu.git && cd metric_fu` 
 2. Install the gem dependencies: `bundle install`
 3. Make the changes you want and back them up with tests.
-  * Run the tests (`bundle exec rake`)
-  * Run metric_fu on itself (`bundle exec rake metrics:all`)
+  * Run the tests (`bundle exec rspec`)
+  * Run metric_fu on itself (`bundle exec ruby -Ilib bin/metric_fu`)
 4. Update the HISTORY.md file with your changes and give yourself credit
 5. Commit and create a pull request with details as to what has been changed and why
   * Use well-described, small (atomic) commits.
@@ -28,6 +28,12 @@ How I handle pull requests:
     * either by adding more commits, or
     * by force pushing to it
   * I can make any changes myself and manually merge the code in.
+
+### Commit Messages
+
+* [A Note About Git Commit Messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+* [http://stopwritingramblingcommitmessages.com/](http://stopwritingramblingcommitmessages.com/)
+* [ThoughtBot style guide](https://github.com/thoughtbot/guides/tree/master/style#git)
 
 ## Documentation
 
