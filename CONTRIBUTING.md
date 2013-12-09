@@ -35,6 +35,12 @@ How I handle pull requests:
 * [http://stopwritingramblingcommitmessages.com/](http://stopwritingramblingcommitmessages.com/)
 * [ThoughtBot style guide](https://github.com/thoughtbot/guides/tree/master/style#git)
 
+### About Pull Requests (PR's)
+
+* [All Your Open Source Code Are Belong To Us](http://www.benjaminfleischer.com/2013/07/30/all-your-open-source-code-are-belong-to-us/)
+* [Using Pull Requests](https://help.github.com/articles/using-pull-requests)
+* [Github pull requests made easy](http://www.element84.com/github-pull-requests-made-easy.html)
+
 ## Documentation
 
 * If relevant, you may update [the metric_fu website](https://github.com/metricfu/metricfu.github.com) in a separate pull request to that repo
