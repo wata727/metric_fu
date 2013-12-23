@@ -59,26 +59,26 @@ These reports are generated in metric_fu's output directory (```tmp/metric_fu/ou
 using a relative path:
 
 ```sh
-  metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
+metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
 ```
 
 or a full path:
 
 ```sh
-  metric_fu --out /home/metrics      # outputs to /home/metrics
+metric_fu --out /home/metrics      # outputs to /home/metrics
 ```
 
 You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
 
 
 ```sh
-  metric_fu --format yaml --out custom_report.yml
+metric_fu --format yaml --out custom_report.yml
 ```
 
 or
 
 ```sh
-  metric_fu --format MyCustomFormatter
+metric_fu --format MyCustomFormatter
 ```
 
 ### Custom Formatters
@@ -89,16 +89,16 @@ To create a custom formatter, you simply need to create a class
 that takes an options hash and responds to one or more notifications:
 
 ```ruby
- class MyCustomFormatter
-   def initialize(opts={}); end    # metric_fu will pass in an output param if provided.
+class MyCustomFormatter
+  def initialize(opts={}); end    # metric_fu will pass in an output param if provided.
 
-   # Should include one or more of...
-   def start; end           # Sent before metric_fu starts metric measurements.
-   def start_metric(metric); end   # Sent before individual metric is measured.
-   def finish_metric(metric); end   # Sent after individual metric measurement is complete.
-   def finish; end           # Sent after metric_fu has completed all measurements.
-   def display_results; end     # Used to open results in browser, etc.
- end
+  # Should include one or more of...
+  def start; end           # Sent before metric_fu starts metric measurements.
+  def start_metric(metric); end   # Sent before individual metric is measured.
+  def finish_metric(metric); end   # Sent after individual metric measurement is complete.
+  def finish; end           # Sent after metric_fu has completed all measurements.
+  def display_results; end     # Used to open results in browser, etc.
+end
 ```
 
 See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
@@ -120,13 +120,13 @@ require './lib/my_custom_formatter.rb'
 in your .metrics file add the below to run pre-generated metrics
 
 ```ruby
-    MetricFu::Configuration.run do |config|
-      config.configure_metric(:rcov) do |rcov|
-        rcov.enabled = true
-        rcov.external = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
-        rcov.activate
-      end
-    end
+MetricFu::Configuration.run do |config|
+  config.configure_metric(:rcov) do |rcov|
+    rcov.enabled = true
+    rcov.external = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
+    rcov.activate
+  end
+end
 ```
 
 If you want metric_fu to actually run rcov itself (1.8 only), don't specify an external file to read from
@@ -136,7 +136,7 @@ If you want metric_fu to actually run rcov itself (1.8 only), don't specify an e
 To generate the same metrics metric_fu has been generating run from the root of your project before running metric_fu
 
 ```sh
-    RAILS_ENV=test rcov $(ruby -e "puts Dir['{spec,test}/**/*_{spec,test}.rb'].join(' ')") --sort coverage --no-html --text-coverage --no-color --profile --exclude-only '.*' --include-file "\Aapp,\Alib" -Ispec > coverage/rcov/rcov.txt
+RAILS_ENV=test rcov $(ruby -e "puts Dir['{spec,test}/**/*_{spec,test}.rb'].join(' ')") --sort coverage --no-html --text-coverage --no-color --profile --exclude-only '.*' --include-file "\Aapp,\Alib" -Ispec > coverage/rcov/rcov.txt
 ```
 
 #### Simplecov metrics with Ruby 1.9 and 2.0
@@ -144,24 +144,24 @@ To generate the same metrics metric_fu has been generating run from the root of 
 Add to your Gemfile or otherwise install
 
 ```ruby
-    gem 'simplecov'
-    # https://github.com/kina/simplecov-rcov-text
-    gem 'simplecov-rcov-text'
+gem 'simplecov'
+# https://github.com/kina/simplecov-rcov-text
+gem 'simplecov-rcov-text'
 ```
 
 Modify your [spec_helper](https://github.com/metricfu/metric_fu/blob/master/spec/spec_helper.rb) as per the SimpleCov docs and run your tests before running metric_fu
 
 ```ruby
-    #in your spec_helper
-    require 'simplecov'
-    require 'simplecov-rcov-text'
-    SimpleCov.formatter = SimpleCov::Formatter::RcovTextFormatter
-    # or
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-      SimpleCov::Formatter::HTMLFormatter,
-      SimpleCov::Formatter::RcovTextFormatter
-      ]
-    SimpleCov.start
+#in your spec_helper
+require 'simplecov'
+require 'simplecov-rcov-text'
+SimpleCov.formatter = SimpleCov::Formatter::RcovTextFormatter
+# or
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::RcovTextFormatter
+  ]
+SimpleCov.start
 ```
 
 ## Compatibility
