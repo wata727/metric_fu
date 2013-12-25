@@ -13,7 +13,11 @@ Gem::Specification.new do |s|
 
   # used with gem i metric_fu -P HighSecurity
   s.cert_chain  = ['certs/bf4.pem']
-  s.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $0 =~ /gem\z/
+  # Sign gem when evaluating spec with `gem` command
+  #  unless ENV has set a SKIP_GEM_SIGNING
+  if ($0 =~ /gem\z/) and not ENV.include?('SKIP_GEM_SIGNING')
+    s.signing_key = File.join(Gem.user_home, '.ssh', 'gem-private_key.pem')
+  end
 
   s.rubyforge_project           = 'metric_fu'
   s.license                     = 'MIT'
