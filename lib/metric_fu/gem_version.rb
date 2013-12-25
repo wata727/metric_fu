@@ -61,12 +61,28 @@ module MetricFu
       RESOLVER.gem_runtime_dependencies.dup
     end
 
+    def self.activated_gems
+      Gem::Specification.stubs.select(&:activated?)
+    end
+
+    def self.activated_version(name)
+      activated_gems.find do |gem|
+        return gem.version.version if gem.name == name
+      end
+    end
+
+    def self.dependency_summary(gem_dep)
+      name = gem_dep.name
+      version = activated_version(gem_dep.name) || gem_dep.requirements_list
+      {
+        'name' => name,
+        'version' => version,
+      }
+    end
+
     def self.dependencies_summary
       dependencies.map do |gem_dep|
-        {
-          'name' => gem_dep.name,
-          'version' => gem_dep.requirements_list,
-        }
+        dependency_summary(gem_dep)
       end
     end
 
