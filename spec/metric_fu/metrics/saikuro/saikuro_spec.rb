@@ -7,7 +7,7 @@ describe MetricFu::SaikuroGenerator do
     def generator.metric_directory
       FIXTURE.fixtures_path.join("saikuro").to_s
     end
-    generator.stub(:clear_scratch_files!)
+    generator.should_receive(:clear_scratch_files!)
   end
   describe "to_h method" do
     before do
