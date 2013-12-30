@@ -61,7 +61,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'multi_json'
 
   # temporary filesystem to act on
-  s.add_development_dependency   'test-construct'
+  s.add_development_dependency   'test_construct'
   # ensure we have a JSON parser
   s.add_development_dependency   'json'
 

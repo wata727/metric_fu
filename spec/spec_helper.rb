@@ -16,7 +16,7 @@ if ENV['COVERAGE']
 end
 
 require 'date'
-require 'construct'
+require 'test_construct'
 require 'json'
 require 'pry-nav'
 

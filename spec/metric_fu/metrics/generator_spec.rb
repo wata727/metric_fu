@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe MetricFu::Generator do
 
-  include Construct::Helpers
+  include TestConstruct::Helpers
 
 
   class ConcreteClass < MetricFu::Generator
