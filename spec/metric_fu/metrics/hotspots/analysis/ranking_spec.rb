@@ -10,14 +10,14 @@ describe MetricFu::Ranking do
       ranking[:a] = 10
       ranking[:b] = 50
       ranking[:c] = 1
-      ranking.top.should == [:b,:a, :c]
+      expect(ranking.top).to eq([:b,:a, :c])
     end
 
     specify "lowest item is at 0 percentile" do
       ranking = Ranking.new
       ranking[:a] = 10
       ranking[:b] = 50
-      ranking.percentile(:a).should == 0
+      expect(ranking.percentile(:a)).to eq(0)
     end
 
     specify "highest item is at high percentile" do
@@ -26,7 +26,7 @@ describe MetricFu::Ranking do
       ranking[:b] = 50
       ranking[:c] = 0
       ranking[:d] = 5
-      ranking.percentile(:b).should == 0.75
+      expect(ranking.percentile(:b)).to eq(0.75)
     end
 
   end

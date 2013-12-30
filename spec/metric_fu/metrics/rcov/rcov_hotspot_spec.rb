@@ -14,7 +14,7 @@ describe MetricFu::RcovHotspot do
       MetricFu::Record.new({"percentage_uncovered"=>0.75}, nil)
     end
 
-    it {subject.map(zero_row).should eql(0.0)}
-    it {subject.map(non_zero_row).should eql(0.75)}
+    it {expect(subject.map(zero_row)).to eql(0.0)}
+    it {expect(subject.map(non_zero_row)).to eql(0.75)}
   end
 end

@@ -6,15 +6,15 @@ describe MetricFu::RoodiGenerator do
     it "should add config options when present" do
       options = {:roodi_config => 'lib/config/roodi_config.yml', :dirs_to_roodi => []}
       roodi = MetricFu::RoodiGenerator.new(options)
-      roodi.should_receive(:run!).with(/-config=lib\/config\/roodi_config\.yml/).and_return("")
+      expect(roodi).to receive(:run!).with(/-config=lib\/config\/roodi_config\.yml/).and_return("")
       roodi.emit
     end
 
     it "should NOT add config options when NOT present" do
       options = {:dirs_to_roodi => []}
       roodi = MetricFu::RoodiGenerator.new(options)
-      roodi.stub(:run!)
-      roodi.should_receive(:run!).with(/-config/).never
+      allow(roodi).to receive(:run!)
+      expect(roodi).to receive(:run!).with(/-config/).never
       roodi.emit
     end
   end

@@ -8,14 +8,14 @@ describe RailsBestPracticesGrapher do
   end
 
   it "should respond to rails_best_practices_count and labels" do
-    @stats_grapher.should respond_to(:rails_best_practices_count)
-    @stats_grapher.should respond_to(:labels)
+    expect(@stats_grapher).to respond_to(:rails_best_practices_count)
+    expect(@stats_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
     it "should initialise rails_best_practices_count and labels" do
-      @stats_grapher.rails_best_practices_count.should == []
-      @stats_grapher.labels.should == {}
+      expect(@stats_grapher.rails_best_practices_count).to eq([])
+      expect(@stats_grapher.labels).to eq({})
     end
   end
 
@@ -27,12 +27,12 @@ describe RailsBestPracticesGrapher do
       end
 
       it "should not push to rails_best_practices_count" do
-        @stats_grapher.rails_best_practices_count.should_not_receive(:push)
+        expect(@stats_grapher.rails_best_practices_count).not_to receive(:push)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not update labels with the date" do
-        @stats_grapher.labels.should_not_receive(:update)
+        expect(@stats_grapher.labels).not_to receive(:update)
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -44,17 +44,17 @@ describe RailsBestPracticesGrapher do
       end
 
       it "should push to rails_best_practices_count" do
-        @stats_grapher.rails_best_practices_count.should_receive(:push).with(2)
+        expect(@stats_grapher.rails_best_practices_count).to receive(:push).with(2)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should push 0 to rails_best_practices_count when no problems were found" do
-        @stats_grapher.rails_best_practices_count.should_receive(:push).with(0)
+        expect(@stats_grapher.rails_best_practices_count).to receive(:push).with(0)
         @stats_grapher.get_metrics({ :rails_best_practices => {} }, @date)
       end
 
       it "should update labels with the date" do
-        @stats_grapher.labels.should_receive(:update).with({ 0 => "01022003" })
+        expect(@stats_grapher.labels).to receive(:update).with({ 0 => "01022003" })
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end

@@ -27,5 +27,5 @@ def breaks_when?(bool)
 end
 
 def compare_paths(path1, path2)
-  File.join(MetricFu.root_dir, path1).should == File.join(MetricFu.root_dir, path2)
+  expect(File.join(MetricFu.root_dir, path1)).to eq(File.join(MetricFu.root_dir, path2))
 end

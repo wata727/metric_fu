@@ -10,7 +10,7 @@ describe MetricFu::Configuration do
       rcov.enabled = true
     end
     MetricFu.configure
-    MetricFu::Io::FileSystem.stub(:create_directories) # no need to create directories for the tests
+    allow(MetricFu::Io::FileSystem).to receive(:create_directories) # no need to create directories for the tests
     @config
   end
 
@@ -55,7 +55,7 @@ describe MetricFu::Configuration do
       end
 
       it 'should return true'  do
-        @config.is_cruise_control_rb?.should be_true
+        expect(@config.is_cruise_control_rb?).to be_truthy
       end
 
       after(:each)  do
@@ -69,7 +69,7 @@ describe MetricFu::Configuration do
       before(:each) { ENV['CC_BUILD_ARTIFACTS'] = nil }
 
       it 'should return false' do
-        @config.is_cruise_control_rb?.should be_false
+        expect(@config.is_cruise_control_rb?).to be_falsey
       end
     end
   end
@@ -100,7 +100,7 @@ describe MetricFu::Configuration do
         get_new_config
       end
       it 'should return "tmp/metric_fu"' do
-        base_directory.should == MetricFu.artifact_dir
+        expect(base_directory).to eq(MetricFu.artifact_dir)
       end
 
       it 'should set @metric_fu_root_directory to the base of the '+
@@ -108,7 +108,7 @@ describe MetricFu::Configuration do
         app_root = File.join(File.dirname(__FILE__), '..', '..')
         app_root_absolute_path = File.expand_path(app_root)
         metric_fu_absolute_path = File.expand_path(metric_fu_root)
-        metric_fu_absolute_path.should == app_root_absolute_path
+        expect(metric_fu_absolute_path).to eq(app_root_absolute_path)
       end
 
       it 'should set @template_directory to the lib/templates relative '+
@@ -117,23 +117,23 @@ describe MetricFu::Configuration do
                                  '..', '..', 'lib','templates')
         template_dir_abs_path = File.expand_path(template_dir)
         calc_template_dir_abs_path = File.expand_path(template_directory)
-        calc_template_dir_abs_path.should == template_dir_abs_path
+        expect(calc_template_dir_abs_path).to eq(template_dir_abs_path)
       end
 
       it 'should set @scratch_directory to scratch relative '+
       'to @base_directory' do
         scratch_dir = MetricFu.scratch_dir
-        scratch_directory.should == scratch_dir
+        expect(scratch_directory).to eq(scratch_dir)
       end
 
       it 'should set @output_directory to output relative '+
       'to @base_directory' do
         output_dir = MetricFu.output_dir
-        output_directory.should == output_dir
+        expect(output_directory).to eq(output_dir)
       end
 
       it 'should set @template_class to AwesomeTemplate by default' do
-        template_class.should == AwesomeTemplate
+        expect(template_class).to eq(AwesomeTemplate)
       end
 
       describe 'when a templates configuration is given' do
@@ -158,11 +158,11 @@ describe MetricFu::Configuration do
         end
 
         it 'should set given darwin_txmt_protocol_no_thanks' do
-          expect(MetricFu::Formatter::Templates.option('darwin_txmt_protocol_no_thanks')).to be_false
+          expect(MetricFu::Formatter::Templates.option('darwin_txmt_protocol_no_thanks')).to be_falsey
         end
 
         it 'should set given syntax_highlighting' do
-          expect(MetricFu::Formatter::Templates.option('syntax_highlighting')).to be_false
+          expect(MetricFu::Formatter::Templates.option('syntax_highlighting')).to be_falsey
         end
 
       end
@@ -277,7 +277,7 @@ describe MetricFu::Configuration do
 
       before(:each) do
         @config = MetricFu.configuration
-        @config.stub(:rails?).and_return(true)
+        allow(@config).to receive(:rails?).and_return(true)
         @config.reset
         MetricFu.configure
         %w(rails_best_practices).each do |metric|
@@ -287,7 +287,7 @@ describe MetricFu::Configuration do
 
       describe '#set_graphs ' do
         it 'should set the graphs to include rails_best_practices' do
-          expect(MetricFu::Metric.get_metric(:rails_best_practices).has_graph?).to be_true
+          expect(MetricFu::Metric.get_metric(:rails_best_practices).has_graph?).to be_truthy
         end
       end
 
@@ -300,14 +300,14 @@ describe MetricFu::Configuration do
     describe 'if #rails? is false ' do
       before(:each) do
         get_new_config
-        @config.stub(:rails?).and_return(false)
+        allow(@config).to receive(:rails?).and_return(false)
         %w(rails_best_practices).each do |metric|
           load_metric metric
         end
       end
 
       it 'should set the registered code_dirs to ["lib"]' do
-        directory('code_dirs').should == ['lib']
+        expect(directory('code_dirs')).to eq(['lib'])
       end
     end
   end
@@ -318,7 +318,7 @@ describe MetricFu::Configuration do
 
     it 'should return the value of the PLATFORM constant' do
       this_platform = RUBY_PLATFORM
-      @config.platform.should == this_platform
+      expect(@config.platform).to eq(this_platform)
     end
   end
 
@@ -331,7 +331,7 @@ describe MetricFu::Configuration do
       end
 
       it 'adds to the list of formatters' do
-        @config.formatters.first.should be_an_instance_of(MetricFu::Formatter::HTML)
+        expect(@config.formatters.first).to be_an_instance_of(MetricFu::Formatter::HTML)
       end
     end
 
@@ -342,7 +342,7 @@ describe MetricFu::Configuration do
       end
 
       it 'adds to the list of formatters' do
-        @config.formatters.first.should be_an_instance_of(MyCustomFormatter)
+        expect(@config.formatters.first).to be_an_instance_of(MyCustomFormatter)
       end
     end
 
@@ -355,7 +355,7 @@ describe MetricFu::Configuration do
       end
 
       it 'adds each to the list of formatters' do
-        @config.formatters.count.should eq(3)
+        expect(@config.formatters.count).to eq(3)
       end
     end
   end

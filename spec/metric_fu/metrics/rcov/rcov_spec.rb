@@ -23,14 +23,14 @@ describe MetricFu::RcovGenerator do
     end
 
     it "should clear out previous output and make output folder" do
-      MetricFu::Utility.should_receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, :verbose => false)
-      MetricFu::Utility.should_receive(:mkdir_p).with(MetricFu::RcovGenerator.metric_directory)
+      expect(MetricFu::Utility).to receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, :verbose => false)
+      expect(MetricFu::Utility).to receive(:mkdir_p).with(MetricFu::RcovGenerator.metric_directory)
       @rcov.reset_output_location
     end
 
     it "should set the RAILS_ENV" do
-      MetricFu::Utility.should_receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, :verbose => false)
-      MetricFu::Utility.should_receive(:mkdir_p).with(MetricFu::RcovGenerator.metric_directory)
+      expect(MetricFu::Utility).to receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, :verbose => false)
+      expect(MetricFu::Utility).to receive(:mkdir_p).with(MetricFu::RcovGenerator.metric_directory)
       options = {:environment => 'metrics', :external => nil}
       @rcov = MetricFu::RcovGenerator.new(@default_options.merge(options))
       expect(@rcov.command).to include('RAILS_ENV=metrics')
@@ -41,30 +41,30 @@ describe MetricFu::RcovGenerator do
     before :each do
       options = {:external =>  nil}
       @rcov = MetricFu::RcovGenerator.new(@default_options.merge(options))
-      @rcov.should_receive(:load_output).and_return(RCOV_OUTPUT)
+      expect(@rcov).to receive(:load_output).and_return(RCOV_OUTPUT)
       @files = @rcov.analyze
     end
 
     describe "analyze" do
       it "should compute percent of lines run" do
-        @files["lib/templates/awesome/awesome_template.rb"][:percent_run].should == 13
-        @files["lib/templates/standard/standard_template.rb"][:percent_run].should == 14
+        expect(@files["lib/templates/awesome/awesome_template.rb"][:percent_run]).to eq(13)
+        expect(@files["lib/templates/standard/standard_template.rb"][:percent_run]).to eq(14)
       end
 
       it "should know which lines were run" do
-        @files["lib/templates/awesome/awesome_template.rb"][:lines].
-              should include({:content=>"require 'fileutils'", :was_run=>true})
+        expect(@files["lib/templates/awesome/awesome_template.rb"][:lines]).
+              to include({:content=>"require 'fileutils'", :was_run=>true})
       end
 
       it "should know which lines NOT were run" do
-        @files["lib/templates/awesome/awesome_template.rb"][:lines].
-              should include({:content=>"      if template_exists?(section)", :was_run=>false})
+        expect(@files["lib/templates/awesome/awesome_template.rb"][:lines]).
+              to include({:content=>"      if template_exists?(section)", :was_run=>false})
       end
     end
 
     describe "to_h" do
       it "should calculate total percentage for all files" do
-        @rcov.to_h[:rcov][:global_percent_run].should == 13.7
+        expect(@rcov.to_h[:rcov][:global_percent_run]).to eq(13.7)
       end
     end
   end
@@ -75,12 +75,12 @@ describe MetricFu::RcovGenerator do
     end
 
     it "should emit nothing if external configuration option is set" do
-      MetricFu::Utility.should_not_receive(:rm_rf)
+      expect(MetricFu::Utility).not_to receive(:rm_rf)
       @rcov.emit
     end
 
     it "should open the external rcov analysis file" do
-      @rcov.should_receive(:load_output).and_return(RCOV_OUTPUT)
+      expect(@rcov).to receive(:load_output).and_return(RCOV_OUTPUT)
       @files = @rcov.analyze
     end
 

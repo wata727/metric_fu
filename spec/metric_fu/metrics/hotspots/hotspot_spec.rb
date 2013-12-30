@@ -12,6 +12,6 @@ describe MetricFu::Hotspot do
       FlogHotspot, ChurnHotspot, SaikuroHotspot,
       FlayHotspot, StatsHotspot, RcovHotspot]
 
-    MetricFu::Hotspot.analyzers.size.should == expected_analyzers.size
+    expect(MetricFu::Hotspot.analyzers.size).to eq(expected_analyzers.size)
   end
 end

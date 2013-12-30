@@ -19,7 +19,7 @@ describe MetricFu::Formatter::HTML do
          c.syntax_highlighting = false
        end
     end
-    MetricFu::Metric.get_metric(@metric_with_graph).stub(:run_external).and_return('')
+    allow(MetricFu::Metric.get_metric(@metric_with_graph)).to receive(:run_external).and_return('')
     @metric_without_graph = :hotspots
     config.configure_metrics.each do |metric|
       metric.enabled = true if [@metric_with_graph, @metric_without_graph].include?(metric.name)
@@ -80,13 +80,13 @@ describe MetricFu::Formatter::HTML do
 
     context 'when on OS X' do
       before do
-        MetricFu.configuration.stub(:osx?).and_return(true)
-        MetricFu.configuration.stub(:is_cruise_control_rb?).and_return(false)
+        allow(MetricFu.configuration).to receive(:osx?).and_return(true)
+        allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
       end
 
       it "can open the results in the browser" do
         formatter = MetricFu::Formatter::HTML.new
-        formatter.should_receive(:system).with("open #{MetricFu.run_path.join(directory('output_directory')).join('index.html')}")
+        expect(formatter).to receive(:system).with("open #{MetricFu.run_path.join(directory('output_directory')).join('index.html')}")
         formatter.finish
         formatter.display_results
       end
@@ -131,14 +131,14 @@ describe MetricFu::Formatter::HTML do
 
     context 'when on OS X' do
       before do
-        MetricFu.configuration.stub(:osx?).and_return(true)
-        MetricFu.configuration.stub(:is_cruise_control_rb?).and_return(false)
+        allow(MetricFu.configuration).to receive(:osx?).and_return(true)
+        allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
       end
 
       it "can open the results in the browser from the custom output directory" do
         formatter = MetricFu::Formatter::HTML.new(output: @output)
         path = MetricFu.run_path.join("#{directory('base_directory')}/#{@output}/index.html")
-        formatter.should_receive(:system).with("open #{path}")
+        expect(formatter).to receive(:system).with("open #{path}")
         formatter.finish
         formatter.display_results
       end

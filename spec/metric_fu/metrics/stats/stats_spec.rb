@@ -6,7 +6,7 @@ describe StatsGenerator do
     it "should gather the raw data" do
       ENV['CC_BUILD_ARTIFACTS'] = nil
       MetricFu.configure.reset
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       stats = MetricFu::StatsGenerator.new
       stats.emit
     end
@@ -36,32 +36,32 @@ describe StatsGenerator do
       HERE
       ENV['CC_BUILD_ARTIFACTS'] = nil
       MetricFu.configure.reset
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       stats = MetricFu::StatsGenerator.new
       stats.instance_variable_set('@output', @lines)
       @results = stats.analyze
     end
 
     it "should get code Lines Of Code" do
-      @results[:codeLOC].should == 915
+      expect(@results[:codeLOC]).to eq(915)
     end
 
     it "should get test Lines Of Code" do
-      @results[:testLOC].should == 2226
+      expect(@results[:testLOC]).to eq(2226)
     end
 
     it "should get code to test ratio" do
-      @results[:code_to_test_ratio].should == 2.4
+      expect(@results[:code_to_test_ratio]).to eq(2.4)
     end
 
     it "should get data on models" do
       model_data = @results[:lines].find {|line| line[:name] == "Models"}
-      model_data[:classes].should == 9
-      model_data[:methods].should == 31
-      model_data[:loc].should == 285
-      model_data[:lines].should == 351
-      model_data[:methods_per_class].should == 3
-      model_data[:loc_per_method].should == 7
+      expect(model_data[:classes]).to eq(9)
+      expect(model_data[:methods]).to eq(31)
+      expect(model_data[:loc]).to eq(285)
+      expect(model_data[:lines]).to eq(351)
+      expect(model_data[:methods_per_class]).to eq(3)
+      expect(model_data[:loc_per_method]).to eq(7)
     end
 
     it 'handles code to test ratio is ratio is 1:NaN' do
@@ -75,7 +75,7 @@ describe StatsGenerator do
       HERE
       ENV['CC_BUILD_ARTIFACTS'] = nil
       MetricFu.configure.reset
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       stats = MetricFu::StatsGenerator.new(MetricFu::Metric.get_metric(:stats).run_options)
       stats.instance_variable_set('@output', lines)
       @results = stats.analyze
@@ -87,10 +87,10 @@ describe StatsGenerator do
     it "should put things into a hash" do
       ENV['CC_BUILD_ARTIFACTS'] = nil
       MetricFu.configure.reset
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       stats = MetricFu::StatsGenerator.new
       stats.instance_variable_set(:@stats, "the_stats")
-      stats.to_h[:stats].should == "the_stats"
+      expect(stats.to_h[:stats]).to eq("the_stats")
     end
   end
 end

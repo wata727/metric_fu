@@ -5,19 +5,19 @@ describe MetricFu::FlayGenerator do
   describe "emit method" do
     it "should look at the dirs" do
       options = { :dirs_to_flay => ['app', 'lib'], :filetypes => ['rb']  }
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       @flay = MetricFu::FlayGenerator.new(options)
 
-      @flay.should_receive(:run!).with(" app lib")
+      expect(@flay).to receive(:run!).with(" app lib")
       output = @flay.emit
     end
 
     it "should limit flay scores by the minimum_score" do
       options = { :dirs_to_flay => [], :minimum_score => 99 }
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       @flay = MetricFu::FlayGenerator.new(options)
 
-      @flay.should_receive(:run!).with("--mass 99  ")
+      expect(@flay).to receive(:run!).with("--mass 99  ")
       output = @flay.emit
     end
   end
@@ -39,13 +39,13 @@ Total score (lower is better) = 246
   app/controllers/primary_sites_controller.rb:89
       HERE
       MetricFu::Configuration.run {}
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       @flay = MetricFu::FlayGenerator.new('base_dir')
       @flay.instance_variable_set(:@output, lines)
     end
 
     it "should analyze and return matches" do
-      @flay.analyze.should == [ ["Total score (lower is better) = 246"],
+      expect(@flay.analyze).to eq([ ["Total score (lower is better) = 246"],
                                 ["\n1) IDENTICAL code found in :or (mass*2 = 68)",
                                   "app/controllers/link_targets_controller.rb:57",
                                   "app/controllers/primary_sites_controller.rb:138"],
@@ -53,7 +53,7 @@ Total score (lower is better) = 246
                                   "app/controllers/primary_sites_controller.rb:75",
                                   "app/controllers/primary_sites_controller.rb:76",
                                   "app/controllers/primary_sites_controller.rb:88",
-                                  "app/controllers/primary_sites_controller.rb:89"] ]
+                                  "app/controllers/primary_sites_controller.rb:89"] ])
     end
   end
 
@@ -83,24 +83,24 @@ Total score (lower is better) = 246
                     "app/controllers/bookmarklet_integration_controller.rb:17"]]
 
       MetricFu::Configuration.run {}
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       flay = MetricFu::FlayGenerator.new('base_dir')
       flay.instance_variable_set(:@matches, lines)
       @results = flay.to_h
     end
 
     it "should find the total_score" do
-      @results[:flay][:total_score].should == '284'
+      expect(@results[:flay][:total_score]).to eq('284')
     end
 
     it "should have 6 matches" do
-      @results[:flay][:matches].size.should == 6
+      expect(@results[:flay][:matches].size).to eq(6)
     end
 
     it "should capture info for match" do
-      @results[:flay][:matches].first[:reason].should =~ /IDENTICAL/
-      @results[:flay][:matches].first[:matches].first[:name].should =~ /link_targets_controller/
-      @results[:flay][:matches].first[:matches].first[:line].should == "57"
+      expect(@results[:flay][:matches].first[:reason]).to match(/IDENTICAL/)
+      expect(@results[:flay][:matches].first[:matches].first[:name]).to match(/link_targets_controller/)
+      expect(@results[:flay][:matches].first[:matches].first[:line]).to eq("57")
     end
   end
 end

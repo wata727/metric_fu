@@ -13,15 +13,15 @@ describe MetricFu::Location do
     end
 
     it "has method name" do
-      @location.method_name.should == 'ApplicationHelper#section_link'
+      expect(@location.method_name).to eq('ApplicationHelper#section_link')
     end
 
     it "has nil file path" do
-      @location.file_path.should   == nil
+      expect(@location.file_path).to   eq(nil)
     end
 
     it "has class name" do
-      @location.class_name.should  == 'ApplicationHelper'
+      expect(@location.class_name).to  eq('ApplicationHelper')
     end
 
   end
@@ -33,7 +33,7 @@ describe MetricFu::Location do
     end
 
     it "should return fully qualified method" do
-      @location.method_name.should == 'Foo#some_method'
+      expect(@location.method_name).to eq('Foo#some_method')
     end
 
   end
@@ -45,15 +45,15 @@ describe MetricFu::Location do
     end
 
     it "has nil method_name" do
-      @location.method_name.should be nil
+      expect(@location.method_name).to be nil
     end
 
     it "has nil file_path" do
-      @location.file_path.should be nil
+      expect(@location.file_path).to be nil
     end
 
     it "has class_name" do
-      @location.class_name.should == 'Foo'
+      expect(@location.class_name).to eq('Foo')
     end
 
   end
@@ -65,15 +65,15 @@ describe MetricFu::Location do
     end
 
     it "strips module from class name" do
-      @location.class_name.should == 'Foo'
+      expect(@location.class_name).to eq('Foo')
     end
 
     it "strips module from method name" do
-      @location.method_name.should == 'Foo#some_method'
+      expect(@location.method_name).to eq('Foo#some_method')
     end
 
     it "has nil file_path" do
-      @location.file_path.should be nil
+      expect(@location.file_path).to be nil
     end
 
   end
@@ -82,7 +82,7 @@ describe MetricFu::Location do
 
     it "provides non-qualified name" do
       location = Location.for("Foo.some_class_method")
-      location.simple_method_name.should == '.some_class_method'
+      expect(location.simple_method_name).to eq('.some_class_method')
     end
 
   end
@@ -91,7 +91,7 @@ describe MetricFu::Location do
 
     it "provides non-qualified name" do
       location = Location.for("Foo#some_class_method")
-      location.simple_method_name.should == '#some_class_method'
+      expect(location.simple_method_name).to eq('#some_class_method')
     end
 
   end
@@ -111,16 +111,16 @@ describe MetricFu::Location do
       hsh2 = {}
       hsh2[@location2] = 1
 
-      hsh1.should == hsh2
-      hsh1.eql?(hsh2).should be_true
+      expect(hsh1).to eq(hsh2)
+      expect(hsh1.eql?(hsh2)).to be_truthy
 
-      @location1.eql?(@location2).should be_true
+      expect(@location1.eql?(@location2)).to be_truthy
     end
 
 
     it "should produce the same hash value given the same paths" do
 
-      @location1.hash.should == @location2.hash
+      expect(@location1.hash).to eq(@location2.hash)
     end
 
   end

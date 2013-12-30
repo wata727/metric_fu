@@ -20,25 +20,25 @@ describe MetricFu::SaikuroGenerator do
     end
 
     it "should find the filename of a file" do
-      @output[:saikuro][:files].first[:filename].should == 'app/controllers/users_controller.rb'
+      expect(@output[:saikuro][:files].first[:filename]).to eq('app/controllers/users_controller.rb')
     end
 
     it "should find the name of the classes" do
-      @output[:saikuro][:classes].first[:name].should == "UsersController"
-      @output[:saikuro][:classes][1][:name].should == "SessionsController"
+      expect(@output[:saikuro][:classes].first[:name]).to eq("UsersController")
+      expect(@output[:saikuro][:classes][1][:name]).to eq("SessionsController")
     end
 
     it "should put the most complex method first" do
-      @output[:saikuro][:methods].first[:name].should == "UsersController#create"
-      @output[:saikuro][:methods].first[:complexity].should == 4
+      expect(@output[:saikuro][:methods].first[:name]).to eq("UsersController#create")
+      expect(@output[:saikuro][:methods].first[:complexity]).to eq(4)
     end
 
     it "should find the complexity of a method" do
-      @output[:saikuro][:methods].first[:complexity].should == 4
+      expect(@output[:saikuro][:methods].first[:complexity]).to eq(4)
     end
 
     it "should find the lines of a method" do
-      @output[:saikuro][:methods].first[:lines].should == 15
+      expect(@output[:saikuro][:methods].first[:lines]).to eq(15)
     end
   end
 
@@ -52,7 +52,7 @@ describe MetricFu::SaikuroGenerator do
     end
 
     it "doesn't try to get information if the file does not exist" do
-      @saikuro.should_receive(:file_not_exists?).at_least(:once).and_return(true)
+      expect(@saikuro).to receive(:file_not_exists?).at_least(:once).and_return(true)
       @saikuro.per_file_info('ignore_me')
     end
   end
@@ -62,7 +62,7 @@ describe MetricFu::SaikuroGenerator do
      it "should parse nested START/END sections" do
        path = FIXTURE.fixtures_path.join("saikuro_sfiles", "thing.rb_cyclo.html").to_s
        sfile = MetricFu::SaikuroScratchFile.new path
-       sfile.elements.map { |e| e.complexity }.sort.should eql(["0","0","2"])
+       expect(sfile.elements.map { |e| e.complexity }.sort).to eql(["0","0","2"])
       end
     end
   end

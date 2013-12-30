@@ -8,7 +8,7 @@ describe MetricFu::HotspotsGenerator do
       hotspots = MetricFu::HotspotsGenerator.new
       hotspots.instance_variable_set(:@analyzer, nil)
       result = hotspots.analyze
-      result.should == {:files => [], :classes => [], :methods => []}
+      expect(result).to eq({:files => [], :classes => [], :methods => []})
     end
 
     it "should put the changes into a hash" do

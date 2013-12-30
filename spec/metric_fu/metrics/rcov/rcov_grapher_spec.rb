@@ -7,14 +7,14 @@ describe RcovGrapher do
   end
 
   it "should respond to rcov_percent and labels" do
-    @rcov_grapher.should respond_to(:rcov_percent)
-    @rcov_grapher.should respond_to(:labels)
+    expect(@rcov_grapher).to respond_to(:rcov_percent)
+    expect(@rcov_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
     it "should initialise rcov_percent and labels" do
-      @rcov_grapher.rcov_percent.should == []
-      @rcov_grapher.labels.should == {}
+      expect(@rcov_grapher.rcov_percent).to eq([])
+      expect(@rcov_grapher.labels).to eq({})
     end
   end
 
@@ -26,12 +26,12 @@ describe RcovGrapher do
       end
 
       it "should not push to rcov_percent" do
-        @rcov_grapher.rcov_percent.should_not_receive(:push)
+        expect(@rcov_grapher.rcov_percent).not_to receive(:push)
         @rcov_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not update labels with the date" do
-        @rcov_grapher.labels.should_not_receive(:update)
+        expect(@rcov_grapher.labels).not_to receive(:update)
         @rcov_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -43,12 +43,12 @@ describe RcovGrapher do
       end
 
       it "should push to rcov_percent" do
-        @rcov_grapher.rcov_percent.should_receive(:push).with(49.6)
+        expect(@rcov_grapher.rcov_percent).to receive(:push).with(49.6)
         @rcov_grapher.get_metrics(@metrics, @date)
       end
 
       it "should update labels with the date" do
-        @rcov_grapher.labels.should_receive(:update).with({ 0 => "1/2" })
+        expect(@rcov_grapher.labels).to receive(:update).with({ 0 => "1/2" })
         @rcov_grapher.get_metrics(@metrics, @date)
       end
     end

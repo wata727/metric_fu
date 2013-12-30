@@ -16,7 +16,7 @@ describe MetricFu::Formatter::YAML do
          c.syntax_highlighting = false
        end
     end
-    MetricFu::Metric.get_metric(@metric1).stub(:run_external).and_return('')
+    allow(MetricFu::Metric.get_metric(@metric1)).to receive(:run_external).and_return('')
     @metric2 = :hotspots
     MetricFu.result.add(@metric1)
     MetricFu.result.add(@metric2)
@@ -56,8 +56,8 @@ describe MetricFu::Formatter::YAML do
       out = MfDebugger::Logger.capture_output {
         MetricFu::Formatter::YAML.new(output: @output).finish
       }
-      out.should include ":#{@metric1}:"
-      out.should include ":#{@metric2}:"
+      expect(out).to include ":#{@metric1}:"
+      expect(out).to include ":#{@metric2}:"
     end
 
   end

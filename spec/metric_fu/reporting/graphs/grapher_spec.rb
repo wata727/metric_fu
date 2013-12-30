@@ -18,7 +18,7 @@ describe "Bluff graphers responding to #graph!" do
     graphs.each do |key, val|
       val.graph!
       output_dir = File.expand_path(File.join(MetricFu::Io::FileSystem.directory('output_directory')))
-      lambda{ File.read(File.join(output_dir, "#{key.to_s.downcase}.js")) }.should_not raise_error
+      expect{ File.read(File.join(output_dir, "#{key.to_s.downcase}.js")) }.not_to raise_error
     end
   end
 end

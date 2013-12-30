@@ -40,7 +40,7 @@ describe MetricFu do
           # need some help debugging
           # but tests seem more stable without it.
           # metric.should_receive(:run_external).and_return('')
-          metric.stub(:run_external).and_return('')
+          allow(metric).to receive(:run_external).and_return('')
         else
           metric.enabled = false
         end
@@ -165,12 +165,12 @@ describe MetricFu do
 
     it "displays help" do
       out = metric_fu "--help"
-      out.should include helper.banner
+      expect(out).to include helper.banner
     end
 
     it "displays version" do
       out = metric_fu "--version"
-      out.should include "#{MetricFu::VERSION}"
+      expect(out).to include "#{MetricFu::VERSION}"
     end
 
     it "errors on unknown flags" do
@@ -179,8 +179,8 @@ describe MetricFu do
         # swallow the error message
         failure = true
       end
-      out.should include 'invalid option'
-      expect(failure).to be_true
+      expect(out).to include 'invalid option'
+      expect(failure).to be_truthy
     end
 
   end

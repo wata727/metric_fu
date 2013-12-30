@@ -22,7 +22,7 @@ describe MetricFu::Metric do
   context 'given a valid configurable option' do
 
     before do
-      @metric.stub(:default_run_options).and_return({:foo => 'baz'})
+      allow(@metric).to receive(:default_run_options).and_return({:foo => 'baz'})
     end
 
     it 'can be configured as an attribute' do
@@ -35,7 +35,7 @@ describe MetricFu::Metric do
   context 'given an invalid configurable option' do
 
     before do
-      @metric.stub(:default_run_options).and_return({})
+      allow(@metric).to receive(:default_run_options).and_return({})
     end
 
     it 'raises an error' do

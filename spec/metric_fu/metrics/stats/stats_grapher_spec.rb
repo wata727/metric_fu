@@ -8,16 +8,16 @@ describe StatsGrapher do
   end
 
   it "should respond to loc_counts and lot_counts and labels" do
-    @stats_grapher.should respond_to(:loc_counts)
-    @stats_grapher.should respond_to(:lot_counts)
-    @stats_grapher.should respond_to(:labels)
+    expect(@stats_grapher).to respond_to(:loc_counts)
+    expect(@stats_grapher).to respond_to(:lot_counts)
+    expect(@stats_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
     it "should initialise loc_counts and lot_counts and labels" do
-      @stats_grapher.loc_counts.should == []
-      @stats_grapher.lot_counts.should == []
-      @stats_grapher.labels.should == {}
+      expect(@stats_grapher.loc_counts).to eq([])
+      expect(@stats_grapher.lot_counts).to eq([])
+      expect(@stats_grapher.labels).to eq({})
     end
   end
 
@@ -29,17 +29,17 @@ describe StatsGrapher do
       end
 
       it "should not push to loc_counts" do
-        @stats_grapher.loc_counts.should_not_receive(:push)
+        expect(@stats_grapher.loc_counts).not_to receive(:push)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not push to lot_counts" do
-        @stats_grapher.lot_counts.should_not_receive(:push)
+        expect(@stats_grapher.lot_counts).not_to receive(:push)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not update labels with the date" do
-        @stats_grapher.labels.should_not_receive(:update)
+        expect(@stats_grapher.labels).not_to receive(:update)
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -51,17 +51,17 @@ describe StatsGrapher do
       end
 
       it "should push to loc_counts" do
-        @stats_grapher.loc_counts.should_receive(:push).with(15935)
+        expect(@stats_grapher.loc_counts).to receive(:push).with(15935)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should push to lot_counts" do
-        @stats_grapher.lot_counts.should_receive(:push).with(7438)
+        expect(@stats_grapher.lot_counts).to receive(:push).with(7438)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should update labels with the date" do
-        @stats_grapher.labels.should_receive(:update).with({ 0 => "01022003" })
+        expect(@stats_grapher.labels).to receive(:update).with({ 0 => "01022003" })
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end

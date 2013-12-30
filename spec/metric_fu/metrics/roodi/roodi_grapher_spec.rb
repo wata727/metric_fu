@@ -8,14 +8,14 @@ describe RoodiGrapher do
   end
 
   it "should respond to roodi_count and labels" do
-    @roodi_grapher.should respond_to(:roodi_count)
-    @roodi_grapher.should respond_to(:labels)
+    expect(@roodi_grapher).to respond_to(:roodi_count)
+    expect(@roodi_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
     it "should initialise roodi_count and labels" do
-      @roodi_grapher.roodi_count.should == []
-      @roodi_grapher.labels.should == {}
+      expect(@roodi_grapher.roodi_count).to eq([])
+      expect(@roodi_grapher.labels).to eq({})
     end
   end
 
@@ -27,12 +27,12 @@ describe RoodiGrapher do
       end
 
       it "should not push to roodi_count" do
-        @roodi_grapher.roodi_count.should_not_receive(:push)
+        expect(@roodi_grapher.roodi_count).not_to receive(:push)
         @roodi_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not update labels with the date" do
-        @roodi_grapher.labels.should_not_receive(:update)
+        expect(@roodi_grapher.labels).not_to receive(:update)
         @roodi_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -44,12 +44,12 @@ describe RoodiGrapher do
       end
 
       it "should push to roodi_count" do
-        @roodi_grapher.roodi_count.should_receive(:push).with(13)
+        expect(@roodi_grapher.roodi_count).to receive(:push).with(13)
         @roodi_grapher.get_metrics(@metrics, @date)
       end
 
       it "should update labels with the date" do
-        @roodi_grapher.labels.should_receive(:update).with({ 0 => "1/2" })
+        expect(@roodi_grapher.labels).to receive(:update).with({ 0 => "1/2" })
         @roodi_grapher.get_metrics(@metrics, @date)
       end
     end

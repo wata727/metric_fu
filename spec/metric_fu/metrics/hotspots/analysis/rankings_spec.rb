@@ -32,7 +32,7 @@ describe MetricFu::HotspotRankings do
       expected = [
                   "lib/client/client.rb",
                   "lib/client/foo.rb"]
-      rankings(result_hash).worst_files.should == expected
+      expect(rankings(result_hash).worst_files).to eq(expected)
     end
     def result_hash
       @result_hash ||= HOTSPOT_DATA["several_metrics.yml"]
@@ -45,15 +45,15 @@ describe MetricFu::HotspotRankings do
     end
 
     it "gives worst method" do
-      rankings(@result_hash).worst_methods[0].should == "Client#client_requested_sync"
+      expect(rankings(@result_hash).worst_methods[0]).to eq("Client#client_requested_sync")
     end
 
     it "gives worst class" do
-      rankings(@result_hash).worst_classes[0].should == "Client"
+      expect(rankings(@result_hash).worst_classes[0]).to eq("Client")
     end
 
     it "gives worst file" do
-      rankings(@result_hash).worst_files[0].should == "lib/client/client.rb"
+      expect(rankings(@result_hash).worst_files[0]).to eq("lib/client/client.rb")
     end
 
   end
@@ -64,11 +64,11 @@ describe MetricFu::HotspotRankings do
     end
 
     it "gives worst method" do
-      rankings(@result_hash).worst_methods[0].should == "Supr#self.handle_full_or_hash_option"
+      expect(rankings(@result_hash).worst_methods[0]).to eq("Supr#self.handle_full_or_hash_option")
     end
 
     it "gives worst class" do
-      rankings(@result_hash).worst_classes[0].should == "Bitly"
+      expect(rankings(@result_hash).worst_classes[0]).to eq("Bitly")
     end
 
   end
@@ -79,15 +79,15 @@ describe MetricFu::HotspotRankings do
     end
 
     it "gives worst method" do
-      rankings(@result_hash).worst_methods[0].should == "main#none"
+      expect(rankings(@result_hash).worst_methods[0]).to eq("main#none")
     end
 
     it "gives worst class" do
-      rankings(@result_hash).worst_classes[0].should == "main"
+      expect(rankings(@result_hash).worst_classes[0]).to eq("main")
     end
 
     it "gives worst file" do
-      rankings(@result_hash).worst_files[0].should == "lib/generators/rcov.rb:57"
+      expect(rankings(@result_hash).worst_files[0]).to eq("lib/generators/rcov.rb:57")
     end
 
   end
@@ -99,7 +99,7 @@ describe MetricFu::HotspotRankings do
     end
 
     it "gives worst file" do
-      rankings(@result_hash).worst_files[0].should == "lib/client/client.rb"
+      expect(rankings(@result_hash).worst_files[0]).to eq("lib/client/client.rb")
     end
 
   end

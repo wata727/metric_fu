@@ -8,14 +8,14 @@ describe FlayGrapher do
   end
 
   it "should respond to flay_score and labels" do
-    @flay_grapher.should respond_to(:flay_score)
-    @flay_grapher.should respond_to(:labels)
+    expect(@flay_grapher).to respond_to(:flay_score)
+    expect(@flay_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
     it "should initialise flay_score and labels" do
-      @flay_grapher.flay_score.should == []
-      @flay_grapher.labels.should == {}
+      expect(@flay_grapher.flay_score).to eq([])
+      expect(@flay_grapher.labels).to eq({})
     end
   end
 
@@ -27,12 +27,12 @@ describe FlayGrapher do
       end
 
       it "should not push to flay_score" do
-        @flay_grapher.flay_score.should_not_receive(:push)
+        expect(@flay_grapher.flay_score).not_to receive(:push)
         @flay_grapher.get_metrics(@metrics, @date)
       end
 
       it "should not update labels with the date" do
-        @flay_grapher.labels.should_not_receive(:update)
+        expect(@flay_grapher.labels).not_to receive(:update)
         @flay_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -44,12 +44,12 @@ describe FlayGrapher do
       end
 
       it "should push to flay_score" do
-        @flay_grapher.flay_score.should_receive(:push).with(476)
+        expect(@flay_grapher.flay_score).to receive(:push).with(476)
         @flay_grapher.get_metrics(@metrics, @date)
       end
 
       it "should update labels with the date" do
-        @flay_grapher.labels.should_receive(:update).with({ 0 => "1/2" })
+        expect(@flay_grapher.labels).to receive(:update).with({ 0 => "1/2" })
         @flay_grapher.get_metrics(@metrics, @date)
       end
     end

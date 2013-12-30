@@ -21,14 +21,14 @@ describe MetricFu::ChurnGenerator do
       churn = MetricFu::ChurnGenerator.new
       churn.instance_variable_set(:@output, nil)
       result = churn.analyze
-      result.should == {:churn => {}}
+      expect(result).to eq({:churn => {}})
     end
 
     it "should return yaml results" do
       churn = MetricFu::ChurnGenerator.new
       churn.instance_variable_set(:@output, churn_hash)
       result = churn.analyze
-      result.should == {:churn => {:changed_files => ["spec/graphs/flog_grapher_spec.rb", "spec/base/graph_spec.rb", "lib/templates/awesome/layout.html.erb", "lib/graphs/rcov_grapher.rb", "lib/base/base_template.rb", "spec/graphs/grapher_spec.rb", "lib/templates/awesome/flog.html.erb", "lib/templates/awesome/flay.html.erb", "lib/graphs/roodi_grapher.rb", "lib/graphs/reek_grapher.rb", "HISTORY", "spec/graphs/roodi_grapher_spec.rb", "lib/generators/rcov.rb", "spec/graphs/engines/gchart_spec.rb", "spec/graphs/rcov_grapher_spec.rb", "lib/templates/javascripts/excanvas.js", "lib/templates/javascripts/bluff-min.js", "spec/graphs/reek_grapher_spec.rb"]}}
+      expect(result).to eq({:churn => {:changed_files => ["spec/graphs/flog_grapher_spec.rb", "spec/base/graph_spec.rb", "lib/templates/awesome/layout.html.erb", "lib/graphs/rcov_grapher.rb", "lib/base/base_template.rb", "spec/graphs/grapher_spec.rb", "lib/templates/awesome/flog.html.erb", "lib/templates/awesome/flay.html.erb", "lib/graphs/roodi_grapher.rb", "lib/graphs/reek_grapher.rb", "HISTORY", "spec/graphs/roodi_grapher_spec.rb", "lib/generators/rcov.rb", "spec/graphs/engines/gchart_spec.rb", "spec/graphs/rcov_grapher_spec.rb", "lib/templates/javascripts/excanvas.js", "lib/templates/javascripts/bluff-min.js", "spec/graphs/reek_grapher_spec.rb"]}})
     end
 
   end
@@ -42,7 +42,7 @@ describe MetricFu::ChurnGenerator do
     it "should put the changes into a hash" do
       churn = MetricFu::ChurnGenerator.new
       churn.instance_variable_set(:@churn, {:churn => 'results'})
-      churn.to_h[:churn].should == "results"
+      expect(churn.to_h[:churn]).to eq("results")
     end
   end
 
@@ -54,15 +54,15 @@ describe MetricFu::ChurnGenerator do
     end
 
     it "returns churn output" do
-      @churn.stub(:run).and_return(churn_hash)
+      allow(@churn).to receive(:run).and_return(churn_hash)
       result = @churn.emit
-      result.should == churn_hash
+      expect(result).to eq(churn_hash)
     end
 
     it "returns nil, when churn result is not yaml" do
-      @churn.stub(:run).and_return(nil)
+      allow(@churn).to receive(:run).and_return(nil)
       result = @churn.emit
-      result.should be nil
+      expect(result).to be nil
     end
   end
 end

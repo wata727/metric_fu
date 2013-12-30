@@ -7,49 +7,49 @@ describe CaneGenerator do
     it "should execute cane command" do
       options = {}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with("")
+      expect(@cane).to receive(:run!).with("")
       output = @cane.emit
     end
 
     it "should use abc max option" do
       options = {abc_max: 20}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with(" --abc-max 20")
+      expect(@cane).to receive(:run!).with(" --abc-max 20")
       output = @cane.emit
     end
 
     it "should use style max line length option" do
       options = {line_length: 100}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with(" --style-measure 100")
+      expect(@cane).to receive(:run!).with(" --style-measure 100")
       output = @cane.emit
     end
 
     it "should use no-doc if specified" do
       options = {no_doc: 'y'}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with(" --no-doc")
+      expect(@cane).to receive(:run!).with(" --no-doc")
       output = @cane.emit
     end
 
     it "should include doc violations if no_doc != 'y'" do
       options = {no_doc: 'n'}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with("")
+      expect(@cane).to receive(:run!).with("")
       output = @cane.emit
     end
 
     it "should use no-readme if specified" do
       options = {no_readme: 'y'}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with(" --no-readme")
+      expect(@cane).to receive(:run!).with(" --no-readme")
       output = @cane.emit
     end
 
     it "should include README violations if no_readme != 'y'" do
       options = {no_readme: 'n'}
       @cane = MetricFu::CaneGenerator.new(options)
-      @cane.should_receive(:run!).with("")
+      expect(@cane).to receive(:run!).with("")
       output = @cane.emit
     end
   end
@@ -57,7 +57,7 @@ describe CaneGenerator do
   describe "parse cane empty output" do
     before :each do
       # MetricFu::Configuration.run {}
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       options = {}
       @cane = MetricFu::CaneGenerator.new(options)
       @cane.instance_variable_set(:@output, '')
@@ -67,7 +67,7 @@ describe CaneGenerator do
 
       it "should find total violations" do
         @cane.analyze
-        @cane.total_violations.should == 0
+        expect(@cane.total_violations).to eq(0)
       end
     end
   end
@@ -76,7 +76,7 @@ describe CaneGenerator do
     before :each do
       lines = sample_cane_output
       MetricFu::Configuration.run {}
-      File.stub(:directory?).and_return(true)
+      allow(File).to receive(:directory?).and_return(true)
       @cane = MetricFu::CaneGenerator.new('base_dir')
       @cane.instance_variable_set(:@output, lines)
     end
@@ -85,69 +85,69 @@ describe CaneGenerator do
 
       it "should find total violations" do
         @cane.analyze
-        @cane.total_violations.should == 6
+        expect(@cane.total_violations).to eq(6)
       end
 
       it "should extract abc complexity violations" do
         @cane.analyze
-        @cane.violations[:abc_complexity].should == [
+        expect(@cane.violations[:abc_complexity]).to eq([
           {file: 'lib/abc/foo.rb', method: 'Abc::Foo#method', complexity: '11'},
           {file: 'lib/abc/bar.rb', method: 'Abc::Bar#method', complexity: '22'}
-        ]
+        ])
       end
 
       it "should extract line style violations" do
         @cane.analyze
-        @cane.violations[:line_style].should == [
+        expect(@cane.violations[:line_style]).to eq([
           {line: 'lib/line/foo.rb:1', description: 'Line is >80 characters (135)'},
           {line: 'lib/line/bar.rb:2', description: 'Line contains trailing whitespace'}
-        ]
+        ])
       end
 
       it "should extract comment violations" do
         @cane.analyze
-        @cane.violations[:comment].should == [
+        expect(@cane.violations[:comment]).to eq([
           {line: 'lib/comments/foo.rb:1', class_name: 'Foo'},
           {line: 'lib/comments/bar.rb:2', class_name: 'Bar'}
-        ]
+        ])
       end
 
       it "should extract no readme violations if present" do
         @cane.analyze
-        @cane.violations[:documentation].should == [
+        expect(@cane.violations[:documentation]).to eq([
           {description: 'No README found'},
-        ]
+        ])
       end
 
       it "should extract unknown violations in others category" do
         @cane.analyze
-        @cane.violations[:others].should == [
+        expect(@cane.violations[:others]).to eq([
           {description: 'Misc issue 1'},
           {description: 'Misc issue 2'}
-        ]
+        ])
       end
     end
 
     describe "to_h method" do
       it "should have total violations" do
         @cane.analyze
-        @cane.to_h[:cane][:total_violations].should == 6
+        expect(@cane.to_h[:cane][:total_violations]).to eq(6)
       end
 
       it  "should have violations by category" do
         @cane.analyze
-        @cane.to_h[:cane][:violations][:abc_complexity].should == [
+        expect(@cane.to_h[:cane][:violations][:abc_complexity]).to eq([
           {file: 'lib/abc/foo.rb', method: 'Abc::Foo#method', complexity: '11'},
           {file: 'lib/abc/bar.rb', method: 'Abc::Bar#method', complexity: '22'}
-        ]
-        @cane.to_h[:cane][:violations][:line_style].should == [
+        ])
+        expect(@cane.to_h[:cane][:violations][:line_style]).to eq([
           {line: 'lib/line/foo.rb:1', description: 'Line is >80 characters (135)'},
           {line: 'lib/line/bar.rb:2', description: 'Line contains trailing whitespace'}
-        ]
-        @cane.to_h[:cane][:violations][:comment].should == [
+        ])
+        expect(@cane.to_h[:cane][:violations][:comment]).to eq([
           {line: 'lib/comments/foo.rb:1', class_name: 'Foo'},
           {line: 'lib/comments/bar.rb:2', class_name: 'Bar'}
-        ]
+        ])
       end
     end
   end

@@ -6,7 +6,7 @@ describe MetricFu::Formatter do
       subject { MetricFu::Formatter.class_for('html') }
 
       it 'returns the formatter class' do
-        subject.should eq(MetricFu::Formatter::HTML)
+        expect(subject).to eq(MetricFu::Formatter::HTML)
       end
     end
 
@@ -14,7 +14,7 @@ describe MetricFu::Formatter do
       subject { MetricFu::Formatter.class_for(:yaml) }
 
       it 'returns the formatter class' do
-        subject.should eq(MetricFu::Formatter::YAML)
+        expect(subject).to eq(MetricFu::Formatter::YAML)
       end
     end
 
@@ -22,7 +22,7 @@ describe MetricFu::Formatter do
       subject { MetricFu::Formatter.class_for(:unknown) }
 
       it 'raises an error' do
-        lambda{ subject }.should raise_error(NameError)
+        expect{ subject }.to raise_error(NameError)
       end
     end
 
@@ -34,7 +34,7 @@ describe MetricFu::Formatter do
       end
 
       it 'returns the formatter class' do
-        subject.should eq(MyCustomFormatter)
+        expect(subject).to eq(MyCustomFormatter)
       end
     end
 
@@ -42,7 +42,7 @@ describe MetricFu::Formatter do
       subject { MetricFu::Formatter.class_for('MyNonExistentCustomFormatter') }
 
       it 'raises an error' do
-        lambda{ subject }.should raise_error(NameError)
+        expect{ subject }.to raise_error(NameError)
       end
     end
   end
