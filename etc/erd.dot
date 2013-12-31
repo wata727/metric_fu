@@ -1,6 +1,6 @@
 digraph classes {
 	graph [rotate=0, rankdir="LR"]
-	node [fillcolor="#c4ddec", style="filled", fontname="Helvetica Neue"]
+	node [fillcolor="#c4ddec", style="filled", fontname="HelveticaNeue"]
 	edge [color="#444444"]
 	Exception [label="Exception"]
 	MetricFu__AnalysisError [label="MetricFu::AnalysisError"]
@@ -23,6 +23,7 @@ digraph classes {
 	MetricFu__FlogGrapher [label="MetricFu::FlogGrapher"]
 	MetricFu__FlogHotspot [label="MetricFu::FlogHotspot"]
 	MetricFu__Formatter__HTML [label="MetricFu::Formatter::HTML"]
+	MetricFu__Formatter__Syntax [label="MetricFu::Formatter::Syntax"]
 	MetricFu__Formatter__YAML [label="MetricFu::Formatter::YAML"]
 	MetricFu__GemRun [label="MetricFu::GemRun"]
 	MetricFu__GemVersion [label="MetricFu::GemVersion"]
@@ -55,13 +56,10 @@ digraph classes {
 	MetricFu__MetricRoodi [label="MetricFu::MetricRoodi"]
 	MetricFu__MetricSaikuro [label="MetricFu::MetricSaikuro"]
 	MetricFu__MetricStats [label="MetricFu::MetricStats"]
-	MetricFu__RailsBestPracticesGenerator [label="MetricFu::RailsBestPracticesGenerator"]
-	MetricFu__RailsBestPracticesGrapher [label="MetricFu::RailsBestPracticesGrapher"]
 	MetricFu__Ranking [label="MetricFu::Ranking"]
 	MetricFu__RcovGenerator [label="MetricFu::RcovGenerator"]
 	MetricFu__RcovGenerator__Line [label="MetricFu::RcovGenerator::Line"]
 	MetricFu__RcovGrapher [label="MetricFu::RcovGrapher"]
-	MetricFu__RcovHotspot [label="MetricFu::RcovHotspot"]
 	MetricFu__Record [label="MetricFu::Record"]
 	MetricFu__ReekGenerator [label="MetricFu::ReekGenerator"]
 	MetricFu__ReekGrapher [label="MetricFu::ReekGrapher"]
@@ -82,6 +80,8 @@ digraph classes {
 	MetricFu__StatsHotspot [label="MetricFu::StatsHotspot"]
 	MetricFu__Table [label="MetricFu::Table"]
 	MetricFu__Template [label="MetricFu::Template"]
+	MetricFu__Templates__Configuration [label="MetricFu::Templates::Configuration"]
+	MetricFu__Templates__Report [label="MetricFu::Templates::Report"]
 	Object [label="Object"]
 	RuntimeError [label="RuntimeError"]
 	StandardError [label="StandardError"]
@@ -107,6 +107,7 @@ digraph classes {
 	MetricFu__FlogGrapher -> MetricFu__Grapher
 	MetricFu__FlogHotspot -> MetricFu__Hotspot
 	MetricFu__Formatter__HTML -> Object
+	MetricFu__Formatter__Syntax -> Object
 	MetricFu__Formatter__YAML -> Object
 	MetricFu__GemRun -> Object
 	MetricFu__GemVersion -> Object
@@ -139,13 +140,10 @@ digraph classes {
 	MetricFu__MetricRoodi -> MetricFu__Metric
 	MetricFu__MetricSaikuro -> MetricFu__Metric
 	MetricFu__MetricStats -> MetricFu__Metric
-	MetricFu__RailsBestPracticesGenerator -> MetricFu__Generator
-	MetricFu__RailsBestPracticesGrapher -> MetricFu__Grapher
 	MetricFu__Ranking -> Object
 	MetricFu__RcovGenerator -> MetricFu__Generator
 	MetricFu__RcovGenerator__Line -> Object
 	MetricFu__RcovGrapher -> MetricFu__Grapher
-	MetricFu__RcovHotspot -> MetricFu__Hotspot
 	MetricFu__Record -> Object
 	MetricFu__ReekGenerator -> MetricFu__Generator
 	MetricFu__ReekGrapher -> MetricFu__Grapher
@@ -166,6 +164,8 @@ digraph classes {
 	MetricFu__StatsHotspot -> MetricFu__Hotspot
 	MetricFu__Table -> Object
 	MetricFu__Template -> Object
+	MetricFu__Templates__Configuration -> Object
+	MetricFu__Templates__Report -> MetricFu__Template
 	Object -> BasicObject
 	RuntimeError -> StandardError
 	StandardError -> Exception
