@@ -141,6 +141,8 @@ add all contriubtors
 
 ### MetricFu 4.4.0 / 2013-08-15
 
+* Breaking Changes
+  * Removed configuration methods / MetricFu module methods: add_graph, add_metric, configure_graph, configure_metric, configure_graph_engine, graph_engine, metrics, formatters, graphs, graph_engines, rails?, code_dirs, base_directory, scratch_directory, output_directory, data_directory, file_globs_to_ignore, metric_fu_root_directory, template_directory, template_class, link_prefix, darwin_txmt_protocol_no_thanks, syntax_highlighting
 * Features
   * Metrics now configure themselves in a subclass of MetricFu::Metric ( Benjamin Fleischer / Robin Curry #91, #111)
   * Metrics can be configured individually via Metric.configuration.configure_metric(:some_metric) or Metric.configuration.configure_metrics {|metric| }.  See .metrics file for examples ( Benjamin Fleischer / Robin Curry #91, #111)
@@ -161,7 +163,6 @@ add all contriubtors
   * Exposed RubyParser patch ( Benjamin Fleischer / Robin Curry #91, #111)
   * Separated out io / filesystem /templating concerns into their own classes or modules. Thus, we removed all the metaprogrammatically defined methods and instance variables.( Benjamin Fleischer / Robin Curry #91, #111, #112, #115)
   * Generator subclasses can now be found by metric name. MetricFu::Generator.get_generator(:flog) (Benjamin Fleischer, #126)
-  * Breaking change related to the above: removed configuration methods / MetricFu module methods: add_graph, add_metric, configure_graph, configure_metric, configure_graph_engine, graph_engine, metrics, formatters, graphs, graph_engines, rails?, code_dirs, base_directory, scratch_directory, output_directory, data_directory, file_globs_to_ignore, metric_fu_root_directory, template_directory, template_class, link_prefix, darwin_txmt_protocol_no_thanks, syntax_highlighting
 
 ### MetricFu 4.3.1 / 2013-08-02
 
