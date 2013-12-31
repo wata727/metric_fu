@@ -4,13 +4,31 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.6.0...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.7.0...master)
+
+* Breaking Changes
+* Features
+* Fixes
+* Misc
+
+### [4.7.0 / 2013-12-31](https://github.com/metricfu/metric_fu/compare/v4.6.0...v4.7.0)
 
 * Features
   * Move to using churn library and allowing all churn options to be passed through to churn library. (Dan Mayer, #182)
+  * Create template for syntax highlighting in report.  (Benjamin Fleischer, #179)
+  * Gem deps now derirved from gemspec via regex (from Gemnasium). Related to #184.
+    `--debug-info` will now show the version of the activated gem, if available.  (Benjamin Fleischer, #189)
 * Fixes
-  * Force gemspec to use utf-8 encoding when importing the AUTHORS file (Paul Swagerty, #183)
+  * Force gemspec to use utf-8 encoding when importing the AUTHORS file. (Paul Swagerty, #183)
+  * Ensure gemspec doesn't crash when reading in AUTHORS file. (saltracer, #184)
+  * Fix bad parsing of reek output. (Greg Allen, #185)
 * Misc
+  * Spelling correction. (mdb, #177)
+  * Clean up README indentation. (simi, #187)
+  * Tests run faster. (Benjamin Fleischer, #181)
+  * Simplify load paths. (Benjamin Fleicher, #139)
+  * Update to RSpec 3.0.0.beta1. (Benjamin Fleischer)
+  * Update to new release of TestConstruct. (Benjamin Fleischer)
 
 ### MetricFu [4.6.0 / 2013-11-20](https://github.com/metricfu/metric_fu/compare/v4.5.2...v4.6.0)
 
