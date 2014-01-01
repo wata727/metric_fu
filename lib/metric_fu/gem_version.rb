@@ -62,7 +62,11 @@ module MetricFu
     end
 
     def self.activated_gems
-      Gem::Specification.stubs.select(&:activated?)
+      if Gem::Specification.respond_to?(:stubs)
+        Gem::Specification.stubs
+      else
+        Gem.loaded_specs.values
+      end.select(&:activated?)
     end
 
     def self.activated_version(name)
