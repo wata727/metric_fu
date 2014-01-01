@@ -4,12 +4,17 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.7.0...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.7.1...master)
 
 * Breaking Changes
 * Features
 * Fixes
 * Misc
+
+### [4.7.1 / 2014-01-01](https://github.com/metricfu/metric_fu/compare/v4.7.0...v4.7.1)
+
+* Fixes
+  * Check for activated gems now works on earlier versions of RubyGems. (Benjamin Fleischer)
 
 ### [4.7.0 / 2013-12-31](https://github.com/metricfu/metric_fu/compare/v4.6.0...v4.7.0)
 
