@@ -20,13 +20,13 @@ module MetricFu
     def initialize(path)
       @path = path
       @elements = []
-      File.open(@path, "r") do |file|
+      File.open(@path, "rb") do |file|
         get_elements(file)
       end
     end
 
     def self.is_valid_text_file?(path)
-      File.open(path, "r") do |file|
+      File.open(path, "rb") do |file|
         if file.eof? || !file.readline.match(/--/)
           return false
         else
