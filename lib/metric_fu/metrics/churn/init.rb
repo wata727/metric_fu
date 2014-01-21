@@ -6,7 +6,7 @@ module MetricFu
     end
 
     def default_run_options
-      { 
+      {
         :start_date => %q("1 year ago"),
         :minimum_churn_count => 10,
         :ignore_files => [],
@@ -23,7 +23,7 @@ module MetricFu
     end
 
     def activate
-      activate_library('churn/churn_calculator')
+      activate_library('churn/calculator')
       super
     end
 
