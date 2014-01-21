@@ -94,15 +94,25 @@ module MetricFu
     end
 
     def cli_options(files)
-      '--line-number ' <<
-        config_option(options[:config_file_pattern]) << ' ' <<
+      [
+        disable_line_number_option,
+        config_option,
         files.join(' ')
+      ].join(' ')
     end
 
-    def config_option(location)
-      return '' if location.to_s.empty?
-      option = "--config #{location}"
-      '--config .reek ' << option unless location == '.reek'
+    # TODO: Check that specified line config file exists
+    def config_option
+      config_file_pattern =  options[:config_file_pattern]
+      if config_file_pattern.to_s.empty?
+        ''
+      else
+        "--config #{config_file_pattern}"
+      end
+    end
+
+    def disable_line_number_option
+      '-n'
     end
 
   end
