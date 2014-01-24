@@ -196,7 +196,7 @@ This is the official repository for metric_fu.  The original repository by Jake 
 * [Reek](https://rubygems.org/gems/reek) [Source](https://github.com/troessner/reek)
 * [Roodi](https://rubygems.org/gems/roodi), [Source](https://github.com/roodi/roodi)
 * [Saikuro](https://rubygems.org/gems/metric_fu-Saikuro), [Source](https://github.com/metricfu/Saikuro)
-  [Code Statistics](https://rubygems.org/gems/code_metrics), [Source](https://github.com/bf4/code_metrics) )
+* [Code Statistics](https://rubygems.org/gems/code_metrics), [Source](https://github.com/bf4/code_metrics)
 * Rails-only
   * [Rails Best Practices](https://rubygems.org/gems/rails_best_practices), [Source](https://github.com/railsbp/rails_best_practices)
 * Test Coverage
