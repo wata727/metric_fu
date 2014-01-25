@@ -17,6 +17,11 @@ module MetricFu
       end
     end
 
+    def strip_escape_codes(text)
+      pattern = Regexp.new('\e\[\d{1,2}m')
+      text.gsub(pattern, '')
+    end
+
     def rm_rf(*args)
       FileUtils.rm_rf(*args)
     end

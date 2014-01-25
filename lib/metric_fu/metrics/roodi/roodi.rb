@@ -14,7 +14,7 @@ module MetricFu
     end
 
     def analyze
-      @output.gsub!(/\e\[\d{1,2}m/, '')
+      @output = MetricFu::Utility.strip_escape_codes(@output)
       @matches = @output.chomp.split("\n").map{|m| m.split(" - ") }
       total = @matches.pop
       @matches.reject! {|array| array.empty? }
