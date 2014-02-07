@@ -4,6 +4,8 @@ module MetricFu
   module Utility
     module_function
 
+    ESCAPE_CODES_PATTERN = Regexp.new('\e\[\d{1,2}m')
+
     # Removes non-ASCII characters
     def clean_ascii_text(text)
       if text.respond_to?(:encode)
@@ -15,6 +17,10 @@ module MetricFu
       else
         text
       end
+    end
+
+    def strip_escape_codes(text)
+      text.gsub(ESCAPE_CODES_PATTERN, '')
     end
 
     def rm_rf(*args)
