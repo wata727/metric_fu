@@ -4,12 +4,21 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.7.2...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.7.3...master)
 
 * Breaking Changes
 * Features
 * Fixes
 * Misc
+
+### [4.7.3 / 2014-02-09](https://github.com/metricfu/metric_fu/compare/v4.7.2...v4.7.3)
+
+* Fixes
+  * Add `strip_escape_codes`; remove from Roodi output. (Przemysław Dąbek, #197)
+* Misc
+  * Fix markdown in README. (Guilherme Simões, #198)
+  * Add Ruby 2.1 to Travis CI build. (Michael Stark , #200)
+
 
 ### [4.7.2 / 2014-01-21](https://github.com/metricfu/metric_fu/compare/v4.7.1...v4.7.2)
 
