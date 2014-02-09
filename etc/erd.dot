@@ -15,6 +15,9 @@ digraph classes {
 	MetricFu__ChurnGenerator [label="MetricFu::ChurnGenerator"]
 	MetricFu__ChurnHotspot [label="MetricFu::ChurnHotspot"]
 	MetricFu__ClassMethodNode [label="MetricFu::ClassMethodNode"]
+	MetricFu__Cli__Client [label="MetricFu::Cli::Client"]
+	MetricFu__Cli__Helper [label="MetricFu::Cli::Helper"]
+	MetricFu__Cli__MicroOptParse__Parser [label="MetricFu::Cli::MicroOptParse::Parser"]
 	MetricFu__Configuration [label="MetricFu::Configuration"]
 	MetricFu__FlayGenerator [label="MetricFu::FlayGenerator"]
 	MetricFu__FlayGrapher [label="MetricFu::FlayGrapher"]
@@ -99,6 +102,9 @@ digraph classes {
 	MetricFu__ChurnGenerator -> MetricFu__Generator
 	MetricFu__ChurnHotspot -> MetricFu__Hotspot
 	MetricFu__ClassMethodNode -> MetricFu__SexpNode
+	MetricFu__Cli__Client -> Object
+	MetricFu__Cli__Helper -> Object
+	MetricFu__Cli__MicroOptParse__Parser -> Object
 	MetricFu__Configuration -> Object
 	MetricFu__FlayGenerator -> MetricFu__Generator
 	MetricFu__FlayGrapher -> MetricFu__Grapher
