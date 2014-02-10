@@ -122,8 +122,8 @@ in your .metrics file add the below to run pre-generated metrics
 ```ruby
 MetricFu::Configuration.run do |config|
   config.configure_metric(:rcov) do |rcov|
-    rcov.enabled = true
-    rcov.external = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
+    rcov.coverage_file = MetricFu.run_path.join("coverage/rcov/rcov.txt")
+    rcov.enable
     rcov.activate
   end
 end
@@ -164,13 +164,16 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 SimpleCov.start
 ```
 
+Additionally, the `coverage_file` path must be specified as above
+and must exist.
+
 ## Compatibility
 
 * It is currently testing on MRI (>= 1.9.3), JRuby (19 mode), and Rubinius (19 mode). Ruby 1.8 is no longer supported.
 
 * For 1.8.7 support, see version 3.0.0 for partial support, or 2.1.3.7.18.1 (where [Semantic Versioning](http://semver.org/) goes to die)
 
-* MetricFu  no longer runs any of the analyzed code. For code coverage, You may still use rcov metrics as documented below
+* MetricFu  no longer runs any of the analyzed code. For code coverage, You may still use rcov metrics as documented above
 
 * The Cane, Flog, and Rails Best Practices metrics are disabled when Ripper is not available
 

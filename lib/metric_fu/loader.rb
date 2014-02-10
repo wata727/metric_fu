@@ -81,6 +81,7 @@ module MetricFu
 
       Dir.glob(File.join(MetricFu.metrics_dir, '**/init.rb')).each{|init_file|require(init_file)}
 
+      MetricFu.configuration.configure_metrics
       load_user_configuration
 
       MetricFu.lib_require       { 'reporter' }

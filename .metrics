@@ -4,14 +4,13 @@
 #
 # MetricFu::Configuration.run do |config|
 #
-#   Configure Metrics
+#   # Configure Metrics
 #
-#   To configure individual metrics...
+#   # To configure individual metrics...
 #
 #   config.configure_metric(:rcov) do |rcov|
-#     rcov.enabled = true
-#     coverage_file = File.expand_path("coverage/rcov/rcov.txt", Dir.pwd)
-#     rcov.external = coverage_file
+#     rcov.coverage_file = MetricFu.run_path.join("coverage/rcov/rcov.txt")
+#     rcov.enable
 #     rcov.activate
 #   end
 #
@@ -29,7 +28,7 @@
 #     churn.start_date = '6 months ago'
 #   end
 #
-#   Or, to configure a group of metrics...
+#   # Or, to configure a group of metrics...
 #   config.configure_metrics.each do |metric|
 #     if [:churn, :flay, :flog].include?(metric.name)
 #       metric.enabled = true
@@ -39,31 +38,31 @@
 #   end
 #
 #
-#   Configure Formatters
+#   # Configure Formatters
 #
-#   By default, metric_fu will use the built-in html formatter
-#   to generate HTML reports for each metric with pretty graphs.
+#   # By default, metric_fu will use the built-in html formatter
+#   # to generate HTML reports for each metric with pretty graphs.
 
-#   To configure different formatter(s) or output ...
+#   # To configure different formatter(s) or output ...
 #
 #   config.configure_formatter(:html)
 #   config.configure_formatter(:yaml, "customreport.yml")
 #   config.configure_formatter(MyCustomFormatter)
 #
-#   MetricFu will attempt to require a custom formatter by
-#   fully qualified name based on ruby search path,
-#   but you may find that you need to add a require above.
+#   # MetricFu will attempt to require a custom formatter by
+#   # fully qualified name based on ruby search path,
+#   # but you may find that you need to add a require above.
 #
-#   For instance, to require a formatter in your app's lib directory, add the
-#   following line to the top of this file.
-#   require './lib/my_custom_formatter.rb'
+#   # For instance, to require a formatter in your app's lib directory, add the
+#   # following line to the top of this file.
+#   # require './lib/my_custom_formatter.rb'
 #
 #
-#   Configure Graph Engine
+#   # Configure Graph Engine
 #
-#   By default, metric_fu uses the bluff graph engine.
-#   To configure a different graph engine...
+#   # By default, metric_fu uses the bluff graph engine.
+#   # To configure a different graph engine...
 #
-#   config.configure_graph_engine(:gchart)
+#   # config.configure_graph_engine(:gchart)
 #
 # end

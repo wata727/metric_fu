@@ -1,4 +1,3 @@
-MetricFu.configure
 module MetricFu
   class Run
     def initialize
@@ -45,12 +44,10 @@ module MetricFu
       end
     end
     def configure_metric(metric, metric_options)
-      MetricFu::Configuration.run do |config|
-        config.configure_metric(metric) do |metric|
-          metric_options.each do |option, value|
-            mf_log "Setting #{metric} option #{option} to #{value}"
-            metric.public_send("#{option}=", value)
-          end
+      MetricFu::Configuration.configure_metric(metric) do |metric|
+        metric_options.each do |option, value|
+          mf_log "Setting #{metric} option #{option} to #{value}"
+          metric.public_send("#{option}=", value)
         end
       end
     end
