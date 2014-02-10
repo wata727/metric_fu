@@ -223,7 +223,7 @@ describe MetricFu::Configuration do
                               '--include-file "\Aapp,\Alib"',
                               "-Ispec"
                             ],
-                            :external => nil}
+                            }
         )
       end
 

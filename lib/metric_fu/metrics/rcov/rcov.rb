@@ -146,8 +146,9 @@ module MetricFu
       end
     end
 
+    # We never run rcov anymore
     def run_rcov?
-      !(options[:external])
+      false
     end
 
     def load_output
@@ -155,17 +156,13 @@ module MetricFu
     end
 
     def output_file
-      if run_rcov?
-        default_output_file
-      else
-        options.fetch(:external)
-      end
+      options.fetch(:external)
     end
 
+    # Only used if run_rcov? is true
     def default_output_file
-      File.join(metric_directory, 'rcov.txt')
+      output_file || File.join(metric_directory, 'rcov.txt')
     end
-
 
   end
 end
