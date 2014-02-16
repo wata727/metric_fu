@@ -17,7 +17,7 @@ module MetricFu
       @output = MetricFu::Utility.strip_escape_codes(@output)
       @matches = @output.chomp.split("\n").map{|m| m.split(" - ") }
       total = @matches.pop
-      @matches.reject! {|array| array.empty? }
+      @matches.reject! {|array| array.size < 2 }
       @matches.map! do |match|
         file, line = match[0].split(':')
         problem = match[1]
