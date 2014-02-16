@@ -10,6 +10,7 @@ module MetricFu
         :environment => 'test',
         :test_files =>  Dir['{spec,test}/**/*_{spec,test}.rb'],
         :rcov_opts => rcov_opts,
+        :external  => nil,
       }
     end
 
@@ -34,9 +35,9 @@ module MetricFu
     end
 
     def external_coverage_file?
-      if run_options.has_key?(:external)
-        File.exist?(file = run_options[:external].to_s) ||
-          mf_log("Configured RCov file #{file.inspect} does not exist")
+      if coverage_file = run_options[:external]
+        File.exist?(coverage_file) ||
+          mf_log("Configured RCov file #{coverage_file.inspect} does not exist")
       else
         false
       end

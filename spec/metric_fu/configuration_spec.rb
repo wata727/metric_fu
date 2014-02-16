@@ -212,6 +212,7 @@ describe MetricFu::Configuration do
         load_metric 'rcov'
         expect(MetricFu::Metric.get_metric(:rcov).run_options).to eq(
                 { :environment => 'test',
+                            :external => nil,
                             :test_files =>  Dir['{spec,test}/**/*_{spec,test}.rb'],
                             :rcov_opts => [
                               "--sort coverage",
