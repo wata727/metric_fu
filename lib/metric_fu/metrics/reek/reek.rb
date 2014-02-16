@@ -23,6 +23,7 @@ module MetricFu
     def analyze
       @matches = @output.chomp.split("\n\n").map{|m| m.split("\n") }
       @matches = @matches.map do |match|
+        break {} if zero_warnings?(match)
         file_path = match.shift.split(' -- ').first
         file_path = file_path.gsub('"', ' ').strip
         code_smells = match.map do |smell|
@@ -115,5 +116,8 @@ module MetricFu
       '-n'
     end
 
+    def zero_warnings?(match)
+      match.last == "0 total warnings"
+    end
   end
 end
