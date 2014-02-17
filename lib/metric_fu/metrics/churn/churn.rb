@@ -27,10 +27,9 @@ module MetricFu
     def to_h
       {:churn => @churn[:churn]}
     end
-    
+
     # @param args [Hash] churn metric run options
     # @return [Hash] churn results
-    # @example {something}
     def run(args)
       # @note passing in false to report will return a hash
       #    instead of the default String

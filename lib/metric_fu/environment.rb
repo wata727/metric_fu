@@ -123,14 +123,9 @@ module MetricFu
     end
 
     def ruby_strangely_makes_accessors_private?
-       ruby192? || jruby?
+       @private_accessors ||= ruby192? || jruby?
     end
+    module_function :ruby_strangely_makes_accessors_private?
 
-    # HACK: for using this module via inclusion in Configuration
-    def self.included(host_class)
-      def host_class.ruby_strangely_makes_accessors_private?
-        @private_accessors ||= allocate.ruby_strangely_makes_accessors_private?
-      end
-    end
   end
 end
