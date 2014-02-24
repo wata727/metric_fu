@@ -51,6 +51,7 @@ metric.name #=> :flog
 
 ## Releasing
 
+0. Run `rake usage_test` to make sure the examples are still valid
 1. Update lib/metric_fu/version.rb
 2. Update HISTORY.md
 3. `rake release`

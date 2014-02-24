@@ -31,7 +31,6 @@ metric_fu
 
 See:
 - `metric_fu --help` for more options
-- the [.metrics file](https://github.com/metricfu/metric_fu/blob/master/.metrics)
 - Documentation and Compatibility below
 - There is also a [wiki page of user-maintained usage information](https://github.com/metricfu/metric_fu/wiki#usage)
 
@@ -55,7 +54,7 @@ See:
 
 By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs.
 
-These reports are generated in metric_fu's output directory (```tmp/metric_fu/output```) by default. You can customize the output directory by specifying an out directory at the command line
+These reports are generated in metric_fu's output directory (`tmp/metric_fu/output`) by default. You can customize the output directory by specifying an out directory at the command line
 using a relative path:
 
 ```sh
@@ -65,7 +64,7 @@ metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
 or a full path:
 
 ```sh
-metric_fu --out /home/metrics      # outputs to /home/metrics
+metric_fu --out $HOME/tmp/metrics      # outputs to $HOME/tmp/metrics
 ```
 
 You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
@@ -73,12 +72,6 @@ You can specify a different formatter at the command line by referencing a built
 
 ```sh
 metric_fu --format yaml --out custom_report.yml
-```
-
-or
-
-```sh
-metric_fu --format MyCustomFormatter
 ```
 
 ### Custom Formatters
@@ -101,6 +94,13 @@ class MyCustomFormatter
 end
 ```
 
+Then
+
+```sh
+metric_fu --format MyCustomFormatter
+```
+
+
 See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
 
 metric_fu will attempt to require a custom formatter by
@@ -109,11 +109,7 @@ formatter as a gem in your Gemfile, you should be able to use it out of the box.
 But you may find in certain cases that you need to add a require to
 your .metrics configuration file.
 
-For instance, to require a formatter in your app's lib directory:
-
-```ruby
-require './lib/my_custom_formatter.rb'
-```
+For instance, to require a formatter in your app's lib directory `require './lib/my_custom_formatter.rb'`
 
 ### Using Coverage Metrics
 
