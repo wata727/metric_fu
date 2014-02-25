@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'metric_fu/version'
 require 'forwardable'
 require 'pathname'
@@ -17,6 +18,14 @@ module MetricFu
 
   def run_dir=(run_dir)
     @run_dir = run_dir
+  end
+
+  def report_name
+    @report_name || self.report_name = run_path.basename.to_s
+  end
+
+  def report_name=(report_name)
+    @report_name = report_name
   end
 
   def root_dir

@@ -8,6 +8,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 
 * Breaking Changes
 * Features
+  * Add configurable `MetricFu.report_name`. (Paul Swagerty, #203)
 * Fixes
 * Misc
 
