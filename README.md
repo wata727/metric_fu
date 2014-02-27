@@ -48,6 +48,42 @@ See:
 ## Documentation
 
 
+```ruby
+MetricFu.report_name # by default, your directory base name
+MetricFu.report_name = 'Something Convenient'
+```
+
+### Example Configuration
+
+```ruby
+# To configure individual metrics...
+MetricFu::Configuration.run do |config|
+  config.configure_metric(:cane) do |cane|
+    cane.enabled = true
+    cane.abc_max = 15
+    cane.line_length = 80
+    cane.no_doc = 'y'
+    cane.no_readme = 'y'
+  end
+end
+
+# Or, alternative format
+MetricFu.configuration.configure_metric(:churn) do |churn|
+  churn.enabled = true
+  churn.ignore_files = 'HISTORY.md, TODO.md'
+  churn.start_date = '6 months ago'
+end
+
+# Or, to (re)configure all metrics
+MetricFu.configuration.configure_metrics.each do |metric|
+  if [:churn, :flay, :flog].include?(metric.name)
+    metric.enabled = true
+  else
+    metric.enabled = false
+  end
+end
+```
+
 ## Formatters
 
 ### Built-in Formatters
@@ -72,6 +108,18 @@ You can specify a different formatter at the command line by referencing a built
 
 ```sh
 metric_fu --format yaml --out custom_report.yml
+```
+
+Or in Ruby, such as in your `.metrics`
+
+```ruby
+# Specify multiple formatters
+# The second argument, the output file, is optional
+MetricFu::Configuration.run do |config|
+  config.configure_formatter(:html)
+  config.configure_formatter(:yaml, "customreport.yml")
+  config.configure_formatter(:yaml)
+end
 ```
 
 ### Custom Formatters
@@ -100,16 +148,25 @@ Then
 metric_fu --format MyCustomFormatter
 ```
 
-
 See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
 
-metric_fu will attempt to require a custom formatter by
+MetricFu will attempt to require a custom formatter by
 fully qualified name based on ruby search path. So if you include a custom
 formatter as a gem in your Gemfile, you should be able to use it out of the box.
 But you may find in certain cases that you need to add a require to
 your .metrics configuration file.
 
 For instance, to require a formatter in your app's lib directory `require './lib/my_custom_formatter.rb'`
+
+##  Configure Graph Engine
+
+By default, MetricFu uses the Bluff (JavaScript) graph engine.
+
+Were another graph engine available, it could be specified like
+
+```ruby
+MetricFu.configuration.configure_graph_engine(:gchart)
+```
 
 ### Using Coverage Metrics
 
