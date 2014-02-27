@@ -37,7 +37,7 @@ module MetricFu
     end
 
     # @param method [String] the method name being queried
-    # @erturn [Integer, nil] the line number at which the given method is defined
+    # @return [Integer, nil] the line number at which the given method is defined
     def start_line_for_method(method)
       return nil unless @locations.has_key?(method)
       @locations[method].first

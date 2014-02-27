@@ -6,6 +6,7 @@ gemfile:
   - gemfiles/Gemfile.travis
 before_install:
   - gem install bundler
+  - bundle config --local without local_development
 # env:
 #   - "rack=1.3.4"
 rvm:

@@ -62,12 +62,12 @@ module MetricFu
       @configured_run_options
     end
 
-    # @return default metric run options [Hash]
+    # @return [Hash] default metric run options
     def default_run_options
       not_implemented
     end
 
-    # @return metric_options [Hash]
+    # @return [Hash] metric_options
     def has_graph?
       not_implemented
     end

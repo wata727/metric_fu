@@ -31,7 +31,6 @@ metric_fu
 
 See:
 - `metric_fu --help` for more options
-- the [.metrics file](https://github.com/metricfu/metric_fu/blob/master/.metrics)
 - Documentation and Compatibility below
 - There is also a [wiki page of user-maintained usage information](https://github.com/metricfu/metric_fu/wiki#usage)
 
@@ -49,13 +48,52 @@ See:
 ## Documentation
 
 
+MetricFu will attempt to load configuration data from a
+`.metrics` file, if present in your repository root.
+
+```ruby
+MetricFu.report_name # by default, your directory base name
+MetricFu.report_name = 'Something Convenient'
+```
+
+### Example Configuration
+
+```ruby
+# To configure individual metrics...
+MetricFu::Configuration.run do |config|
+  config.configure_metric(:cane) do |cane|
+    cane.enabled = true
+    cane.abc_max = 15
+    cane.line_length = 80
+    cane.no_doc = 'y'
+    cane.no_readme = 'y'
+  end
+end
+
+# Or, alternative format
+MetricFu.configuration.configure_metric(:churn) do |churn|
+  churn.enabled = true
+  churn.ignore_files = 'HISTORY.md, TODO.md'
+  churn.start_date = '6 months ago'
+end
+
+# Or, to (re)configure all metrics
+MetricFu.configuration.configure_metrics.each do |metric|
+  if [:churn, :flay, :flog].include?(metric.name)
+    metric.enabled = true
+  else
+    metric.enabled = false
+  end
+end
+```
+
 ## Formatters
 
 ### Built-in Formatters
 
 By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs.
 
-These reports are generated in metric_fu's output directory (```tmp/metric_fu/output```) by default. You can customize the output directory by specifying an out directory at the command line
+These reports are generated in metric_fu's output directory (`tmp/metric_fu/output`) by default. You can customize the output directory by specifying an out directory at the command line
 using a relative path:
 
 ```sh
@@ -65,7 +103,7 @@ metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
 or a full path:
 
 ```sh
-metric_fu --out /home/metrics      # outputs to /home/metrics
+metric_fu --out $HOME/tmp/metrics      # outputs to $HOME/tmp/metrics
 ```
 
 You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
@@ -75,10 +113,16 @@ You can specify a different formatter at the command line by referencing a built
 metric_fu --format yaml --out custom_report.yml
 ```
 
-or
+Or in Ruby, such as in your `.metrics`
 
-```sh
-metric_fu --format MyCustomFormatter
+```ruby
+# Specify multiple formatters
+# The second argument, the output file, is optional
+MetricFu::Configuration.run do |config|
+  config.configure_formatter(:html)
+  config.configure_formatter(:yaml, "customreport.yml")
+  config.configure_formatter(:yaml)
+end
 ```
 
 ### Custom Formatters
@@ -101,18 +145,30 @@ class MyCustomFormatter
 end
 ```
 
+Then
+
+```sh
+metric_fu --format MyCustomFormatter
+```
+
 See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
 
-metric_fu will attempt to require a custom formatter by
+MetricFu will attempt to require a custom formatter by
 fully qualified name based on ruby search path. So if you include a custom
 formatter as a gem in your Gemfile, you should be able to use it out of the box.
 But you may find in certain cases that you need to add a require to
 your .metrics configuration file.
 
-For instance, to require a formatter in your app's lib directory:
+For instance, to require a formatter in your app's lib directory `require './lib/my_custom_formatter.rb'`
+
+##  Configure Graph Engine
+
+By default, MetricFu uses the Bluff (JavaScript) graph engine.
+
+Were another graph engine available, it could be specified like
 
 ```ruby
-require './lib/my_custom_formatter.rb'
+MetricFu.configuration.configure_graph_engine(:gchart)
 ```
 
 ### Using Coverage Metrics
