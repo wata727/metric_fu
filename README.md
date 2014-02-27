@@ -48,6 +48,9 @@ See:
 ## Documentation
 
 
+MetricFu will attempt to load configuration data from a
+`.metrics` file, if present in your repository root.
+
 ```ruby
 MetricFu.report_name # by default, your directory base name
 MetricFu.report_name = 'Something Convenient'
