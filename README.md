@@ -147,7 +147,7 @@ end
 
 Then
 
-```sh
+```shell
 metric_fu --format MyCustomFormatter
 ```
 
@@ -165,11 +165,8 @@ For instance, to require a formatter in your app's lib directory `require './lib
 
 By default, MetricFu uses the Bluff (JavaScript) graph engine.
 
-Were another graph engine available, it could be specified like
-
-```ruby
-MetricFu.configuration.configure_graph_engine(:gchart)
-```
+Notice: There was previously a `configure_graph_engine` configuration that could
+take an argument, such as :bluff or :gchart.  It was not properly deprecated in the 4.x series.
 
 ### Using Coverage Metrics
 
@@ -191,7 +188,7 @@ If you want metric_fu to actually run rcov itself (1.8 only), don't specify an e
 
 To generate the same metrics metric_fu has been generating run from the root of your project before running metric_fu
 
-```sh
+```shell
 RAILS_ENV=test rcov $(ruby -e "puts Dir['{spec,test}/**/*_{spec,test}.rb'].join(' ')") --sort coverage --no-html --text-coverage --no-color --profile --exclude-only '.*' --include-file "\Aapp,\Alib" -Ispec > coverage/rcov/rcov.txt
 ```
 

@@ -23,8 +23,8 @@ module MfDebugger
     end
     # From episode 029 of Ruby Tapas by Avdi
     # https://rubytapas.dpdcart.com/subscriber/post?id=88
-    def self.capture_output(&block)
-      old_stdout = STDOUT.clone
+    def self.capture_output(stream=STDOUT, &block)
+      old_stdout = stream.clone
       pipe_r, pipe_w = IO.pipe
       pipe_r.sync    = true
       output         = ""
@@ -36,10 +36,10 @@ module MfDebugger
         rescue EOFError
         end
       end
-      STDOUT.reopen(pipe_w)
+      stream.reopen(pipe_w)
       yield
     ensure
-      STDOUT.reopen(old_stdout)
+      stream.reopen(old_stdout)
       pipe_w.close
       reader.join
       pipe_r.close
