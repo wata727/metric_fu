@@ -1,49 +1,9 @@
 require "spec_helper"
+require 'shared/configured'
 
 describe MetricFu::Configuration do
 
-  def get_new_config
-    ENV['CC_BUILD_ARTIFACTS'] = nil
-    @config = MetricFu.configuration
-    @config.reset
-    MetricFu.configuration.configure_metric(:rcov) do |rcov|
-      rcov.enabled = true
-    end
-    MetricFu.configure
-    allow(MetricFu::Io::FileSystem).to receive(:create_directories) # no need to create directories for the tests
-    @config
-  end
-
-  def directory(name)
-    MetricFu::Io::FileSystem.directory(name)
-  end
-
-  def base_directory
-    directory('base_directory')
-  end
-
-  def output_directory
-    directory('output_directory')
-  end
-
-  def scratch_directory
-    directory('scratch_directory')
-  end
-
-  def template_directory
-    directory('template_directory')
-  end
-
-  def template_class
-    MetricFu::Formatter::Templates.option('template_class')
-  end
-
-  def metric_fu_root
-    directory('root_directory')
-  end
-  def load_metric(metric)
-    load File.join(MetricFu.metrics_dir, metric, 'init.rb')
-  end
+it_behaves_like 'configured' do
 
   describe '#is_cruise_control_rb? ' do
 
@@ -167,150 +127,8 @@ describe MetricFu::Configuration do
 
       end
 
-      it 'should set @flay to {:dirs_to_flay => @code_dirs}' do
-        load_metric 'flay'
-        expect(MetricFu::Metric.get_metric(:flay).run_options).to eq(
-                {:dirs_to_flay => ['lib'], :filetypes=>["rb"], :minimum_score=>nil}
-        )
-      end
-
-      it 'should set @reek to {:dirs_to_reek => @code_dirs}' do
-        load_metric 'reek'
-        expect(MetricFu::Metric.get_metric(:reek).run_options).to eq(
-                {:config_file_pattern=>nil, :dirs_to_reek => ['lib']}
-        )
-      end
-
-      it 'should set @roodi to {:dirs_to_roodi => @code_dirs}' do
-        load_metric 'roodi'
-        expect(MetricFu::Metric.get_metric(:roodi).run_options).to eq(
-                { :dirs_to_roodi => directory('code_dirs'),
-                    :roodi_config => "#{directory('root_directory')}/config/roodi_config.yml"}
-                )
-      end
-
-      it 'should set @churn to {}' do
-        load_metric 'churn'
-        expect(MetricFu::Metric.get_metric(:churn).run_options).to eq(
-                { :start_date => %q("1 year ago"), :minimum_churn_count => 10, :ignore_files=>[], :data_directory=> MetricFu::Io::FileSystem.scratch_directory('churn')}
-        )
-      end
-
-
-      it 'should set @rcov to ' +
-                            %q(:test_files =>  Dir['{spec,test}/**/*_{spec,test}.rb'],
-                            :rcov_opts => [
-                              "--sort coverage",
-                              "--no-html",
-                              "--text-coverage",
-                              "--no-color",
-                              "--profile",
-                              "--exclude-only '.*'",
-                              '--include-file "\Aapp,\Alib"',
-                              "-Ispec"
-                            ]) do
-        load_metric 'rcov'
-        expect(MetricFu::Metric.get_metric(:rcov).run_options).to eq(
-                { :environment => 'test',
-                            :external => nil,
-                            :test_files =>  Dir['{spec,test}/**/*_{spec,test}.rb'],
-                            :rcov_opts => [
-                              "--sort coverage",
-                              "--no-html",
-                              "--text-coverage",
-                              "--no-color",
-                              "--profile",
-                              "--exclude-only '.*'",
-                              '--include-file "\Aapp,\Alib"',
-                              "-Ispec"
-                            ],
-                            }
-        )
-      end
-
-      it 'should set @saikuro to { :output_directory => @scratch_directory + "/saikuro",
-                                   :input_directory => @code_dirs,
-                                   :cyclo => "",
-                                   :filter_cyclo => "0",
-                                   :warn_cyclo => "5",
-                                   :error_cyclo => "7",
-                                   :formater => "text" }' do
-        load_metric 'saikuro'
-        expect(MetricFu::Metric.get_metric(:saikuro).run_options).to eq(
-                { :output_directory => "#{scratch_directory}/saikuro",
-                      :input_directory => ['lib'],
-                      :cyclo => "",
-                      :filter_cyclo => "0",
-                      :warn_cyclo => "5",
-                      :error_cyclo => "7",
-                      :formater => "text"}
-                      )
-      end
-
-      if MetricFu.configuration.mri?
-        it 'should set @flog to {:dirs_to_flog => @code_dirs}' do
-          load_metric 'flog'
-          expect(MetricFu::Metric.get_metric(:flog).run_options).to eq({
-            :all => true,
-           :continue => true,
-           :dirs_to_flog => ["lib"],
-           :quiet => true
-           })
-        end
-        it 'should set @cane to ' +
-                            %q(:dirs_to_cane => @code_dirs, :abc_max => 15, :line_length => 80, :no_doc => 'n', :no_readme => 'y') do
-          load_metric 'cane'
-          expect(MetricFu::Metric.get_metric(:cane).run_options).to eq(
-            {
-              :dirs_to_cane => directory('code_dirs'),
-              :filetypes => ["rb"],
-              :abc_max => 15,
-              :line_length => 80,
-              :no_doc => "n",
-              :no_readme => "n"}
-              )
-        end
-      end
-
-
-    end
-    describe 'if #rails? is true ' do
-
-      before(:each) do
-        @config = MetricFu.configuration
-        allow(@config).to receive(:rails?).and_return(true)
-        @config.reset
-        MetricFu.configure
-        %w(rails_best_practices).each do |metric|
-          load_metric metric
-        end
-      end
-
-      describe '#set_graphs ' do
-        it 'should set the graphs to include rails_best_practices' do
-          expect(MetricFu::Metric.get_metric(:rails_best_practices).has_graph?).to be_truthy
-        end
-      end
-
-      it 'should set @rails_best_practices to {}' do
-        load_metric 'rails_best_practices'
-        expect(MetricFu::Metric.get_metric(:rails_best_practices).run_options).to eql({})
-      end
     end
 
-    describe 'if #rails? is false ' do
-      before(:each) do
-        get_new_config
-        allow(@config).to receive(:rails?).and_return(false)
-        %w(rails_best_practices).each do |metric|
-          load_metric metric
-        end
-      end
-
-      it 'should set the registered code_dirs to ["lib"]' do
-        expect(directory('code_dirs')).to eq(['lib'])
-      end
-    end
   end
 
   describe '#platform' do
@@ -360,4 +178,5 @@ describe MetricFu::Configuration do
       end
     end
   end
+end
 end
