@@ -165,8 +165,18 @@ For instance, to require a formatter in your app's lib directory `require './lib
 
 By default, MetricFu uses the Bluff (JavaScript) graph engine.
 
-Notice: There was previously a `configure_graph_engine` configuration that could
-take an argument, such as :bluff or :gchart.  It was not properly deprecated in the 4.x series.
+```ruby
+MetricFu.configuration.configure_graph_engine(:bluff)
+```
+
+But it you may also use the [Highcharts JS library](http://shop.highsoft.com/highcharts.html)
+
+```ruby
+MetricFu.configuration.configure_graph_engine(:highcharts)
+```
+
+Notice: There was previously a :gchart option.
+It was not properly deprecated in the 4.x series.
 
 ### Using Coverage Metrics
 

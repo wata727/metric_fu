@@ -9,6 +9,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 * Breaking Changes
 * Features
   * Add SimpleCov::Formatter::MetricFu, compatible with legacy RCov format (Benjamin Fleischer with h/t Michael @kina, #201)
+  * Add Highcharts JS as available graphing engine (Martin Gotink, #205)
 * Fixes
 * Misc
 
