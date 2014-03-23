@@ -4,14 +4,18 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.8.0...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.9.0...master)
 
 * Breaking Changes
 * Features
-  * Add SimpleCov::Formatter::MetricFu, compatible with legacy RCov format (Benjamin Fleischer with h/t Michael @kina, #201)
-  * Add Highcharts JS as available graphing engine (Martin Gotink, #205)
 * Fixes
 * Misc
+
+### [4.9.0 / 2014-03-23](https://github.com/metricfu/metric_fu/compare/v4.8.0...v4.9.0)
+
+* Features
+  * Add SimpleCov::Formatter::MetricFu, compatible with legacy RCov format (Benjamin Fleischer with h/t Michael @kina, #201)
+  * Add Highcharts JS as available graphing engine (Martin Gotink, #205)
 
 ### [4.8.0 / 2014-02-24](https://github.com/metricfu/metric_fu/compare/v4.7.4...v4.8.0)
 
