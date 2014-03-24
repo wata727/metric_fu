@@ -28,6 +28,7 @@ module MetricFu
     @report_name = report_name
   end
 
+  # The time at analyzed code state
   def report_time
     Time.now
   end
@@ -36,8 +37,18 @@ module MetricFu
     report_time.strftime("%Y%m%d")
   end
 
+  # @return [String]
+  # @example '20140323'
+  # Used to uniquely identify reports
+  # as a sortable reference to when the report
+  # was generated
   def report_id
     report_date_string
+  end
+
+  # The time the metrics are generated
+  def current_time
+    Time.now.localtime
   end
 
   def root_dir
