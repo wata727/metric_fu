@@ -12,6 +12,14 @@ module MetricFu
     @app_root ||= Pathname(APP_ROOT)
   end
 
+  def metric_url
+    'https://github.com/metricfu/metric_fu'
+  end
+
+  def metric_name
+    'MetricFu'
+  end
+
   def run_dir
     @run_dir ||= Dir.pwd
   end
