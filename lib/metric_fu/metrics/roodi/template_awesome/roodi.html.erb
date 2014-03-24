@@ -5,7 +5,7 @@
 <div id="graph_container"></div>
 
 <% graph_name = 'roodi' %>
-<script language="javascript" src="<%= graph_name %>.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+<script language="javascript" src="<%= graph_name %>.js?<%= MetricFu.report_time.to_i %>" type="text/javascript"></script>
 
 <table>
   <tr>
@@ -21,4 +21,4 @@
     <% count += 1 %>
   <% end %>
 </table>
-<p>Generated on <%= Time.now.localtime %></p>
+<p>Generated on <%= MetricFu.report_time.localtime %></p>

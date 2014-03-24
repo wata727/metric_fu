@@ -17,7 +17,7 @@ module MetricFu
         mf_debug "** SAVING REPORT DATA OUTPUT TO #{MetricFu::Io::FileSystem.directory('data_directory')}"
         # TODO: Allow customizing output filenames
         MetricFu::Formatter::YAML.new(
-          output: MetricFu.run_path.join("#{MetricFu::Io::FileSystem.directory('data_directory')}/#{Time.now.strftime("%Y%m%d")}.yml")
+          output: MetricFu.run_path.join("#{MetricFu::Io::FileSystem.directory('data_directory')}/#{MetricFu.report_time.strftime("%Y%m%d")}.yml")
         ).finish
 
         mf_debug "** SAVING TEMPLATIZED REPORT"

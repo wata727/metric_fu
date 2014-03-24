@@ -5,7 +5,7 @@
 <div id="graph_container"></div>
 
 <% graph_name = 'flay' %>
-<script language="javascript" src="<%= graph_name %>.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+<script language="javascript" src="<%= graph_name %>.js?<%= MetricFu.report_time.to_i %>" type="text/javascript"></script>
 
 <h4>Total Score (lower is better): <%= @flay[:total_score] %></h4>
 <h5>Scores less than <%= MetricFu::Metric.get_metric('flay').run_options[:minimum_score] %> are not shown or part of the total</h5>
@@ -28,4 +28,4 @@
     <% count += 1 %>
   <% end %>
 </table>
-<p>Generated on <%= Time.now.localtime %></p>
+<p>Generated on <%= MetricFu.report_time.localtime %></p>

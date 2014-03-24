@@ -5,7 +5,7 @@
 <div id="graph_container"></div>
 
 <% graph_name = 'cane' %>
-<script language="javascript" src="<%= graph_name %>.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+<script language="javascript" src="<%= graph_name %>.js?<%= MetricFu.report_time.to_i %>" type="text/javascript"></script>
 
 <% if @cane[:violations][:abc_complexity] && @cane[:violations][:abc_complexity].size > 0 %>
 <h3>Methods exceeding allowed Abc complexity (<%= @cane[:violations][:abc_complexity].size %>)</h3>
@@ -86,4 +86,4 @@
   <% end %>
 </table>
 <% end %>
-<p>Generated on <%= Time.now.localtime %></p>
+<p>Generated on <%= MetricFu.report_time.localtime %></p>

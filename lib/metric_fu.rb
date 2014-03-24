@@ -28,6 +28,10 @@ module MetricFu
     @report_name = report_name
   end
 
+  def report_time
+    Time.now
+  end
+
   def root_dir
     APP_ROOT
   end

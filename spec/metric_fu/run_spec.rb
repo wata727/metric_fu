@@ -53,7 +53,7 @@ describe MetricFu do
     end
 
     it "creates a data yaml file" do
-      expect { metric_fu }.to create_file("#{data_directory}/#{Time.now.strftime("%Y%m%d")}.yml")
+      expect { metric_fu }.to create_file("#{data_directory}/#{MetricFu.report_time.strftime("%Y%m%d")}.yml")
     end
 
     it "creates a report html file" do
