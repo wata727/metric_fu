@@ -16,7 +16,7 @@ describe MetricFu do
     MetricFu.report_name = original_report_name
   end
 
-  it "has a global report time (corresponding to the VCS code state)" do
+  it "has a global report time (corresponding to the time of the VCS code state)" do
     expect(MetricFu.report_time - Time.now).to be_within(0.1).of(0)
   end
 
@@ -26,6 +26,10 @@ describe MetricFu do
 
   it "has a global report id" do
     expect(MetricFu.report_id).to eq(Time.now.strftime('%Y%m%d'))
+  end
+
+  it "has a global report fingerprint (corresponding to VCS code state)" do
+    expect(MetricFu.report_fingerprint.to_i - Time.now.to_i).to be_within(0.1).of(0)
   end
 
 end

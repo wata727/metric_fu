@@ -46,6 +46,11 @@ module MetricFu
     report_date_string
   end
 
+  # Non-date-specific; Used to uniquely identify a report run
+  def report_fingerprint
+    report_time.to_i.to_s
+  end
+
   # The time the metrics are generated
   def current_time
     Time.now.localtime
