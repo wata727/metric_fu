@@ -32,6 +32,14 @@ module MetricFu
     Time.now
   end
 
+  def report_date_string
+    report_time.strftime("%Y%m%d")
+  end
+
+  def report_id
+    report_date_string
+  end
+
   def root_dir
     APP_ROOT
   end

@@ -46,7 +46,7 @@ describe MetricFu::Formatter::HTML do
       # For use with graphs.
       expect {
       MetricFu::Formatter::HTML.new.finish
-      }.to create_file("#{directory('data_directory')}/#{MetricFu.report_time.strftime("%Y%m%d")}.yml")
+      }.to create_file("#{directory('data_directory')}/#{MetricFu.report_id}.yml")
     end
 
     it "creates a report index html file" do

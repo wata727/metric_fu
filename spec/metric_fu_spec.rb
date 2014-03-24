@@ -16,4 +16,12 @@ describe MetricFu do
     MetricFu.report_name = original_report_name
   end
 
+  it "has a global report time" do
+    expect(MetricFu.report_time - Time.now).to be_within(0.1).of(0)
+  end
+
+  it "has a global report id" do
+    expect(MetricFu.report_id).to eq(Time.now.strftime('%Y%m%d'))
+  end
+
 end
