@@ -118,7 +118,7 @@ module MetricFu
     end
 
     def disable_line_number_option
-      '-n'
+      '--no-line-numbers'
     end
 
     def zero_warnings?(match)
