@@ -39,14 +39,17 @@ end
 
 ## Templates
 
-Render _report_footer.html.erb partial:
 ```ruby
-render_partial('report_footer')
-```
+# Given
+template = AwesomeTemplate.new
 
-Render _graph.html.erb partial and set a graph_name instance variable:
-```ruby
-render_partial 'graph', {:graph_name => 'reek'}
+# Render _report_footer.html.erb partial:
+
+template.render_partial('report_footer')
+
+# Render _graph.html.erb partial and set a graph_name instance variable:
+
+template.render_partial 'graph', {:graph_name => 'reek'}
 ```
 
 ## Testing

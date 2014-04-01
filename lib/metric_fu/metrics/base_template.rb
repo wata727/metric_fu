@@ -16,6 +16,11 @@ module MetricFu
       @output_directory || MetricFu::Io::FileSystem.directory('output_directory')
     end
 
+    # Renders a partial and add optional instance variables to the template
+    def render_partial(name, instance_variables = {})
+      create_instance_vars(instance_variables)
+      erbify("_#{name}")
+    end
 
     private
     # Creates a new erb evaluated result from the passed in section.
@@ -41,12 +46,6 @@ module MetricFu
       erb           = ERB.new(erb_doc)
       erb.filename  = template_file
       erb
-    end
-
-    # Renders a partial and add optional instance variables to the template
-    def render_partial(name, instance_variables = {})
-      create_instance_vars(instance_variables)
-      erbify("_#{name}")
     end
 
     # Copies an instance variable mimicing the name of the section
