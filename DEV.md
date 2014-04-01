@@ -37,6 +37,21 @@ MetricFu.configuration.configure_metric(:flog) do |metric|
 end
 ```
 
+## Templates
+
+```ruby
+# Given
+template = AwesomeTemplate.new
+
+# Render _report_footer.html.erb partial:
+
+template.render_partial('report_footer')
+
+# Render _graph.html.erb partial and set a graph_name instance variable:
+
+template.render_partial 'graph', {:graph_name => 'reek'}
+```
+
 ## Testing
 
 `bundle exec rspec`
