@@ -4,7 +4,7 @@ module MetricFu
   module Utility
     module_function
 
-    ESCAPE_CODES_PATTERN = Regexp.new('\e\[\d{1,2}m')
+    ESCAPE_CODES_PATTERN = Regexp.new('\e\[(?:\d;)?\d{1,2}m')
 
     # Removes non-ASCII characters
     def clean_ascii_text(text)
