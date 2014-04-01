@@ -59,10 +59,14 @@ digraph classes {
 	MetricFu__MetricRoodi [label="MetricFu::MetricRoodi"]
 	MetricFu__MetricSaikuro [label="MetricFu::MetricSaikuro"]
 	MetricFu__MetricStats [label="MetricFu::MetricStats"]
+	MetricFu__RCovFormatCoverage [label="MetricFu::RCovFormatCoverage"]
+	MetricFu__RCovFormatCoverage__Line [label="MetricFu::RCovFormatCoverage::Line"]
+	MetricFu__RCovFormatCoverage__TestCoverage [label="MetricFu::RCovFormatCoverage::TestCoverage"]
+	MetricFu__RCovTestCoverageClient [label="MetricFu::RCovTestCoverageClient"]
 	MetricFu__Ranking [label="MetricFu::Ranking"]
 	MetricFu__RcovGenerator [label="MetricFu::RcovGenerator"]
-	MetricFu__RcovGenerator__Line [label="MetricFu::RcovGenerator::Line"]
 	MetricFu__RcovGrapher [label="MetricFu::RcovGrapher"]
+	MetricFu__RcovHotspot [label="MetricFu::RcovHotspot"]
 	MetricFu__Record [label="MetricFu::Record"]
 	MetricFu__ReekGenerator [label="MetricFu::ReekGenerator"]
 	MetricFu__ReekGrapher [label="MetricFu::ReekGrapher"]
@@ -87,6 +91,7 @@ digraph classes {
 	MetricFu__Templates__Report [label="MetricFu::Templates::Report"]
 	Object [label="Object"]
 	RuntimeError [label="RuntimeError"]
+	SimpleCov__Formatter__MetricFu__FormatLikeRCov [label="SimpleCov::Formatter::MetricFu::FormatLikeRCov"]
 	StandardError [label="StandardError"]
 	Struct [label="Struct"]
 	Exception -> Object
@@ -146,10 +151,14 @@ digraph classes {
 	MetricFu__MetricRoodi -> MetricFu__Metric
 	MetricFu__MetricSaikuro -> MetricFu__Metric
 	MetricFu__MetricStats -> MetricFu__Metric
+	MetricFu__RCovFormatCoverage -> Object
+	MetricFu__RCovFormatCoverage__Line -> Object
+	MetricFu__RCovFormatCoverage__TestCoverage -> Object
+	MetricFu__RCovTestCoverageClient -> Object
 	MetricFu__Ranking -> Object
 	MetricFu__RcovGenerator -> MetricFu__Generator
-	MetricFu__RcovGenerator__Line -> Object
 	MetricFu__RcovGrapher -> MetricFu__Grapher
+	MetricFu__RcovHotspot -> MetricFu__Hotspot
 	MetricFu__Record -> Object
 	MetricFu__ReekGenerator -> MetricFu__Generator
 	MetricFu__ReekGrapher -> MetricFu__Grapher
@@ -174,6 +183,7 @@ digraph classes {
 	MetricFu__Templates__Report -> MetricFu__Template
 	Object -> BasicObject
 	RuntimeError -> StandardError
+	SimpleCov__Formatter__MetricFu__FormatLikeRCov -> Object
 	StandardError -> Exception
 	Struct -> Object
 }
