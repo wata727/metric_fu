@@ -29,9 +29,12 @@ module MetricFu
     def execute
       mf_debug "Running #{summary}"
       captured_output = ''
+      captured_errors = ''
       Open3.popen3("#{library_name}", *arguments) do |stdin, stdout, stderr, wait_thr|
         captured_output << stdout.read.chomp
+        captured_errors << stderr.read.chomp
       end
+      STDERR.puts MetricFu::AnalysisError.new(captured_errors) unless captured_errors.empty?
     rescue StandardError => run_error
       handle_run_error(run_error)
     rescue SystemExit => system_exit
