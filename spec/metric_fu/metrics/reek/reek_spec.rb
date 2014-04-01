@@ -16,12 +16,19 @@ describe MetricFu::ReekGenerator do
       expect(reek).to receive(:run!).with(/--config lib\/config\/\*\.reek /).and_return("")
       reek.emit
     end
-    
-    it "turns off color output from reek output" do
-      expect(reek).to receive(:run!).with(/--no-color /).and_return("")
+
+    it "turns off color output from reek output, for reek 1.3.7 or greater" do
+      allow(reek).to receive(:reek_version).and_return('1.3.7')
+      expect(reek).to receive(:run!).with(/(?=--no-color)/).and_return("")
       reek.emit
     end
-    
+
+    it "does not set an (invalid) --no-color option for reek < 1.3.7" do
+      allow(reek).to receive(:reek_version).and_return('1.3.6')
+      expect(reek).to receive(:run!).with(/(?!--no-color)/).and_return("")
+      reek.emit
+    end
+
     it "disables lines numbers from reek output" do
       expect(reek).to receive(:run!).with(/--no-line-numbers /).and_return("")
       reek.emit

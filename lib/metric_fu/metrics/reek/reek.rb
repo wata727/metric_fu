@@ -113,8 +113,20 @@ module MetricFu
       end
     end
 
+    # Work around "Error: invalid option: --no-color" in reek < 1.3.7
     def turn_off_color
-      '--no-color'
+      if reek_version >= '1.3.7'
+        '--no-color'
+      else
+        ''
+      end
+    end
+
+    def reek_version
+      @reek_version ||=  `reek --version`.chomp.sub(/\s*reek\s*/,'')
+      # use the above, as the below may activate a version not available in
+      # a Bundler context
+      # MetricFu::GemVersion.activated_version('reek').to_s
     end
 
     def disable_line_number_option
