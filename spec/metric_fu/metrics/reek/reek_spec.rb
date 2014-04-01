@@ -3,12 +3,32 @@ MetricFu.metrics_require { 'reek/reek' }
 
 describe MetricFu::ReekGenerator do
   describe "emit" do
-    it "should include config parameters" do
-      options = {:config_file_pattern => 'lib/config/*.reek', :dirs_to_reek => []}
-      reek = MetricFu::ReekGenerator.new(options)
-      files_to_analyze = ['lib/foo.rb','lib/bar.rb']
+    let(:options) { {:dirs_to_reek => []} }
+    let(:files_to_analyze) { ['lib/foo.rb','lib/bar.rb'] }
+    let(:reek) { MetricFu::ReekGenerator.new(options) }
+
+    before :each do
       allow(reek).to receive(:files_to_analyze).and_return(files_to_analyze)
-      expect(reek).to receive(:run!).with(/--config lib\/config\/\*\.reek lib\/foo.rb lib\/bar.rb/).and_return("")
+    end
+
+    it "includes config file pattern into reek parameters when specified" do
+      options.merge!({:config_file_pattern => 'lib/config/*.reek' })
+      expect(reek).to receive(:run!).with(/--config lib\/config\/\*\.reek /).and_return("")
+      reek.emit
+    end
+    
+    it "turns off color output from reek output" do
+      expect(reek).to receive(:run!).with(/--no-color /).and_return("")
+      reek.emit
+    end
+    
+    it "disables lines numbers from reek output" do
+      expect(reek).to receive(:run!).with(/--no-line-numbers /).and_return("")
+      reek.emit
+    end
+
+    it "includes files to analyze into reek parameters" do
+      expect(reek).to receive(:run!).with(/lib\/foo.rb lib\/bar.rb$/).and_return("")
       reek.emit
     end
   end

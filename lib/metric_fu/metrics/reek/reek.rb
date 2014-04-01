@@ -97,6 +97,7 @@ module MetricFu
     def cli_options(files)
       [
         disable_line_number_option,
+        turn_off_color,
         config_option,
         files.join(' ')
       ].join(' ')
@@ -112,8 +113,12 @@ module MetricFu
       end
     end
 
+    def turn_off_color
+      '--no-color'
+    end
+
     def disable_line_number_option
-      '-n'
+      '--no-line-numbers'
     end
 
     def zero_warnings?(match)

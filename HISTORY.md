@@ -10,6 +10,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 * Features
   * Implement partials for cleaning up double template code (Martin Gotink, #211)
 * Fixes
+  * Ensure reek output does not include ANSI color escape codes (Ben Turner #213)
 * Misc
 
 ### [4.9.0 / 2014-03-23](https://github.com/metricfu/metric_fu/compare/v4.8.0...v4.9.0)
