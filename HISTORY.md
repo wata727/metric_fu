@@ -4,14 +4,22 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.9.0...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.10.0...master)
 
 * Breaking Changes
+* Features
+* Fixes
+* Misc
+
+### [4.10.0 / 2014-04-01](https://github.com/metricfu/metric_fu/compare/v4.9.0...v4.10.0)
+
 * Features
   * Implement partials for cleaning up double template code (Martin Gotink, #211)
 * Fixes
   * Ensure reek output does not include ANSI color escape codes (Ben Turner #213)
 * Misc
+  * Remove duplicate methods from generator. (Alessandro Dias Batista, #210)
+  * Encapsulate methods on MetricFu: report_time, report_id, :report_fingerprint, :current_time. (Benjamin Fleischer, #209)
 
 ### [4.9.0 / 2014-03-23](https://github.com/metricfu/metric_fu/compare/v4.8.0...v4.9.0)
 
