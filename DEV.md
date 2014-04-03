@@ -42,7 +42,7 @@ end
 
 ```ruby
 # Given
-template = AwesomeTemplate.new
+template = MetricFu::Templates::MetricsTemplate.new
 
 # Render _report_footer.html.erb partial:
 

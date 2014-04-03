@@ -1,4 +1,6 @@
 MetricFu.lib_require { 'formatter/syntax' }
+MetricFu.lib_require { 'templates/template' }
+
 
 # Creates an HTML document for a given analyzed file,
 # with scored metrics annotating the relevant line.
