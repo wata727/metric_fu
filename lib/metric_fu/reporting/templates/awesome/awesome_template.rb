@@ -45,7 +45,7 @@ class AwesomeTemplate < MetricFu::Template
     per_file_data.each_pair do |file, lines|
       next if file.to_s.empty?
       next unless File.file?(file)
-      report = MetricFu::Templates::Report.new(file, lines).render(@metrics)
+      report = MetricFu::Templates::Report.new(file, lines).render
 
       formatter.write_template(report, html_filename(file))
     end
