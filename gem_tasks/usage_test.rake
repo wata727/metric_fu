@@ -1,6 +1,3 @@
-require 'redcarpet'
-require 'English'
-require 'tmpdir'
 ROOT_PATH    = File.expand_path("..", File.dirname(__FILE__))
 require File.join(ROOT_PATH, 'spec', 'support', 'usage_test')
 LIB_PATH     = File.join(ROOT_PATH, 'lib')
@@ -19,12 +16,4 @@ desc "Test that documentation usage works"
 task "usage_test" => %w[load_path] do
   usage_test = UsageTest.new
   usage_test.test_files(EXAMPLE_FILES)
-end
-
-class HTMLRenderAndVerifyCodeBlocks < Redcarpet::Render::HTML
-
-  def block_code(code, language)
-    SnippetRunner.new(code, language).test!
-  end
-
 end
