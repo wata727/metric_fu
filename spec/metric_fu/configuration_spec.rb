@@ -69,15 +69,7 @@ it_behaves_like 'configured' do
         app_root_absolute_path = File.expand_path(app_root)
         metric_fu_absolute_path = File.expand_path(metric_fu_root)
         expect(metric_fu_absolute_path).to eq(app_root_absolute_path)
-      end
-
-      it 'should set @template_directory to the lib/templates relative '+
-      'to @metric_fu_root_directory' do
-        template_dir = File.join(File.dirname(__FILE__),
-                                 '..', '..', 'lib','templates')
-        template_dir_abs_path = File.expand_path(template_dir)
-        calc_template_dir_abs_path = File.expand_path(template_directory)
-        expect(calc_template_dir_abs_path).to eq(template_dir_abs_path)
+        expect(MetricFu.root.to_s).to      eq(app_root_absolute_path)
       end
 
       it 'should set @scratch_directory to scratch relative '+
@@ -92,40 +84,6 @@ it_behaves_like 'configured' do
         expect(output_directory).to eq(output_dir)
       end
 
-      it 'should set @template_class to AwesomeTemplate by default' do
-        expect(template_class).to eq(AwesomeTemplate)
-      end
-
-      describe 'when a templates configuration is given' do
-
-        before do
-          class DummyTemplate;end
-
-          @config.templates_configuration do |config|
-            config.template_class = DummyTemplate
-            config.link_prefix = 'http:/'
-            config.syntax_highlighting = false
-            config.darwin_txmt_protocol_no_thanks = false
-          end
-        end
-
-        it 'should set given template_class' do
-          expect(template_class).to eq(DummyTemplate)
-        end
-
-        it 'should set given link_prefix' do
-          expect(MetricFu::Formatter::Templates.option('link_prefix')).to eq('http:/')
-        end
-
-        it 'should set given darwin_txmt_protocol_no_thanks' do
-          expect(MetricFu::Formatter::Templates.option('darwin_txmt_protocol_no_thanks')).to be_falsey
-        end
-
-        it 'should set given syntax_highlighting' do
-          expect(MetricFu::Formatter::Templates.option('syntax_highlighting')).to be_falsey
-        end
-
-      end
 
     end
 

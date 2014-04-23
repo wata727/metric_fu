@@ -8,6 +8,10 @@ module MetricFu
 
   module_function
 
+  def root
+    @app_root ||= Pathname(APP_ROOT)
+  end
+
   def run_dir
     @run_dir ||= Dir.pwd
   end
