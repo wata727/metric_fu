@@ -1,0 +1,88 @@
+Profiling enabled.
+.............................................................................................................................................................................................
+
+
+Top 10 slowest examples:
+0.2707830 MetricFu::RoodiGrapher responding to #get_metrics should push 13 to roodi_count
+0.1994550 MetricFu::RcovGrapher responding to #get_metrics should update labels with the date
+0.1985800 MetricFu::ReekGrapher responding to #get_metrics should set a hash of code smells to reek_count
+0.1919860 MetricFu::ReekGrapher responding to #get_metrics should update labels with the date
+0.1907400 MetricFu::RoodiGrapher responding to #get_metrics should update labels with the date
+0.1883000 MetricFu::FlogGrapher responding to #get_metrics should update labels with the date
+0.1882650 MetricFu::FlayGrapher responding to #get_metrics should push 476 to flay_score
+0.1868780 MetricFu::FlogGrapher responding to #get_metrics should push to top_five_percent_average
+0.1847730 MetricFu::FlogGrapher responding to #get_metrics should push 9.9 to flog_average
+0.1844090 MetricFu::FlayGrapher responding to #get_metrics should update labels with the date
+
+Finished in 2.517686 seconds
+
+189 examples, 0 failures
+================================================================================
+lib/templates/awesome/awesome_template.rb
+================================================================================
+   require 'fileutils'
+
+   class AwesomeTemplate < MetricFu::Template
+
+     def write
+!!     # Getting rid of the crap before and after the project name from integrity
+!!     @name = File.basename(MetricFu.run_dir).gsub(/^\w+-|-\w+$/, "")
+!!
+!!     # Copy Bluff javascripts to output directory
+!!     Dir[File.join(template_directory, '..', 'javascripts', '*')].each do |f|
+!!       FileUtils.copy(f, File.join(MetricFu.output_directory, File.basename(f)))
+!!     end
+!!
+!!     report.each_pair do |section, contents|
+!!       if template_exists?(section)
+!!         create_instance_var(section, contents)
+!!         @html = erbify(section)
+!!         html = erbify('layout')
+!!         fn = output_filename(section)
+!!         MetricFu.report.save_output(html, MetricFu.output_directory, fn)
+!!       end
+!!     end
+!!
+!!     # Instance variables we need should already be created from above
+!!     if template_exists?('index')
+!!       @html = erbify('index')
+!!       html = erbify('layout')
+!!       fn = output_filename('index')
+!!       MetricFu.report.save_output(html, MetricFu.output_directory, fn)
+!!     end
+!!   end
+
+     def template_directory
+!!     File.dirname(__FILE__)
+!!   end
+!! end
+
+================================================================================
+lib/templates/standard/standard_template.rb
+================================================================================
+   class StandardTemplate < MetricFu::Template
+
+
+     def write
+!!     report.each_pair do |section, contents|
+!!       if template_exists?(section)
+!!         create_instance_var(section, contents)
+!!         html = erbify(section)
+!!         fn = output_filename(section)
+!!         MetricFu.report.save_output(html, MetricFu.output_directory, fn)
+!!       end
+!!     end
+!!
+!!     # Instance variables we need should already be created from above
+!!     if template_exists?('index')
+!!       html = erbify('index')
+!!       fn = output_filename('index')
+!!       MetricFu.report.save_output(html, MetricFu.output_directory, fn)
+!!     end
+!!   end
+
+     def template_directory
+!!     File.dirname(__FILE__)
+!!   end
+!! end
+
