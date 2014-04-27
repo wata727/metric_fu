@@ -9,6 +9,7 @@ As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.
 * Breaking Changes
 * Features
 * Fixes
+  * Ensure paths with spaces don't cause the open command to fail (Nick Veys, #220)
 * Misc
 
 ### [4.10.0 / 2014-04-01](https://github.com/metricfu/metric_fu/compare/v4.9.0...v4.10.0)
