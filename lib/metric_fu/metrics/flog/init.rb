@@ -17,7 +17,7 @@ module MetricFu
       if MetricFu.configuration.mri?
         super
       else
-        MetricFu.configuration.mf_debug("Flog is only available in MRI due to flog tasks")
+        MetricFu.logger.mf_debug("Flog is only available in MRI due to flog tasks")
       end
     end
 
