@@ -34,7 +34,7 @@ module MetricFu
         captured_output << stdout.read.chomp
         captured_errors << stderr.read.chomp
       end
-      STDERR.puts MetricFu::AnalysisError.new(captured_errors) unless captured_errors.empty?
+      captured_output << "\nERRORS:\n#{captured_errors}"
     rescue StandardError => run_error
       handle_run_error(run_error)
     rescue SystemExit => system_exit
