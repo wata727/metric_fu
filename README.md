@@ -19,9 +19,7 @@ To be sure the gem you install hasn't been tampered with:
 
 The MediumSecurity trust profile will verify signed gems, but allow the installation of unsigned dependencies.
 
-This is necessary because not all of MetricFu’s dependencies are signed, so we cannot use HighSecurity.
-
-If you're installing MetricFu on MacOS make sure you have `LANG` and `LC_ALL` set to some value (ex. `en_US.UTF-8`)
+This is necessary because not all of MetricFu's dependencies are signed, so we cannot use HighSecurity.
 
 ## Usage
 
@@ -229,6 +227,11 @@ SimpleCov.start
 
 Additionally, the `coverage_file` path must be specified as above
 and must exist.
+
+## Common problems / debugging
+
+- ['ArgumentError; message invalid byte sequence in US-ASCII'](https://github.com/metricfu/metric_fu/issues/215) may be caused by having a default external encoding that is not UTF-8. You can see this in the output of `metric_fu --debug`
+  - OSX: Ensure you have set `LANG=en_US.UTF-8` and `LC_ALL=en_US.UTF-8`.  You can add these to your `~/.profile`.
 
 ## Compatibility
 
