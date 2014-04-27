@@ -38,7 +38,7 @@ module MetricFu
           define_method("#{dir}_dir") do
             File.join(lib_dir,dir)
           end
-          module_eval(%Q(def #{dir}_require(&block); lib_require('#{dir}', &block); end))
+          module_eval(%Q(def #{dir}_require(&block); lib_require('#{dir}', &block); end),  __FILE__, __LINE__)
         end
       end
     end
