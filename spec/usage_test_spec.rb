@@ -2,6 +2,32 @@ describe 'usage test' do
   ROOT_PATH    = File.expand_path("..", File.dirname(__FILE__))
   require File.join(ROOT_PATH, 'spec/support/usage_test')
 
+  it 'extracts fenced code blocks, identifying the code and language' do
+    ruby_code = "puts 'This is ruby'"
+    shell_code = %Q(ruby -e "puts 'This is shell'")
+    ruby_block, shell_block = UsageTest::CodeBlock.find_code_blocks(<<-README
+This is not code
+
+```ruby
+#{ruby_code}
+```
+
+Nope. Not code.
+
+```sh
+#{shell_code}
+```
+
+Not code, either.
+README
+)
+    expect(ruby_block.language).to eq('ruby')
+    expect(ruby_block.code).to eq(ruby_code)
+
+    expect(shell_block.language).to eq('sh')
+    expect(shell_block.code).to eq(shell_code)
+  end
+
   context 'evaluating ruby code' do
     specify 'succeeds when the code runs without errors' do
       code = "1 + 1"

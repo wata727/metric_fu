@@ -5,21 +5,40 @@
 # Process.exit! 0
 require 'metric_fu/logging/mf_debugger'
 require 'open3'
+
 class UsageTest
-  def initialize
-    @markdown = Redcarpet::Markdown.new(HTMLRenderAndVerifyCodeBlocks, :fenced_code_blocks => true)
+  CodeBlock = Struct.new(:matchdata) do
+    # From kramdown-1.2.0/lib/kramdown/parser/gfm.rb
+    FENCED_CODEBLOCK_MATCH = /^(([~`]){3,})\s*?(\w+)?\s*?\n(.*?)^\1\2*\s*?\n/m
+    def code
+      matchdata[3].strip
+    end
+    def language
+      matchdata[2].strip
+    end
+    def self.find_code_blocks(markdown)
+      markdown.scan(FENCED_CODEBLOCK_MATCH).map do |matchdata|
+        new(matchdata)
+      end
+    end
   end
 
   def test_files(paths)
     in_test_directory do
       Array(paths).each do |path|
         puts "Testing #{path}"
-        @markdown.render(File.read(path))
+        CodeBlock.find_code_blocks(File.read(path)).each do |code_block|
+          test_code_block!(code_block)
+        end
         puts
       end
     end
     puts "SUCCESS!"
     Process.exit! 0
+  end
+
+  def test_code_block!(code_block)
+    SnippetRunner.new(code_block.code, code_block.language).test!
   end
 
   private

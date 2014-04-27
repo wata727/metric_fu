@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 group :test, :local_development  do
   gem 'pry'
   gem 'pry-nav'
-  gem 'redcarpet', :platforms => :ruby
 end
 
 gemspec :path => File.expand_path('..', __FILE__)
