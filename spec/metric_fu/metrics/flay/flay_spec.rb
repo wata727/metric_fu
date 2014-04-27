@@ -4,7 +4,7 @@ MetricFu.metrics_require { 'flay/flay' }
 describe MetricFu::FlayGenerator do
   describe "emit method" do
     it "should look at the dirs" do
-      options = { :dirs_to_flay => ['app', 'lib'], :filetypes => ['rb']  }
+      options = { :dirs_to_flay => ['app', 'lib'] }
       allow(File).to receive(:directory?).and_return(true)
       @flay = MetricFu::FlayGenerator.new(options)
 

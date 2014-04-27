@@ -7,8 +7,7 @@ module MetricFu
     end
 
     def emit
-      minimum_score_parameter = options[:minimum_score] ? "--mass #{options[:minimum_score]} " : ""
-      args =  "#{minimum_score_parameter} #{options[:dirs_to_flay].join(" ")}"
+      args =  "#{minimum_duplication_mass} #{dirs_to_flay}"
       @output = run!(args)
     end
 
@@ -29,5 +28,20 @@ module MetricFu
       end
       {:flay => {:total_score => total_score, :matches => target.flatten}}
     end
+
+    private
+
+    def minimum_duplication_mass
+      flay_mass = options[:minimum_score]
+      return "" unless flay_mass
+
+
+      "--mass #{flay_mass} "
+    end
+
+    def dirs_to_flay
+      options[:dirs_to_flay].join(" ")
+    end
+
   end
 end
