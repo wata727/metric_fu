@@ -126,7 +126,7 @@ module MetricFu
       paths = []
       paths << generator_path = "#{name}/#{name}"
       if has_graph?
-          paths << grapher_path   = "#{name}/#{name}_grapher"
+          paths << grapher_path   = "#{name}/grapher"
       end
       paths
     end

@@ -1,20 +1,22 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rails_best_practices/rails_best_practices_grapher' }
+MetricFu.metrics_require { 'stats/grapher' }
 
-describe RailsBestPracticesGrapher do
+describe StatsGrapher do
   before :each do
-    @stats_grapher = MetricFu::RailsBestPracticesGrapher.new
+    @stats_grapher = MetricFu::StatsGrapher.new
     MetricFu.configuration
   end
 
-  it "should respond to rails_best_practices_count and labels" do
-    expect(@stats_grapher).to respond_to(:rails_best_practices_count)
+  it "should respond to loc_counts and lot_counts and labels" do
+    expect(@stats_grapher).to respond_to(:loc_counts)
+    expect(@stats_grapher).to respond_to(:lot_counts)
     expect(@stats_grapher).to respond_to(:labels)
   end
 
   describe "responding to #initialize" do
-    it "should initialise rails_best_practices_count and labels" do
-      expect(@stats_grapher.rails_best_practices_count).to eq([])
+    it "should initialise loc_counts and lot_counts and labels" do
+      expect(@stats_grapher.loc_counts).to eq([])
+      expect(@stats_grapher.lot_counts).to eq([])
       expect(@stats_grapher.labels).to eq({})
     end
   end
@@ -26,8 +28,13 @@ describe RailsBestPracticesGrapher do
         @date = "01022003"
       end
 
-      it "should not push to rails_best_practices_count" do
-        expect(@stats_grapher.rails_best_practices_count).not_to receive(:push)
+      it "should not push to loc_counts" do
+        expect(@stats_grapher.loc_counts).not_to receive(:push)
+        @stats_grapher.get_metrics(@metrics, @date)
+      end
+
+      it "should not push to lot_counts" do
+        expect(@stats_grapher.lot_counts).not_to receive(:push)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
@@ -43,14 +50,14 @@ describe RailsBestPracticesGrapher do
         @date = "01022003"
       end
 
-      it "should push to rails_best_practices_count" do
-        expect(@stats_grapher.rails_best_practices_count).to receive(:push).with(2)
+      it "should push to loc_counts" do
+        expect(@stats_grapher.loc_counts).to receive(:push).with(15935)
         @stats_grapher.get_metrics(@metrics, @date)
       end
 
-      it "should push 0 to rails_best_practices_count when no problems were found" do
-        expect(@stats_grapher.rails_best_practices_count).to receive(:push).with(0)
-        @stats_grapher.get_metrics({ :rails_best_practices => {} }, @date)
+      it "should push to lot_counts" do
+        expect(@stats_grapher.lot_counts).to receive(:push).with(7438)
+        @stats_grapher.get_metrics(@metrics, @date)
       end
 
       it "should update labels with the date" do
