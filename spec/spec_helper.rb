@@ -12,7 +12,7 @@ if ENV['COVERAGE']
     puts '[COVERAGE] SimpleCov MetricFu formatter could not be loaded'
   end
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[ *formatters ]
-  SimpleCov.start
+  SimpleCov.start 'metric_fu'
 end
 
 require 'rspec/autorun'

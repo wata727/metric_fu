@@ -29,10 +29,13 @@ describe SimpleCov::Formatter::MetricFu do
     # This is done in many rails environments
     Encoding.default_internal = 'UTF-8' if defined?(Encoding)
 
-    SimpleCov::Formatter::MetricFu.new.format( @result )
+    # content = SimpleCov::Formatter::MetricFu.new.format( @result )
+    content = SimpleCov::Formatter::MetricFu::FormatLikeRCov.new(@result).format
+    expect(content.encoding).to eq(Encoding::UTF_8)
   end
 
   it "test_create_content" do
+    pending "can't run with simplecov" if SimpleCov.running
     content = SimpleCov::Formatter::MetricFu::FormatLikeRCov.new(@result).format
     test = "\="*80
 
@@ -41,7 +44,7 @@ describe SimpleCov::Formatter::MetricFu do
   end
 
   it 'calculates the same coverage from an RCov report as from SimpleCov' do
-    next puts "can't run with simplecov" if SimpleCov.running
+    pending "can't run with simplecov" if SimpleCov.running
     SimpleCov.start # start coverage
     require 'fixtures/coverage-153'
     result = SimpleCov.result # end coverage
