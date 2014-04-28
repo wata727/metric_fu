@@ -41,7 +41,7 @@ describe SimpleCov::Formatter::MetricFu do
   end
 
   it 'calculates the same coverage from an RCov report as from SimpleCov' do
-    break puts "can't run with simplecov" if SimpleCov.running
+    next puts "can't run with simplecov" if SimpleCov.running
     SimpleCov.start # start coverage
     require 'fixtures/coverage-153'
     result = SimpleCov.result # end coverage
