@@ -14,7 +14,7 @@ end
 def metric_not_activated?(metric_name)
   MetricFu.configuration.configure_metrics
   metric = MetricFu::Metric.get_metric(metric_name.intern)
-  if metric.activated
+  if (metric.activate rescue false) # may fail if ripper not supported
     false
   else
     p "Skipping #{metric_name} tests, not activated"
