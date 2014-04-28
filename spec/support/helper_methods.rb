@@ -13,7 +13,8 @@ end
 
 def metric_not_activated?(metric_name)
   MetricFu.configuration.configure_metrics
-  if MetricFu::Metric.get_metric(metric_name.intern).activate
+  metric = MetricFu::Metric.get_metric(metric_name.intern)
+  if metric.activated
     false
   else
     p "Skipping #{metric_name} tests, not activated"
