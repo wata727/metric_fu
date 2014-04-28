@@ -78,20 +78,15 @@ describe MetricFu::Formatter::HTML do
       ])
     end
 
-    context 'when on OS X' do
-      before do
-        allow(MetricFu.configuration).to receive(:osx?).and_return(true)
-        allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
-      end
 
-      it "can open the results in the browser" do
-        formatter = MetricFu::Formatter::HTML.new
-        path = MetricFu.run_path.join(directory('output_directory'))
-        uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
-        expect(Launchy).to receive(:open).with(uri)
-        formatter.finish
-        formatter.display_results
-      end
+    it "can open the results in the browser" do
+      allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
+      formatter = MetricFu::Formatter::HTML.new
+      path = MetricFu.run_path.join(directory('output_directory'))
+      uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
+      expect(Launchy).to receive(:open).with(uri)
+      formatter.finish
+      formatter.display_results
     end
 
   end
@@ -131,20 +126,14 @@ describe MetricFu::Formatter::HTML do
       )
     end
 
-    context 'when on OS X' do
-      before do
-        allow(MetricFu.configuration).to receive(:osx?).and_return(true)
-        allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
-      end
-
-      it "can open the results in the browser from the custom output directory" do
-        formatter = MetricFu::Formatter::HTML.new(output: @output)
-        path = MetricFu.run_path.join("#{directory('base_directory')}/#{@output}")
-        uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
-        expect(Launchy).to receive(:open).with(uri)
-        formatter.finish
-        formatter.display_results
-      end
+    it "can open the results in the browser from the custom output directory" do
+      allow(MetricFu.configuration).to receive(:is_cruise_control_rb?).and_return(false)
+      formatter = MetricFu::Formatter::HTML.new(output: @output)
+      path = MetricFu.run_path.join("#{directory('base_directory')}/#{@output}")
+      uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
+      expect(Launchy).to receive(:open).with(uri)
+      formatter.finish
+      formatter.display_results
     end
 
   end
