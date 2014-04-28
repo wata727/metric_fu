@@ -30,13 +30,18 @@ def mf_log(msg); mf_debug(msg); end
 Dir[MetricFu.root_dir + "/spec/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
-  config.mock_with :rspec
-
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.filter_run_excluding :slow unless ENV["SLOW_SPECS"]
   config.fail_fast = ENV.include?('FAIL_FAST')
-  config.order = 'random'
+  config.order = :rand
+  config.color_enabled = true
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+  end
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = :expect
+  end
 
   # :suite after/before all specs
   # :each every describe block
