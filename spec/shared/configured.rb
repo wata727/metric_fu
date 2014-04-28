@@ -41,7 +41,7 @@ shared_examples 'configured' do
   end
 
   def load_metric(metric)
-    load File.join(MetricFu.metrics_dir, metric, 'init.rb')
+    load File.join(MetricFu.metrics_dir, metric, 'metric.rb')
   end
 
 end

@@ -59,6 +59,37 @@ module MetricFu
       end
     end
 
+    def setup
+      MetricFu.lib_require { 'logger' }
+      MetricFu.logger.debug_on = !!(ENV['MF_DEBUG'] =~ /true/i)
+
+      load_metric_configuration
+
+      MetricFu.lib_require       { 'reporter' }
+      MetricFu.reporting_require { 'result' }
+
+      MetricFu.load_tasks('metric_fu.rake', task_name: 'metrics:all')
+    end
+
+    def load_metric_configuration
+      MetricFu.lib_require { 'configuration' }
+      load_installed_metrics
+      MetricFu.configuration.configure_metrics
+      load_user_configuration
+    end
+
+    def load_installed_metrics
+      MetricFu.lib_require { 'metric' }
+      Dir.glob(File.join(MetricFu.metrics_dir, '**/metric.rb')).each do |metric_config|
+        require metric_config
+      end
+    end
+
+    def load_user_configuration
+      file = File.join(MetricFu.run_dir, '.metrics')
+      load file if File.exist?(file)
+    end
+
     # Load specified task task only once
     #   if and only if rake is required and the task is not yet defined
     #   to prevent the task from being loaded multiple times
@@ -69,29 +100,6 @@ module MetricFu
       if defined?(Rake::Task) and not Rake::Task.task_defined?(options[:task_name])
         load File.join(@lib_root, 'tasks', *Array(tasks_relative_path))
       end
-    end
-
-    def setup
-      MetricFu.lib_require { 'logger' }
-      MetricFu.logger.debug_on = !!(ENV['MF_DEBUG'] =~ /true/i)
-
-      MetricFu.lib_require { 'configuration' }
-      MetricFu.lib_require { 'metric' }
-
-      Dir.glob(File.join(MetricFu.metrics_dir, '**/init.rb')).each{|init_file|require(init_file)}
-
-      MetricFu.configuration.configure_metrics
-      load_user_configuration
-
-      MetricFu.lib_require       { 'reporter' }
-      MetricFu.reporting_require { 'result' }
-
-      MetricFu.load_tasks('metric_fu.rake', task_name: 'metrics:all')
-    end
-
-    def load_user_configuration
-      file = File.join(MetricFu.run_dir, '.metrics')
-      load file if File.exist?(file)
     end
 
   end
