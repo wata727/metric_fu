@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'roodi/roodi' }
+MetricFu.metrics_require { 'roodi/generator' }
 
 describe MetricFu::RoodiGenerator do
   describe "emit" do

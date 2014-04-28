@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'hotspots/hotspots' }
+MetricFu.metrics_require { 'hotspots/generator' }
 
 describe MetricFu::HotspotsGenerator do
   describe "analyze method" do

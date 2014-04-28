@@ -124,7 +124,7 @@ module MetricFu
 
     def default_metric_library_paths
       paths = []
-      paths << generator_path = "#{name}/#{name}"
+      paths << generator_path = "#{name}/generator"
       if has_graph?
           paths << grapher_path   = "#{name}/grapher"
       end

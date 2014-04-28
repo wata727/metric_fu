@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'reek/reek' }
+MetricFu.metrics_require { 'reek/generator' }
 
 describe MetricFu::ReekGenerator do
   describe "emit" do
