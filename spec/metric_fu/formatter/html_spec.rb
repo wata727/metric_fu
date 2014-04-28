@@ -87,7 +87,7 @@ describe MetricFu::Formatter::HTML do
       it "can open the results in the browser" do
         formatter = MetricFu::Formatter::HTML.new
         path = MetricFu.run_path.join(directory('output_directory'))
-        uri = URI.join("file://#{path}/", 'index.html')
+        uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
         expect(Launchy).to receive(:open).with(uri)
         formatter.finish
         formatter.display_results
@@ -140,7 +140,7 @@ describe MetricFu::Formatter::HTML do
       it "can open the results in the browser from the custom output directory" do
         formatter = MetricFu::Formatter::HTML.new(output: @output)
         path = MetricFu.run_path.join("#{directory('base_directory')}/#{@output}")
-        uri = URI.join("file://#{path}/", 'index.html')
+        uri = URI.join(URI.escape("file://#{path}/"), 'index.html')
         expect(Launchy).to receive(:open).with(uri)
         formatter.finish
         formatter.display_results
