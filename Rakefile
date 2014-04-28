@@ -17,6 +17,7 @@ desc "Run all specs in spec directory"
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.verbose = false
 
+  t.pattern = "spec/**/_spec.rb"
   # we require spec_helper so we don't get an RSpec warning about
   # examples being defined before configuration.
   t.ruby_opts = "-I./spec -r./spec/capture_warnings -rspec_helper"
