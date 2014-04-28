@@ -2,7 +2,7 @@ def enable_hotspots
   MetricFu.configure
   hotspot_metrics = MetricFu::Metric.metrics.map(&:name)
   hotspot_metrics.each do |metric_name|
-    path = "#{metric_name}/#{metric_name}_hotspot"
+    path = "#{metric_name}/hotspot"
     begin
       MetricFu.metrics_require { path }
     rescue LoadError

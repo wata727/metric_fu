@@ -34,7 +34,7 @@ module MetricFu
     private
 
     def require_hotspot(metric_name)
-      require "metric_fu/metrics/#{metric_name}/#{metric_name}_hotspot"
+      require "metric_fu/metrics/#{metric_name}/hotspot"
     rescue LoadError
       mf_debug "*** No hotspot for #{metric_name}"
     end
