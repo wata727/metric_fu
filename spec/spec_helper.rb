@@ -15,7 +15,6 @@ if ENV['COVERAGE']
   SimpleCov.start 'metric_fu'
 end
 
-require 'rspec/autorun'
 require 'date'
 require 'test_construct'
 require 'json'

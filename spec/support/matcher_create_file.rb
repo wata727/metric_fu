@@ -7,13 +7,13 @@ RSpec::Matchers.define :create_file do |expected|
     !@before && @after
   end
 
-  failure_message_for_should do |block|
+  failure_message do |block|
     existed_before_message expected do
       "The file #{expected.inspect} was not created"
     end
   end
 
-  failure_message_for_should_not do |block|
+  failure_message_when_negated do |block|
     existed_before_message expected do
       "The file #{expected.inspect} was created"
     end
