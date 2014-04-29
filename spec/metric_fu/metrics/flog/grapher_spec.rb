@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'flog/flog_grapher' }
+MetricFu.metrics_require { 'flog/grapher' }
 
 describe MetricFu::FlogGrapher do
   before :each do

@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'stats/stats' }
+MetricFu.metrics_require { 'stats/generator' }
 
 describe StatsGenerator do
   describe "emit method" do

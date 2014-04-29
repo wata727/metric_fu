@@ -9,8 +9,8 @@ MetricFu.loader.load_user_configuration
 MetricFu.loader.loaded_files
 MetricFu.lib_require { 'utility' }
 MetricFu.lib_dir #=> metric_fu/lib
-MetricFu.lib_require('metrics')  { 'flog/init' }
-MetricFu.metrics_require {'flog/init' }
+MetricFu.lib_require('metrics')  { 'flog/metric' }
+MetricFu.metrics_require {'flog/metric' }
 MetricFu.metrics_dir #=> metric_fu/lib/metrics
 MetricFu.formatter_require { 'html' }
 MetricFu.formatter_dir #=> metric_fu/lib/formatter
@@ -42,7 +42,7 @@ end
 
 ```ruby
 # Given
-template = AwesomeTemplate.new
+template = MetricFu::Templates::MetricsTemplate.new
 
 # Render _report_footer.html.erb partial:
 

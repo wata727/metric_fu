@@ -1,6 +1,6 @@
 require 'set'
 MetricFu.lib_require { 'gem_run' }
-MetricFu.metrics_require { 'generator' }
+MetricFu.lib_require { 'generator' }
 # Encapsulates the configuration options for each metric
 module MetricFu
   class Metric
@@ -124,9 +124,9 @@ module MetricFu
 
     def default_metric_library_paths
       paths = []
-      paths << generator_path = "#{name}/#{name}"
+      paths << generator_path = "#{name}/generator"
       if has_graph?
-          paths << grapher_path   = "#{name}/#{name}_grapher"
+          paths << grapher_path   = "#{name}/grapher"
       end
       paths
     end

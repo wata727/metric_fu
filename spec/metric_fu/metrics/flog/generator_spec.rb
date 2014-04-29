@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'flog/flog' }
+MetricFu.metrics_require { 'flog/generator' }
 
 describe MetricFu::FlogGenerator do
 

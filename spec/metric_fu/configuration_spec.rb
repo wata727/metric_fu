@@ -84,7 +84,6 @@ it_behaves_like 'configured' do
         expect(output_directory).to eq(output_dir)
       end
 
-
     end
 
   end

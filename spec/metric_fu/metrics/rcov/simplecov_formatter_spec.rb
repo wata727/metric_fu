@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'simplecov'
 require 'metric_fu/metrics/rcov/simplecov_formatter'
-require 'metric_fu/metrics/rcov/rcov'
+require 'metric_fu/metrics/rcov/generator'
 
 describe SimpleCov::Formatter::MetricFu do
   before do

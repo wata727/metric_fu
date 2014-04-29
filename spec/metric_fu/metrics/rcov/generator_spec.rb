@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rcov/rcov' }
+MetricFu.metrics_require { 'rcov/generator' }
 require 'shared/test_coverage'
 
 describe MetricFu::RcovGenerator, "configured as rcov" do

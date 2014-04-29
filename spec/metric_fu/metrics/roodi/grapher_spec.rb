@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'roodi/roodi_grapher' }
+MetricFu.metrics_require { 'roodi/grapher' }
 
 describe RoodiGrapher do
   before :each do

@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rcov/rcov_grapher' }
+MetricFu.metrics_require { 'rcov/grapher' }
 
 describe RcovGrapher do
   before :each do
