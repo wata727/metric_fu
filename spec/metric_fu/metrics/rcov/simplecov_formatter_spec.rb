@@ -15,23 +15,12 @@ describe SimpleCov::Formatter::MetricFu do
       }
     )
 
-    # Set to default encoding
-    Encoding.default_internal = nil if defined?(Encoding)
   end
 
   it "test_format" do
     SimpleCov::Formatter::MetricFu.new.format( @result )
 
     expect(File.exists?( @rcov_file )).to be_truthy
-  end
-
-  it "test_encoding" do
-    # This is done in many rails environments
-    Encoding.default_internal = 'UTF-8' if defined?(Encoding)
-
-    # content = SimpleCov::Formatter::MetricFu.new.format( @result )
-    content = SimpleCov::Formatter::MetricFu::FormatLikeRCov.new(@result).format
-    expect(content.encoding).to eq(Encoding::UTF_8)
   end
 
   it "test_create_content" do
