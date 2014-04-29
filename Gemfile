@@ -11,7 +11,7 @@ gemspec :path => File.expand_path('..', __FILE__)
 # Added by devtools
 group :development do
   gem 'rake',  '~> 10.1.0'
-  gem 'rspec', '~> 3.0.0.beta1'
+  gem 'rspec', '~> 3.0.0.beta2'
   gem 'yard',  '~> 0.8.7', group: :yard
 end
 
