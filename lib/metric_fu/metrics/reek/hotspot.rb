@@ -1,5 +1,5 @@
 # coding: utf-8
-class ReekHotspot < MetricFu::Hotspot
+class MetricFu::ReekHotspot < MetricFu::Hotspot
 
   # Note that in practice, the prefix reek__ is appended to each one
   # This was a partially implemented idea to avoid column name collisions
