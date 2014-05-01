@@ -1,5 +1,4 @@
 require 'simplecov'
-require 'metric_fu'
 require_relative 'external_client'
 require_relative 'rcov_format_coverage'
 
