@@ -11,8 +11,14 @@ end.define 'metric_fu' do
     load_adapter 'test_frameworks'
   end
 
-  add_group "Metrics", "lib/metric_fu/metrics"
-  add_group "Hotspots", "lib/metric_fu/metrics/hotspots"
+  add_group "Cli",             "lib/metric_fu/cli"
+  add_group "Data Structures", "lib/metric_fu/data_structures"
+  add_group "Formatters",      "lib/metric_fu/formatter"
+  add_group "Hotspots",        "lib/metric_fu/metrics/hotspots"
+  add_group "Metrics",         "lib/metric_fu/metrics"
+  add_group "Reporters",       "lib/metric_fu/reporting"
+  add_group "Templates",       "lib/metric_fu/templates"
+
   add_group "Long files" do |src_file|
     src_file.lines.count > 100
   end
@@ -26,6 +32,7 @@ end.define 'metric_fu' do
   # Exclude these paths from analysis
   add_filter 'bundle'
   add_filter 'bin'
+  add_filter 'lib/metric_fu/tasks'
 end
 SimpleCov.at_exit do
   File.open(File.join(SimpleCov.coverage_path, 'coverage_percent.txt'), 'w') do |f|
