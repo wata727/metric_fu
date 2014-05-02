@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
     "coderay"               => [],
     "bluff"                 => [],
     "googlecharts"          => [],
-    "activesupport"         => [">= 2.0.0"],
+    "activesupport"         => [">= 2.0.0", "< 4.0.0"],
     "ripper"                => ["= 1.0.5"],
     "fattr"                 => ["= 2.2.1"],
     "arrayfields"           => ["= 4.7.4"],
