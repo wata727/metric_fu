@@ -18,71 +18,118 @@ Finished in 2.517686 seconds
 
 189 examples, 0 failures
 ================================================================================
-lib/templates/awesome/awesome_template.rb
+ ./lib/metric_fu/metrics/hotspots/analysis/record.rb
 ================================================================================
-   require 'fileutils'
-
-   class AwesomeTemplate < MetricFu::Template
-
-     def write
-!!     # Getting rid of the crap before and after the project name from integrity
-!!     @name = File.basename(MetricFu.run_dir).gsub(/^\w+-|-\w+$/, "")
-!!
-!!     # Copy Bluff javascripts to output directory
-!!     Dir[File.join(template_directory, '..', 'javascripts', '*')].each do |f|
-!!       FileUtils.copy(f, File.join(MetricFu.output_directory, File.basename(f)))
-!!     end
-!!
-!!     report.each_pair do |section, contents|
-!!       if template_exists?(section)
-!!         create_instance_var(section, contents)
-!!         @html = erbify(section)
-!!         html = erbify('layout')
-!!         fn = output_filename(section)
-!!         MetricFu.report.save_output(html, MetricFu.output_directory, fn)
-!!       end
-!!     end
-!!
-!!     # Instance variables we need should already be created from above
-!!     if template_exists?('index')
-!!       @html = erbify('index')
-!!       html = erbify('layout')
-!!       fn = output_filename('index')
-!!       MetricFu.report.save_output(html, MetricFu.output_directory, fn)
-!!     end
-!!   end
-
-     def template_directory
-!!     File.dirname(__FILE__)
-!!   end
-!! end
+   module MetricFu
+     class Record
+--
+       attr_reader :data
+--
+       def initialize(data, columns)
+         @data = data
+--     end
+--
+       def method_missing(name, *args, &block)
+         key = name.to_s
+         if key == 'fetch'
+           @data.send(name, *args, &block)
+         elsif @data.has_key?(key)
+           @data[key]
+--       else
+!!         super(name, *args, &block)
+--       end
+--     end
+--
+       def []=(key, value)
+          @data[key]=value
+--     end
+--
+       def [](key)
+         @data[key]
+--     end
+--
+       def has_key?(key)
+         @data.has_key?(key)
+--     end
+--
+--   end
+-- end
 
 ================================================================================
-lib/templates/standard/standard_template.rb
+ ./lib/metric_fu/metrics/hotspots/analysis/table.rb
 ================================================================================
-   class StandardTemplate < MetricFu::Template
-
-
-     def write
-!!     report.each_pair do |section, contents|
-!!       if template_exists?(section)
-!!         create_instance_var(section, contents)
-!!         html = erbify(section)
-!!         fn = output_filename(section)
-!!         MetricFu.report.save_output(html, MetricFu.output_directory, fn)
-!!       end
-!!     end
-!!
-!!     # Instance variables we need should already be created from above
-!!     if template_exists?('index')
-!!       html = erbify('index')
-!!       fn = output_filename('index')
-!!       MetricFu.report.save_output(html, MetricFu.output_directory, fn)
-!!     end
-!!   end
-
-     def template_directory
-!!     File.dirname(__FILE__)
-!!   end
-!! end
-
+   %w(record).each do |path|
+     MetricFu.metrics_require   { "hotspots/analysis/#{path}" }
+-- end
+--
+   module MetricFu
+     class Table
+       include Enumerable
+--
+       def initialize(opts = {})
+         @rows = []
+         @columns = opts.fetch(:column_names)
+--
+         @make_index = opts.fetch(:make_index) {true}
+         @metric_index = {}
+--     end
+--
+       def <<(row)
+         record = nil
+         if row.is_a?(MetricFu::Record)
+           record = row
+--       else
+           record = MetricFu::Record.new(row, @columns)
+--       end
+         @rows << record
+         updated_key_index(record) if @make_index
+--     end
+--
+       def concat(records)
+!!       records.each do |record|
+!!         self << record
+--       end
+!!       self
+--     end
+--
+       def each
+         @rows.each do |row|
+           yield row
+--       end
+--     end
+--
+       def size
+         length
+--     end
+--
+       def length
+         @rows.length
+--     end
+--
+       def [](index)
+         @rows[index]
+--     end
+--
+       def column(column_name)
+         arr = []
+         @rows.each do |row|
+           arr << row[column_name]
+--       end
+         arr
+--     end
+--
+       def group_by_metric
+         @metric_index.to_a
+--     end
+--
+       private
+--
+       def updated_key_index(record)
+         if record.has_key?('metric')
+           @metric_index[record.metric] ||= MetricFu::Table.new(:column_names => @columns, :make_index => false)
+           @metric_index[record.metric] << record
+--       end
+--     end
+--
+--   end
+-- end
