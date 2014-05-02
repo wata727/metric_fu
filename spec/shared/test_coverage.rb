@@ -48,12 +48,12 @@ shared_examples "rcov test coverage generator" do |metric_name|
 
       it "should know which lines were run" do
         expect(@files["lib/templates/awesome/awesome_template.rb"][:lines]).
-              to include({:content=>"require 'fileutils'", :was_run=>true})
+              to include({:content=>"require 'fileutils'", :was_run=>1})
       end
 
       it "should know which lines NOT were run" do
         expect(@files["lib/templates/awesome/awesome_template.rb"][:lines]).
-              to include({:content=>"      if template_exists?(section)", :was_run=>false})
+              to include({:content=>"      if template_exists?(section)", :was_run=>0})
       end
     end
 

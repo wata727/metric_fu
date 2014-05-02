@@ -34,6 +34,7 @@ class SimpleCov::Formatter::MetricFu
     'rcov.txt'
   end
 
+  # report should reference file used to build it
   class FormatLikeRCov
     def initialize(result)
       @result = result
@@ -47,7 +48,9 @@ class SimpleCov::Formatter::MetricFu
         content << "=" * 80
         content << "\n"
         source_file.lines.each do |line|
-          content << (line.missed? ? '!!'  : '  ')
+          content << '!!' if line.missed?
+          content << '--' if line.never? || line.skipped?
+          content << '  ' if line.covered?
           content << " #{line.src.chomp}\n"
         end
         content << "\n"
