@@ -34,6 +34,9 @@ describe SimpleCov::Formatter::MetricFu do
       expect(content).to match(/!!     value \* value/)
     end
 
+    if defined?(JRUBY_VERSION)
+      STDOUT.puts "Skipping spec 'cause JRuby doesn't do Coverage right"
+    else
     it 'calculates the same coverage from an RCov report as from SimpleCov' do
       SimpleCov.start # start coverage
       require 'fixtures/coverage-153'
@@ -59,6 +62,7 @@ describe SimpleCov::Formatter::MetricFu do
       source_file.lines.each_with_index do |line, index|
         expect(line.coverage).to eq(line_coverage_from_rcov_text[index])
       end
+    end
     end
 
   end
