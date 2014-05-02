@@ -1,12 +1,10 @@
 language: ruby
 bundler_args: --path vendor/bundle
-before_script: "bundle check || bundle"
 script: bundle exec rspec
 cache: bundler
 gemfile:
   - gemfiles/Gemfile.travis
 before_install:
-  - "rvm current | grep 'jruby' && export JRUBY_OPTS=--debug || echo"
   - gem install bundler
   - bundle config --local without local_development yard guard
 rvm:
