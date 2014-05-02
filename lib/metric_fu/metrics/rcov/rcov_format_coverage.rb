@@ -41,7 +41,7 @@ module MetricFu
       files.each_pair do |fname, content|
         content.map! do |raw_line|
           covered_line = if raw_line.start_with?('--')
-                           nil
+                           nil # simplecov ignores some lines
                          elsif raw_line.start_with?('!!')
                            0
                          else
@@ -78,13 +78,14 @@ module MetricFu
       def add_coverage_percentage(files)
         files.each_pair do |fname, content|
           lines = content[:lines]
-          lines_run = lines.count {|line| line[:was_run] == 1 }
-          total_lines = lines.count {|line| line[:was_run] != nil }
-          integer_percent = ::MetricFu::Calculate.integer_percent(lines_run, total_lines)
+          line_coverage  = lines.map{|line| line[:was_run]}
+          covered_lines = lines.count(1)
+          relevant_lines = lines.count - lines.count(nil)
+          integer_percent = ::MetricFu::Calculate.integer_percent(covered_lines, relevant_lines)
 
           files[fname][:percent_run] = integer_percent
-          @global_total_lines_run += lines_run
-          @global_total_lines += total_lines
+          @global_total_lines_run += covered_lines
+          @global_total_lines += relevant_lines
         end
       end
 

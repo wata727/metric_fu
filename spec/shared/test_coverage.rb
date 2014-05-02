@@ -42,8 +42,8 @@ shared_examples "rcov test coverage generator" do |metric_name|
 
     describe "analyze" do
       it "should compute percent of lines run" do
-        expect(@files["lib/templates/awesome/awesome_template.rb"][:percent_run]).to eq(13)
-        expect(@files["lib/templates/standard/standard_template.rb"][:percent_run]).to eq(14)
+        expect(@files["lib/templates/awesome/awesome_template.rb"][:percent_run]).to eq(0)
+        expect(@files["lib/templates/standard/standard_template.rb"][:percent_run]).to eq(0)
       end
 
       it "should know which lines were run" do
@@ -59,7 +59,7 @@ shared_examples "rcov test coverage generator" do |metric_name|
 
     describe "to_h" do
       it "should calculate total percentage for all files" do
-        expect(@rcov.to_h[:rcov][:global_percent_run]).to eq(13.7)
+        expect(@rcov.to_h[:rcov][:global_percent_run]).to eq(0.0)
       end
     end
   end
