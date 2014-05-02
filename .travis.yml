@@ -1,10 +1,12 @@
 language: ruby
 bundler_args: --path vendor/bundle
+before_script: "bundle check || bundle"
 script: bundle exec rspec
 cache: bundler
 gemfile:
   - gemfiles/Gemfile.travis
 before_install:
+  - "rvm current | grep 'jruby' && export JRUBY_OPTS=--debug || echo"
   - gem install bundler
   - bundle config --local without local_development yard guard
 rvm:
@@ -13,11 +15,9 @@ rvm:
   - 2.0.0
   - 1.9.3
   - 1.9.2
-  - rbx-2
+  - jruby
+  - "rbx-2"
 matrix:
-  include:
-    - rvm: jruby
-      env: JRUBY_OPTS="--debug"
   allow_failures:
     - rvm: rbx-2
     - rvm: 2.1
