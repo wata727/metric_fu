@@ -18,6 +18,28 @@ module MetricFu
       def to_h
         {:content => @content, :was_run => @was_run}
       end
+
+      def covered?
+        @was_run.one?
+      end
+      def missed?
+        @was_run.zero?
+      end
+      def ignored?
+        @was_run.nil?
+      end
+      def self.line_coverage(lines)
+        lines.map{|line| line[:was_run] }
+      end
+      def self.covered_lines(line_coverage)
+        line_coverage.count(1)
+      end
+      def self.missed_lines(line_coverage)
+        line_coverage.count(0)
+      end
+      def self.ignored_lines(line_coverage)
+        line_coverage.count(nil)
+      end
     end
 
     def to_h
@@ -39,7 +61,13 @@ module MetricFu
       files.each_pair {|fname, content| files[fname] = content.split("\n") }
       files.each_pair do |fname, content|
         content.map! do |raw_line|
-          covered_line = raw_line.match(/^!!/).nil?
+          covered_line = if raw_line.start_with?('--')
+                           nil # simplecov ignores some lines
+                         elsif raw_line.start_with?('!!')
+                           0
+                         else
+                           1
+                         end
           Line.new(raw_line[3..-1], covered_line).to_h
         end
         content.reject! {|line| line[:content].to_s == '' }
@@ -64,6 +92,26 @@ module MetricFu
         end
       end
 
+      def self.floating_percent(numerator, denominator)
+        (numerator * 100.0) / denominator.to_f
+      end
+
+      def self.integer_percent(numerator, denominator)
+        ::MetricFu::Calculate.integer_percent(numerator, denominator)
+      end
+
+      def self.percent_run(lines)
+        line_coverage = Line.line_coverage(lines)
+        covered_lines = Line.covered_lines(line_coverage)
+        ignored_lines = Line.ignored_lines(line_coverage)
+        relevant_lines = lines.count - ignored_lines
+        if block_given?
+          yield covered_lines, relevant_lines
+        else
+          floating_percent(covered_lines, relevant_lines)
+        end
+      end
+
       private
       # TODO: remove multiple side effects
       #   sets global ivars and
@@ -71,18 +119,18 @@ module MetricFu
       def add_coverage_percentage(files)
         files.each_pair do |fname, content|
           lines = content[:lines]
-          lines_run = lines.count {|line| line[:was_run] }
-          total_lines = lines.length
-          integer_percent = ::MetricFu::Calculate.integer_percent(lines_run, total_lines)
-
-          files[fname][:percent_run] = integer_percent
-          @global_total_lines_run += lines_run
-          @global_total_lines += total_lines
+          percent_run =
+            self.class.percent_run(lines) do |covered, relevant|
+              @global_total_lines_run += covered
+              @global_total_lines += relevant
+              self.class.integer_percent(covered, relevant)
+            end
+          files[fname][:percent_run] = percent_run
         end
       end
 
       def add_global_percent_run(test_coverage, total_lines, total_lines_run)
-        percentage = (total_lines_run.to_f / total_lines.to_f) * 100
+        percentage = self.class.floating_percent(total_lines_run, total_lines)
         test_coverage.update({
           :global_percent_run => round_to_tenths(percentage)
         })

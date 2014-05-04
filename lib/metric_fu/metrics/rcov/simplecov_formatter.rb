@@ -1,5 +1,13 @@
+if defined?(JRUBY_VERSION)
+  if ENV["JRUBY_OPTS"].to_s !~ /-Xcli.debug=true/
+    warn "Coverage may be inaccurate; Try setting JRUBY_OPTS=\"-Xcli.debug=true --debug\""
+    # see https://github.com/metricfu/metric_fu/pull/226
+    #     https://github.com/jruby/jruby/issues/1196
+    #     https://jira.codehaus.org/browse/JRUBY-6106
+    #     https://github.com/colszowka/simplecov/issues/86
+  end
+end
 require 'simplecov'
-require 'metric_fu'
 require_relative 'external_client'
 require_relative 'rcov_format_coverage'
 
@@ -35,6 +43,7 @@ class SimpleCov::Formatter::MetricFu
     'rcov.txt'
   end
 
+  # report should reference file used to build it
   class FormatLikeRCov
     def initialize(result)
       @result = result
@@ -48,7 +57,9 @@ class SimpleCov::Formatter::MetricFu
         content << "=" * 80
         content << "\n"
         source_file.lines.each do |line|
-          content << (line.missed? ? '!!'  : '  ')
+          content << '!!' if line.missed?
+          content << '--' if line.never? || line.skipped?
+          content << '  ' if line.covered?
           content << " #{line.src.chomp}\n"
         end
         content << "\n"

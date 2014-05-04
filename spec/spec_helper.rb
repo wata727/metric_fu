@@ -3,6 +3,7 @@ $:.unshift File.expand_path("../../lib", __FILE__)
 if ENV['COVERAGE']
   require 'simplecov'
   formatters = [SimpleCov::Formatter::HTMLFormatter]
+  SimpleCov.start 'metric_fu'
   begin
     puts '[COVERAGE] Running with SimpleCov HTML Formatter'
     require 'metric_fu/metrics/rcov/simplecov_formatter'
@@ -12,7 +13,6 @@ if ENV['COVERAGE']
     puts '[COVERAGE] SimpleCov MetricFu formatter could not be loaded'
   end
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[ *formatters ]
-  SimpleCov.start 'metric_fu'
 end
 
 require 'date'

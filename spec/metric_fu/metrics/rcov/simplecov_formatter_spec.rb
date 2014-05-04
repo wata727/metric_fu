@@ -34,18 +34,36 @@ describe SimpleCov::Formatter::MetricFu do
       expect(content).to match(/!!     value \* value/)
     end
 
+    if defined?(JRUBY_VERSION)
+      STDOUT.puts "Skipping spec 'cause JRuby doesn't do Coverage right"
+    else
     it 'calculates the same coverage from an RCov report as from SimpleCov' do
       SimpleCov.start # start coverage
       require 'fixtures/coverage-153'
       result = SimpleCov.result # end coverage
       source_file = result.source_files.first
 
-      simplecov_coverage =  source_file.lines.partition{|line| line.missed? }.map(&:count)
 
+      # formatter ouputs this from simplecov result
       rcov_text = SimpleCov::Formatter::MetricFu::FormatLikeRCov.new(result).format
-      analyzed_rcov_coverage = MetricFu::RCovFormatCoverage.new(rcov_text).to_h.first[1][:lines].partition{|line| !line[:was_run]}.map(&:count)
 
-      expect(analyzed_rcov_coverage).to eq(simplecov_coverage)
+      # generator analyzes the rcov text
+      analyzed_rcov_text = MetricFu::RCovFormatCoverage.new(rcov_text).to_h
+      # [:lines, :percent_run, :methods]
+      covered_lines_from_rcov_text = analyzed_rcov_text['./spec/fixtures/coverage-153.rb'][:lines]
+      # https://github.com/colszowka/simplecov/blob/master/lib/simplecov/source_file.rb
+      expect(source_file.coverage.count).to eq(covered_lines_from_rcov_text.count)
+
+      line_coverage_from_rcov_text = covered_lines_from_rcov_text.map{|line| line[:was_run] }
+      expect(source_file.coverage).to eq(line_coverage_from_rcov_text)
+
+      expect(source_file.covered_percent).to eq(MetricFu::RCovFormatCoverage::TestCoverage.percent_run(covered_lines_from_rcov_text))
+
+      source_file.lines.each_with_index do |line, index|
+        expect(line.coverage).to eq(line_coverage_from_rcov_text[index])
+      end
     end
+    end
+
   end
 end
