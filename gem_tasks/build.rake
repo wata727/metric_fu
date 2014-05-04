@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'rubygems'
 require 'digest/sha2'
+# require 'bundler/gem_helper'
+# Bundler::GemHelper.install_tasks
 
 # Based on https://github.com/bundler/bundler/blob/ec0621d/lib/bundler/gem_helpers.rb
 GEM_TASKS = Class.new(Rake::TaskLib) do
