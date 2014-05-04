@@ -1,16 +1,41 @@
-Changes are below categorized as `Features, Fixes, or Misc`.
+Changes are below categorized as `Breaking changes, Features, Fixes, or Misc`.
 
 Each change should fall into categories that would affect whether the release is major (breaking changes), minor (new behavior), or patch (bug fix). See [semver](http://semver.org/) and [pessimistic versioning](http://docs.rubygems.org/read/chapter/16#page74)
 
-As such, a _Feature_ would map to either major or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
+As such, a _Feature_ would map to either major (breaking change) or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.10.0...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.11.0...master)
 
 * Breaking Changes
 * Features
 * Fixes
-  * Ensure paths with spaces don't cause the open command to fail (Nick Veys, #220)
 * Misc
+
+### [4.11.0](https://github.com/metricfu/metric_fu/compare/v4.10.0...v4.11.0)
+
+* Features
+  * There is now a `MetricFu.logger` with standard available configurations.
+    The old `mf_debug` and `mf_log` main mixin is presevered.  Needs documentation. See #113. (Benjamin Fleischer, a49bfdd182)
+  * Use *launchy* (new dependency) when opening output files. (Nick Veys, #224)
+  * Coverage formatter now behaves like SimpleCov; it ignores certain lines in
+    calculating the precent run. Fixes #153, #222 (Benjamin Fleischer, #226).
+    - Thanks to @crv for the test in #153
+    - Note: JRuby will usually report different Coverage from MRI. This is a known issue.
+    - Note: This technically is a *breaking change* from how RCov works. But wwe don't run RCov anymore. (65bf21723291f)
+* Fixes
+  * Ensure paths with spaces don't cause the open command to fail (Nick Veys, #220)
+  * Read in source files for annotation in BINARY mode to avoid encoding errors. (Benjamin Fleischer, #216)
+  * Start SimpleCov before any MetricFu code is loaded. Coverage isn't tracked on already-loaded code. (Benjamin Fleischer, cca659f7d48d3f6799)
+  * Remove unused/invalid Flay param 'filetypes'. Closes #151. (Benjamin Fleischer, 5973595f51c)
+* Misc
+  * Document ENV variables the may fix encoding exceptions. (Mike Szyndel, #217)
+  * Begin adding shared tests for metrics and configuration.  Test fenced-codeblock matching. (Benjamin Fleischer, #221)
+  * Reorganize the application file layout. Still more to be done. (Benjamin Fleischer, #223)
+  * Rename AwesomeTemplate to MetricFu::Templates::MetricsTemplate.  (Benjamin Fleischer, 55c52afd95d78)
+  * Rename ReekHotspot to MetricFu::ReekHotspot.  Was missing namespace. (Benjamin Fleischer, a3aa70c1a9)
+  * Allow failures for Ruby 2.1, in addition to rbx per issues with rvm.  (Benjamin Fleischer, 3018b22)
+  * `spec/quality_spec.rb` checks for whitespace, tabs, quotes, etc. `rake spec` also checks for warnings. (Benjamin Fleischer, b0c51bb9b17)
+  * When run with COVERAGE=true, will ouptut a file to `coverage/coverage_percent.txt` that can be checked via `rake check_code_coverage`. Borrowed from VCR. (Benjamin Fleischer, 32df3a34c6)
 
 ### [4.10.0 / 2014-04-01](https://github.com/metricfu/metric_fu/compare/v4.9.0...v4.10.0)
 
