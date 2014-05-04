@@ -72,4 +72,5 @@ template.render_partial 'graph', {:graph_name => 'reek'}
 0. Run `rake usage_test` to make sure the examples are still valid
 1. Update lib/metric_fu/version.rb
 2. Update HISTORY.md
+3. Update CONTRIBUTORS and erd per README in etc
 3. `rake release`

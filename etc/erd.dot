@@ -46,6 +46,7 @@ digraph classes {
 	MetricFu__LineNumbers [label="MetricFu::LineNumbers"]
 	MetricFu__Loader [label="MetricFu::Loader"]
 	MetricFu__Location [label="MetricFu::Location"]
+	MetricFu__Logger [label="MetricFu::Logger"]
 	MetricFu__MethodContainer [label="MetricFu::MethodContainer"]
 	MetricFu__Metric [label="MetricFu::Metric"]
 	MetricFu__MetricCane [label="MetricFu::MetricCane"]
@@ -70,6 +71,7 @@ digraph classes {
 	MetricFu__Record [label="MetricFu::Record"]
 	MetricFu__ReekGenerator [label="MetricFu::ReekGenerator"]
 	MetricFu__ReekGrapher [label="MetricFu::ReekGrapher"]
+	MetricFu__ReekHotspot [label="MetricFu::ReekHotspot"]
 	MetricFu__Reporter [label="MetricFu::Reporter"]
 	MetricFu__Result [label="MetricFu::Result"]
 	MetricFu__RoodiGenerator [label="MetricFu::RoodiGenerator"]
@@ -88,6 +90,7 @@ digraph classes {
 	MetricFu__Table [label="MetricFu::Table"]
 	MetricFu__Template [label="MetricFu::Template"]
 	MetricFu__Templates__Configuration [label="MetricFu::Templates::Configuration"]
+	MetricFu__Templates__MetricsTemplate [label="MetricFu::Templates::MetricsTemplate"]
 	MetricFu__Templates__Report [label="MetricFu::Templates::Report"]
 	Object [label="Object"]
 	RuntimeError [label="RuntimeError"]
@@ -138,6 +141,7 @@ digraph classes {
 	MetricFu__LineNumbers -> Object
 	MetricFu__Loader -> Object
 	MetricFu__Location -> Object
+	MetricFu__Logger -> Object
 	MetricFu__MethodContainer -> Object
 	MetricFu__Metric -> Object
 	MetricFu__MetricCane -> MetricFu__Metric
@@ -162,6 +166,7 @@ digraph classes {
 	MetricFu__Record -> Object
 	MetricFu__ReekGenerator -> MetricFu__Generator
 	MetricFu__ReekGrapher -> MetricFu__Grapher
+	MetricFu__ReekHotspot -> MetricFu__Hotspot
 	MetricFu__Reporter -> Object
 	MetricFu__Result -> Object
 	MetricFu__RoodiGenerator -> MetricFu__Generator
@@ -180,6 +185,7 @@ digraph classes {
 	MetricFu__Table -> Object
 	MetricFu__Template -> Object
 	MetricFu__Templates__Configuration -> Object
+	MetricFu__Templates__MetricsTemplate -> MetricFu__Template
 	MetricFu__Templates__Report -> MetricFu__Template
 	Object -> BasicObject
 	RuntimeError -> StandardError
