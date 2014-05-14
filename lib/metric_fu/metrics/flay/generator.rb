@@ -21,8 +21,8 @@ module MetricFu
       @matches.each do |problem|
         reason = problem.shift.strip
         lines_info = problem.map do |full_line|
-          name, line = full_line.split(":")
-          {:name => name.strip, :line => line.strip}
+          name, line = full_line.split(":").map(&:strip)
+          {:name => name, :line => line}
         end
         target << [:reason => reason, :matches => lines_info]
       end
