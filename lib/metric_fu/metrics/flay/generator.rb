@@ -16,17 +16,25 @@ module MetricFu
     end
 
     def to_h
+      {:flay => calculate_result(@matches)}
+    end
+
+    # TODO: move into analyze method
+    def calculate_result(matches)
+      total_score = matches.shift.first.split('=').last.strip
       target = []
-      total_score = @matches.shift.first.split('=').last.strip
-      @matches.each do |problem|
+      matches.each do |problem|
         reason = problem.shift.strip
         lines_info = problem.map do |full_line|
-          name, line = full_line.split(":")
-          {:name => name.strip, :line => line.strip}
+          name, line = full_line.split(":").map(&:strip)
+          {:name => name, :line => line}
         end
         target << [:reason => reason, :matches => lines_info]
       end
-      {:flay => {:total_score => total_score, :matches => target.flatten}}
+      {
+        :total_score => total_score,
+        :matches => target.flatten
+      }
     end
 
     private

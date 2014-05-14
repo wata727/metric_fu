@@ -55,7 +55,17 @@ module MetricFu
         # version: ,
         args: args,
       })
-      runner.run
+      stdout, stderr, status = runner.run
+      # TODO: do something with the stderr
+      # for now, just acknowledge we got it
+      unless stderr.empty?
+        STDERR.puts "STDERR from #{gem_name}:\n#{stderr}"
+      end
+      # TODO: status.success? is not reliable for distinguishing
+      # between a successful run of the metric and problems
+      # found by the metric. Talk to other metrics about this.
+      MetricFu.logger.debug "#{gem_name} ran with #{status.success? ? 'success' : 'failure'} code #{status.exitstatus}"
+      stdout
     end
 
     def configured_run_options
