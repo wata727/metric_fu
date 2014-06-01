@@ -36,25 +36,25 @@ describe MetricFu::Generator do
     end
   end
 
-  describe '#metric_directory' do
-    it 'should return the results of ConcreteClass#metric_directory' do
+  describe "#metric_directory" do
+    it "should return the results of ConcreteClass#metric_directory" do
       allow(ConcreteClass).to receive(:metric_directory).and_return('foo')
       expect(@concrete_class.metric_directory).to eq('foo')
     end
   end
 
   describe "#generate_result" do
-    it 'should  raise an error when calling #emit' do
+    it "should  raise an error when calling #emit" do
       @abstract_class = MetricFu::Generator.new
       expect { @abstract_class.generate_result }.to  raise_error
     end
 
-    it 'should call #analyze' do
+    it "should call #analyze" do
       @abstract_class = MetricFu::Generator.new
       expect { @abstract_class.generate_result }.to  raise_error
     end
 
-    it 'should call #to_h' do
+    it "should call #to_h" do
       @abstract_class = MetricFu::Generator.new
       expect { @abstract_class.generate_result }.to  raise_error
     end

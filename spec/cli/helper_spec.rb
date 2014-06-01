@@ -155,13 +155,13 @@ describe MetricFu::Cli::Helper do
       expect(helper.process_options(["--roodi"])[:roodi]).to be_truthy
     end
 
-    context 'given a single format' do
+    context "given a single format" do
       it "sets the format" do
         expect(helper.process_options(["--format", "json"])[:format]).to eq([['json']])
       end
     end
 
-    context 'given multiple formats' do
+    context "given multiple formats" do
       it "sets multiple formats" do
         expect(helper.process_options(["--format", "json", "--format", "yaml"])[:format]).to eq([['json'], ['yaml']])
       end

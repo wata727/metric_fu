@@ -37,7 +37,7 @@ describe SimpleCov::Formatter::MetricFu do
     if defined?(JRUBY_VERSION)
       STDOUT.puts "Skipping spec 'cause JRuby doesn't do Coverage right"
     else
-    it 'calculates the same coverage from an RCov report as from SimpleCov' do
+    it "calculates the same coverage from an RCov report as from SimpleCov" do
       SimpleCov.start # start coverage
       require 'fixtures/coverage-153'
       result = SimpleCov.result # end coverage

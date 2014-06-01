@@ -153,29 +153,29 @@ app/controllers/newline_controller.rb -- 1 warnings:
       HERE
   end
 
-  context 'with Reek 1.1 output format' do
-    it 'reports 1.1 style when the output is empty' do
+  context "with Reek 1.1 output format" do
+    it "reports 1.1 style when the output is empty" do
       @reek.instance_variable_set(:@output, "")
       expect(@reek).not_to be_reek_12
     end
-    it 'detects 1.1 format output' do
+    it "detects 1.1 format output" do
       @reek.instance_variable_set(:@output, @lines11)
       expect(@reek).not_to be_reek_12
     end
 
-    it 'massages empty output to be unchanged' do
+    it "massages empty output to be unchanged" do
       @reek.instance_variable_set(:@output, "")
       expect(@reek.massage_for_reek_12).to be_empty
     end
   end
 
-  context 'with Reek 1.2 output format' do
-    it 'detects 1.2 format output' do
+  context "with Reek 1.2 output format" do
+    it "detects 1.2 format output" do
       @reek.instance_variable_set(:@output, @lines12)
       expect(@reek).to be_reek_12
     end
 
-    it 'correctly massages 1.2 output' do
+    it "correctly massages 1.2 output" do
       @reek.instance_variable_set(:@output, @lines12)
       expect(@reek.massage_for_reek_12).to eq(@lines11)
     end

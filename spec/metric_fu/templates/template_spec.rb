@@ -9,7 +9,7 @@ describe MetricFu::Template do
   end
 
   describe "#erbify" do
-    it 'should evaluate a erb doc' do
+    it "should evaluate a erb doc" do
       section = 'section'
       erb = double('erb')
       expect(erb).to receive(:result)
@@ -25,8 +25,8 @@ describe MetricFu::Template do
       @section = double('section')
     end
 
-    describe 'if the template exists' do
-      it 'should return true' do
+    describe "if the template exists" do
+      it "should return true" do
         Tempfile.open('file') do |file|
           expect(@template).to receive(:template).with(@section).and_return(file.path)
           result = @template.send(:template_exists?,@section)
@@ -35,8 +35,8 @@ describe MetricFu::Template do
       end
     end
 
-    describe 'if the template does not exist' do
-      it 'should return false' do
+    describe "if the template does not exist" do
+      it "should return false" do
         path = 'path'
         expect(@template).to receive(:template).with(@section).and_return(path)
         result = @template.send(:template_exists?,@section)
@@ -46,7 +46,7 @@ describe MetricFu::Template do
   end
 
   describe "#create_instance_var" do
-    it 'should set an instance variable with the passed contents' do
+    it "should set an instance variable with the passed contents" do
       section = 'section'
       contents = 'contents'
       @template.send(:create_instance_var, section, contents)
@@ -55,7 +55,7 @@ describe MetricFu::Template do
   end
 
   describe "#template" do
-    it 'should generate the filename of the template file' do
+    it "should generate the filename of the template file" do
       section = double('section')
       allow(section).to receive(:to_s).and_return('section')
       expect(@template).to receive(:template_directory).and_return('dir')
@@ -65,7 +65,7 @@ describe MetricFu::Template do
   end
 
   describe "#output_filename" do
-    it 'should generate the filename of the output file' do
+    it "should generate the filename of the output file" do
       section = double('section')
       expect(section).to receive(:to_s).and_return('section')
       result = @template.send(:output_filename, section)
@@ -74,7 +74,7 @@ describe MetricFu::Template do
   end
 
   describe "#inline_css" do
-    it 'should return the contents of a css file' do
+    it "should return the contents of a css file" do
       css = 'mycss.css'
       dir = File.join(MetricFu.lib_dir, 'templates', css)
       contents = "css contents"
@@ -95,7 +95,7 @@ describe MetricFu::Template do
         allow(MetricFu).to receive(:configuration).and_return(config)
       end
 
-      it 'should return a textmate protocol link' do
+      it "should return a textmate protocol link" do
         expect(@template).to receive(:complete_file_path).with('filename').and_return('/expanded/filename')
         result = @template.send(:link_to_filename, 'filename')
         expect(result).to eql("<a href='txmt://open/?url=file://" \
@@ -153,7 +153,7 @@ describe MetricFu::Template do
         expect(@template).to receive(:complete_file_path).and_return('filename')
       end
 
-      it 'should return a file protocol link' do
+      it "should return a file protocol link" do
         name = "filename"
         result = @template.send(:link_to_filename, name)
         expect(result).to eq("<a href='file://filename'>filename</a>")
@@ -169,7 +169,7 @@ describe MetricFu::Template do
         expect(@template).to receive(:complete_file_path).and_return('filename')
       end
 
-      it 'should return a http protocol link' do
+      it "should return a http protocol link" do
         name = "filename"
         result = @template.send(:link_to_filename, name)
         expect(result).to eq("<a href='http://example.org/files/filename'>filename</a>")
@@ -178,7 +178,7 @@ describe MetricFu::Template do
   end
 
   describe "#cycle" do
-    it 'should return the first_value passed if iteration passed is even' do
+    it "should return the first_value passed if iteration passed is even" do
       first_val = "first"
       second_val = "second"
       iter = 2
@@ -186,7 +186,7 @@ describe MetricFu::Template do
       expect(result).to eq(first_val)
     end
 
-    it 'should return the second_value passed if iteration passed is odd' do
+    it "should return the second_value passed if iteration passed is odd" do
       first_val = "first"
       second_val = "second"
       iter = 1
@@ -196,12 +196,12 @@ describe MetricFu::Template do
   end
 
   describe "#render_partial" do
-    it 'should erbify a partial with the name prefixed with an underscore' do
+    it "should erbify a partial with the name prefixed with an underscore" do
       expect(@template).to receive(:erbify).with('_some_partial')
       @template.send(:render_partial, 'some_partial')
     end
 
-    it 'should set the given instance variables' do
+    it "should set the given instance variables" do
       variables = {:answer => 42}
       allow(@template).to receive(:erbify)
       expect(@template).to receive(:create_instance_vars).with(variables)

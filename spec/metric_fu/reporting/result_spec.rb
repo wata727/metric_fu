@@ -4,7 +4,7 @@ MetricFu.reporting_require { 'result' }
 describe MetricFu do
 
   describe "#result" do
-    it 'should return an instance of Result' do
+    it "should return an instance of Result" do
       expect(MetricFu.result.instance_of?(Result)).to be(true)
     end
   end
@@ -17,7 +17,7 @@ describe MetricFu::Result do
   end
 
   describe "#as_yaml" do
-    it 'should call #result_hash' do
+    it "should call #result_hash" do
       result_hash = double('result_hash')
       expect(result_hash).to receive(:to_yaml)
 
@@ -30,7 +30,7 @@ describe MetricFu::Result do
   end
 
   describe "#add" do
-    it 'should add a passed hash to the result_hash instance variable' do
+    it "should add a passed hash to the result_hash instance variable" do
       result_type = double('result_type')
       allow(result_type).to receive(:to_s).and_return('type')
 

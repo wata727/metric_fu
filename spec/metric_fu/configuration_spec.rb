@@ -5,7 +5,7 @@ describe MetricFu::Configuration do
 
 it_behaves_like 'configured' do
 
-  describe '#is_cruise_control_rb? ' do
+  describe "#is_cruise_control_rb? " do
 
     before(:each) { get_new_config }
     describe "when the CC_BUILD_ARTIFACTS env var is not nil" do
@@ -28,7 +28,7 @@ it_behaves_like 'configured' do
     describe "when the CC_BUILD_ARTIFACTS env var is nil" do
       before(:each) { ENV['CC_BUILD_ARTIFACTS'] = nil }
 
-      it 'should return false' do
+      it "should return false" do
         expect(@config.is_cruise_control_rb?).to be_falsey
       end
     end
@@ -36,7 +36,7 @@ it_behaves_like 'configured' do
 
   describe "#reset" do
 
-    describe 'when there is a CC_BUILD_ARTIFACTS environment variable' do
+    describe "when there is a CC_BUILD_ARTIFACTS environment variable" do
 
       before do
         ENV['CC_BUILD_ARTIFACTS'] = 'foo'
@@ -44,7 +44,7 @@ it_behaves_like 'configured' do
         @config.reset
         MetricFu.configure
       end
-      it 'should return the CC_BUILD_ARTIFACTS environment variable' do
+      it "should return the CC_BUILD_ARTIFACTS environment variable" do
         compare_paths(base_directory, ENV['CC_BUILD_ARTIFACTS'])
       end
       after do
@@ -53,13 +53,13 @@ it_behaves_like 'configured' do
       end
     end
 
-    describe 'when there is no CC_BUILD_ARTIFACTS environment variable' do
+    describe "when there is no CC_BUILD_ARTIFACTS environment variable" do
 
       before(:each) do
         ENV['CC_BUILD_ARTIFACTS'] = nil
         get_new_config
       end
-      it 'should return "tmp/metric_fu"' do
+      it "should return 'tmp/metric_fu'" do
         expect(base_directory).to eq(MetricFu.artifact_dir)
       end
 
@@ -88,11 +88,11 @@ it_behaves_like 'configured' do
 
   end
 
-  describe '#platform' do
+  describe "#platform" do
 
     before(:each) { get_new_config }
 
-    it 'should return the value of the PLATFORM constant' do
+    it "should return the value of the PLATFORM constant" do
       this_platform = RUBY_PLATFORM
       expect(@config.platform).to eq(this_platform)
     end

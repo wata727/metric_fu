@@ -64,7 +64,7 @@ describe StatsGenerator do
       expect(model_data[:loc_per_method]).to eq(7)
     end
 
-    it 'handles code to test ratio is ratio is 1:NaN' do
+    it "handles code to test ratio is ratio is 1:NaN" do
       lines =  <<-HERE.gsub(/^\s*/, "")
       +----------------------+-------+-------+---------+---------+-----+-------+
       | Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |

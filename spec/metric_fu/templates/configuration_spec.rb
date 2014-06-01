@@ -3,7 +3,7 @@ require 'shared/configured'
 
 describe MetricFu::Configuration, 'for templates' do
   it_behaves_like 'configured' do
-    describe 'when there is no CC_BUILD_ARTIFACTS environment variable' do
+    describe "when there is no CC_BUILD_ARTIFACTS environment variable" do
 
       before(:each) do
         ENV['CC_BUILD_ARTIFACTS'] = nil
@@ -17,11 +17,11 @@ describe MetricFu::Configuration, 'for templates' do
     end
 
 
-    it 'should set @template_class to MetricFu::Templates::MetricsTemplate by default' do
+    it "should set @template_class to MetricFu::Templates::MetricsTemplate by default" do
       expect(template_class).to eq(MetricFu::Templates::MetricsTemplate)
     end
 
-    describe 'when a templates configuration is given' do
+    describe "when a templates configuration is given" do
 
       before do
         class DummyTemplate;end
@@ -34,19 +34,19 @@ describe MetricFu::Configuration, 'for templates' do
         end
       end
 
-      it 'should set given template_class' do
+      it "should set given template_class" do
         expect(template_class).to eq(DummyTemplate)
       end
 
-      it 'should set given link_prefix' do
+      it "should set given link_prefix" do
         expect(MetricFu::Formatter::Templates.option('link_prefix')).to eq('http:/')
       end
 
-      it 'should set given darwin_txmt_protocol_no_thanks' do
+      it "should set given darwin_txmt_protocol_no_thanks" do
         expect(MetricFu::Formatter::Templates.option('darwin_txmt_protocol_no_thanks')).to be_falsey
       end
 
-      it 'should set given syntax_highlighting' do
+      it "should set given syntax_highlighting" do
         expect(MetricFu::Formatter::Templates.option('syntax_highlighting')).to be_falsey
       end
 
