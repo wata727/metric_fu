@@ -25,6 +25,10 @@ RSpec::Matchers.define :create_files do |expected|
     end
   end
 
+  def supports_block_expectations?
+    true
+  end
+
   def exists?(expected)
     # Allows us to use wildcard checks for existence.
     !Dir.glob(expected).empty?

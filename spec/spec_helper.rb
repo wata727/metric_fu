@@ -34,7 +34,7 @@ RSpec.configure do |config|
   config.filter_run_excluding :slow unless ENV["SLOW_SPECS"]
   config.fail_fast = ENV.include?('FAIL_FAST')
   config.order = :rand
-  config.color_enabled = true
+  config.color = true
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
   end
