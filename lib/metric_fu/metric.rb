@@ -44,30 +44,6 @@ module MetricFu
       run_options.map { |k, v| "--#{k} #{v}" }.join(' ')
     end
 
-    def run
-      not_implemented
-    end
-
-    def run_external(args = default_run_args)
-      runner = GemRun.new({
-        gem_name: gem_name.to_s,
-        metric_name: name.to_s,
-        # version: ,
-        args: args,
-      })
-      stdout, stderr, status = runner.run
-      # TODO: do something with the stderr
-      # for now, just acknowledge we got it
-      unless stderr.empty?
-        STDERR.puts "STDERR from #{gem_name}:\n#{stderr}"
-      end
-      # TODO: status.success? is not reliable for distinguishing
-      # between a successful run of the metric and problems
-      # found by the metric. Talk to other metrics about this.
-      MetricFu.logger.debug "#{gem_name} ran with #{status.success? ? 'success' : 'failure'} code #{status.exitstatus}"
-      stdout
-    end
-
     def configured_run_options
       @configured_run_options
     end

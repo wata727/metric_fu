@@ -89,8 +89,33 @@ module MetricFu
     end
 
     def run!(args)
-      metric_config.run_external(args)
+      not_implemented
     end
+
+    def not_implemented
+      raise "Required method #{caller[0]} not implemented in #{__FILE__}"
+    end
+
+    def run_external(args = metric_config.default_run_args)
+      runner = GemRun.new({
+        gem_name: metric_config.gem_name.to_s,
+        metric_name: metric_config.name.to_s,
+        # version: ,
+        args: args,
+      })
+      stdout, stderr, status = runner.run
+      # TODO: do something with the stderr
+      # for now, just acknowledge we got it
+      unless stderr.empty?
+        STDERR.puts "STDERR from #{gem_name}:\n#{stderr}"
+      end
+      # TODO: status.success? is not reliable for distinguishing
+      # between a successful run of the metric and problems
+      # found by the metric. Talk to other metrics about this.
+      MetricFu.logger.debug "#{metric_config.gem_name} ran with #{status.success? ? 'success' : 'failure'} code #{status.exitstatus}"
+      stdout
+    end
+
 
     # Provides a template method to drive the production of a metric
     # from a concrete implementation of this class.  Each concrete

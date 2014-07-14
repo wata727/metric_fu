@@ -1,6 +1,16 @@
 require "spec_helper"
+MetricFu.metrics_require { 'flay/generator' }
 
 describe MetricFu::Generator do
+
+  it "can run metrics externally", :focus  do
+    options = {}
+    generator = MetricFu::FlayGenerator.new(options)
+    def generator.run!(args)
+      run_external(args)
+    end
+    generator.run!([])
+  end
 
   include TestConstruct::Helpers
 
