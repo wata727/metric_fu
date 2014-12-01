@@ -11,28 +11,42 @@ module MetricFu
 
     def write
       self.name = MetricFu.report_name
+      self.metrics = {}
 
-      # Copy javascripts to output directory
+      copy_javascripts
+
+      result.each_pair do |section, contents|
+        write_section(section, contents)
+      end
+
+      write_index
+      write_file_data
+    end
+
+    private
+
+    def copy_javascripts
       Dir[File.join(template_directory, 'javascripts', '*')].each do |f|
         FileUtils.cp(f, File.join(self.output_directory, File.basename(f)))
       end
+    end
 
-      self.metrics = {}
-      result.each_pair do |section, contents|
-        if template_exists?(section)
-          create_instance_var(section, contents)
-          self.metrics[section] = contents
-          create_instance_var(:per_file_data, per_file_data)
-          mf_debug  "Generating html for section #{section} with #{template(section)} for result #{result.class}"
-          self.html = erbify(section)
-          layout = erbify('layout')
-          fn = output_filename(section)
-          formatter.write_template(layout, fn)
-        else
-          mf_debug  "no template for section #{section} with #{template(section)} for result #{result.class}"
-        end
+    def write_section(section, contents)
+      if template_exists?(section)
+        create_instance_var(section, contents)
+        self.metrics[section] = contents
+        create_instance_var(:per_file_data, per_file_data)
+        mf_debug  "Generating html for section #{section} with #{template(section)} for result #{result.class}"
+        self.html = erbify(section)
+        layout = erbify('layout')
+        fn = output_filename(section)
+        formatter.write_template(layout, fn)
+      else
+        mf_debug  "no template for section #{section} with #{template(section)} for result #{result.class}"
       end
+    end
 
+    def write_index
       # Instance variables we need should already be created from above
       if template_exists?('index')
         self.html = erbify('index')
@@ -42,8 +56,6 @@ module MetricFu
       else
         mf_debug  "no template for section index for result #{result.class}"
       end
-
-      write_file_data
     end
 
     def write_file_data
