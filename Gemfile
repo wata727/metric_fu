@@ -1,12 +1,25 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
+if RUBY_VERSION == '1.9.2'
+  # because of https://github.com/railsbp/rails_best_practices/blob/master/rails_best_practices.gemspec
+  gem 'activesupport', '~> 3.2'
+  # because of https://github.com/troessner/reek/issues/334
+  gem 'reek', '~> 1.4.0'
+end
+
+gemspec :path => File.expand_path('..', __FILE__)
+
+platform :jruby do
+  group :jruby do
+    gem 'jruby-openssl', '~> 0.8.5'
+  end
+end
+
 group :test, :local_development  do
   gem 'pry'
   gem 'pry-nav'
 end
-
-gemspec :path => File.expand_path('..', __FILE__)
 
 # Added by devtools
 group :development do
@@ -30,10 +43,4 @@ group :guard do
   gem 'libnotify',               '~> 0.8.0', require: false
   gem 'rb-notifu',               '~> 0.0.4', require: false
   gem 'terminal-notifier-guard', '~> 1.5.3', require: false
-end
-
-platform :jruby do
-  group :jruby do
-    gem 'jruby-openssl', '~> 0.8.5'
-  end
 end
