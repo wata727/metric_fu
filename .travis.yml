@@ -2,8 +2,6 @@ language: ruby
 bundler_args: --path vendor/bundle
 script: bundle exec rspec
 cache: bundler
-gemfile:
-  - gemfiles/Gemfile.travis
 before_install:
   - gem install bundler
   - bundle config --local without local_development yard guard
