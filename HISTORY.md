@@ -10,6 +10,7 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 * Features
 * Fixes
 * Misc
+  * Refactor MetricFu::Templates::MetricsTemplate#write into a composed method. (#237)
 
 ### [4.11.1](https://github.com/metricfu/metric_fu/compare/v4.11.0...v4.11.1)
 
