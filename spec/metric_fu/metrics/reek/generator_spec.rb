@@ -19,6 +19,13 @@ describe MetricFu::ReekGenerator do
       reek.emit
     end
 
+    it "doesn't add an empty parameter when no config file pattern is specified" do
+      expect(reek).to receive(:run!) do |args|
+        expect(args).not_to include('')
+      end.and_return('')
+      reek.emit
+    end
+
     it "turns off color output from reek output, for reek 1.3.7 or greater" do
       allow(reek).to receive(:reek_version).and_return('1.3.7')
       expect(reek).to receive(:run!) do |args|

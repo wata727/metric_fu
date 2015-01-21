@@ -107,7 +107,7 @@ module MetricFu
         turn_off_color,
         config_option,
         *files
-      ]
+      ].reject(&:empty?)
     end
 
     # TODO: Check that specified line config file exists
