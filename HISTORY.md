@@ -9,6 +9,7 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 * Breaking Changes
 * Features
 * Fixes
+  * Use reek as library, otherwise reek >= 1.6.2 hangs while reading input from stdin. (Martin Gotink, #240, fixes #239)
 * Misc
   * Refactor MetricFu::Templates::MetricsTemplate#write into a composed method. (#237)
 
