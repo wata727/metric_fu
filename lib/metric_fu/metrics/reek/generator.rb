@@ -13,12 +13,19 @@ module MetricFu
         mf_log "Skipping Reek, no files found to analyze"
         @output = ""
       else
-        args =  cli_options(files)
+        args = cli_options(files)
         @output = run!(args)
         @output = massage_for_reek_12 if reek_12?
       end
     end
 
+    def run!(args)
+      require 'reek/cli/application'
+
+      MetricFu::Utility.capture_output do
+        Reek::Cli::Application.new(args).execute
+      end
+    end
 
     def analyze
       @matches = @output.chomp.split("\n\n").map{|m| m.split("\n") }
@@ -99,8 +106,8 @@ module MetricFu
         disable_line_number_option,
         turn_off_color,
         config_option,
-        files.join(' ')
-      ].join(' ')
+        *files
+      ]
     end
 
     # TODO: Check that specified line config file exists
