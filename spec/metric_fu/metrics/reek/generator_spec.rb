@@ -13,29 +13,46 @@ describe MetricFu::ReekGenerator do
 
     it "includes config file pattern into reek parameters when specified" do
       options.merge!({:config_file_pattern => 'lib/config/*.reek' })
-      expect(reek).to receive(:run!).with(/--config lib\/config\/\*\.reek /).and_return("")
+      expect(reek).to receive(:run!) do |args|
+        expect(args).to include('--config lib/config/*.reek')
+      end.and_return('')
+      reek.emit
+    end
+
+    it "doesn't add an empty parameter when no config file pattern is specified" do
+      expect(reek).to receive(:run!) do |args|
+        expect(args).not_to include('')
+      end.and_return('')
       reek.emit
     end
 
     it "turns off color output from reek output, for reek 1.3.7 or greater" do
       allow(reek).to receive(:reek_version).and_return('1.3.7')
-      expect(reek).to receive(:run!).with(/(?=--no-color)/).and_return("")
+      expect(reek).to receive(:run!) do |args|
+        expect(args).to include('--no-color')
+      end.and_return("")
       reek.emit
     end
 
     it "does not set an (invalid) --no-color option for reek < 1.3.7" do
       allow(reek).to receive(:reek_version).and_return('1.3.6')
-      expect(reek).to receive(:run!).with(/(?!--no-color)/).and_return("")
+      expect(reek).to receive(:run!) do |args|
+        expect(args).not_to include('--no-color')
+      end.and_return("")
       reek.emit
     end
 
     it "disables lines numbers from reek output" do
-      expect(reek).to receive(:run!).with(/--no-line-numbers /).and_return("")
+      expect(reek).to receive(:run!) do |args|
+        expect(args).to include('--no-line-numbers')
+      end.and_return("")
       reek.emit
     end
 
     it "includes files to analyze into reek parameters" do
-      expect(reek).to receive(:run!).with(/lib\/foo.rb lib\/bar.rb$/).and_return("")
+      expect(reek).to receive(:run!) do |args|
+        expect(args).to include('lib/foo.rb', 'lib/bar.rb')
+      end.and_return("")
       reek.emit
     end
   end

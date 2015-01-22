@@ -29,7 +29,7 @@ describe MetricFu do
       # limited set, so we can test the basic functionality
       # without significantly slowing down the specs.
       MetricFu.configuration.configure_metrics do |metric|
-        if metric.name == :reek
+        if metric.name == :cane
           metric.enable
           metric.activated = true
           # so this doesn't seem to always be true
