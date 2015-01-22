@@ -6,6 +6,8 @@ if RUBY_VERSION == '1.9.2'
   gem 'activesupport', '~> 3.2'
   # because of https://github.com/troessner/reek/issues/334
   gem 'reek', '~> 1.4.0'
+  # rbp -> as -> i18n
+  gem 'i18n', '0.6.11'
 end
 
 gemspec :path => File.expand_path('..', __FILE__)
