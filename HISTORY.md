@@ -4,10 +4,15 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major (breaking change) or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.11.1...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.11.2...master)
 
 * Breaking Changes
 * Features
+* Fixes
+* Misc
+
+### [4.11.2](https://github.com/metricfu/metric_fu/compare/v4.11.1...v4.11.2)
+
 * Fixes
   * Use reek as library, otherwise reek >= 1.6.2 hangs while reading input from stdin. (Martin Gotink, #240, fixes #239)
 * Misc
