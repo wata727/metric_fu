@@ -1,5 +1,4 @@
 class MetricFu::FlogHotspot < MetricFu::Hotspot
-
   COLUMNS = %w{score}
 
   def columns
@@ -23,10 +22,10 @@ class MetricFu::FlogHotspot < MetricFu::Hotspot
   end
 
   def generate_records(data, table)
-    return if data==nil
+    return if data == nil
     Array(data[:method_containers]).each do |method_container|
       Array(method_container[:methods]).each do |entry|
-        file_path = entry[1][:path].sub(%r{^/},'') if entry[1][:path]
+        file_path = entry[1][:path].sub(%r{^/}, "") if entry[1][:path]
         location = MetricFu::Location.for(entry.first)
         table << {
           "metric" => name,
@@ -42,7 +41,6 @@ class MetricFu::FlogHotspot < MetricFu::Hotspot
   def present_group(group)
     occurences = group.size
     complexity = get_mean(group.column("score"))
-    "#{"average " if occurences > 1}complexity is %.1f" % complexity
+    "#{'average ' if occurences > 1}complexity is %.1f" % complexity
   end
-
 end

@@ -1,5 +1,4 @@
 class MetricFu::ChurnHotspot < MetricFu::Hotspot
-
   COLUMNS = %w{times_changed}
 
   def columns
@@ -28,7 +27,7 @@ class MetricFu::ChurnHotspot < MetricFu::Hotspot
   end
 
   def generate_records(data, table)
-   return if data==nil
+    return if data == nil
     Array(data[:changes]).each do |change|
       table << {
         "metric" => :churn,
@@ -41,5 +40,4 @@ class MetricFu::ChurnHotspot < MetricFu::Hotspot
   def present_group(group)
     "detected high level of churn (changed #{group[0].times_changed} times)"
   end
-
 end

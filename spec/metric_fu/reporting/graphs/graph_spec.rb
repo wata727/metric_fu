@@ -1,8 +1,7 @@
 require "spec_helper"
-MetricFu.reporting_require { 'graphs/graph' }
+MetricFu.reporting_require { "graphs/graph" }
 
 describe MetricFu do
-
   describe "responding to #graph" do
     it "should return an instance of Graph" do
       expect(MetricFu.graph).to be_a(Graph)
@@ -11,13 +10,11 @@ describe MetricFu do
 end
 
 describe MetricFu::Graph do
-
   before(:each) do
     @graph = MetricFu::Graph.new
   end
 
   describe "setting the date on the graph" do
-
     # TODO better test
     it "should set the date once for one data point" do
       metric_file = "metric_fu/tmp/_data/20101105.yml"

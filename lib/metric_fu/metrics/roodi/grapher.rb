@@ -1,4 +1,4 @@
-MetricFu.reporting_require { 'graphs/grapher' }
+MetricFu.reporting_require { "graphs/grapher" }
 module MetricFu
   class RoodiGrapher < Grapher
     attr_accessor :roodi_count, :labels
@@ -16,23 +16,22 @@ module MetricFu
     def get_metrics(metrics, date)
       if metrics && metrics[:roodi]
         @roodi_count.push(metrics[:roodi][:problems].size)
-        @labels.update( { @labels.size => date })
+        @labels.update(@labels.size => date)
       end
     end
 
     def title
-      'Roodi: design problems'
+      "Roodi: design problems"
     end
 
     def data
       [
-        ['roodi', @roodi_count.join(',')]
+        ["roodi", @roodi_count.join(",")]
       ]
     end
 
     def output_filename
-      'roodi.js'
+      "roodi.js"
     end
-
   end
 end

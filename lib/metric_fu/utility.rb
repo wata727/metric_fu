@@ -1,5 +1,5 @@
-require 'yaml'
-require 'fileutils'
+require "yaml"
+require "fileutils"
 module MetricFu
   module Utility
     module_function
@@ -10,17 +10,17 @@ module MetricFu
     def clean_ascii_text(text)
       if text.respond_to?(:encode)
         # avoids invalid multi-byte escape error
-        ascii_text = text.encode( 'ASCII', invalid: :replace, undef: :replace, replace: '' )
+        ascii_text = text.encode("ASCII", invalid: :replace, undef: :replace, replace: "")
         # see http://www.ruby-forum.com/topic/183413
-        pattern = Regexp.new('[\x80-\xff]', nil, 'n')
-        ascii_text.gsub(pattern, '')
+        pattern = Regexp.new('[\x80-\xff]', nil, "n")
+        ascii_text.gsub(pattern, "")
       else
         text
       end
     end
 
     def strip_escape_codes(text)
-      text.gsub(ESCAPE_CODES_PATTERN, '')
+      text.gsub(ESCAPE_CODES_PATTERN, "")
     end
 
     def rm_rf(*args)
@@ -45,7 +45,7 @@ module MetricFu
 
     # From episode 029 of Ruby Tapas by Avdi
     # https://rubytapas.dpdcart.com/subscriber/post?id=88
-    def capture_output(stream=STDOUT, &block)
+    def capture_output(stream = STDOUT, &_block)
       old_stdout = stream.clone
       pipe_r, pipe_w = IO.pipe
       pipe_r.sync    = true
@@ -67,6 +67,5 @@ module MetricFu
       pipe_r.close
       return output
     end
-
   end
 end

@@ -1,18 +1,17 @@
 module MetricFu
   class MetricCane < Metric
-
     def name
       :cane
     end
 
     def default_run_options
       {
-        :dirs_to_cane => MetricFu::Io::FileSystem.directory('code_dirs'),
-        :abc_max => 15,
-        :line_length => 80,
-        :no_doc => 'n',
-        :no_readme => 'n',
-        :filetypes => ['rb']
+        dirs_to_cane: MetricFu::Io::FileSystem.directory("code_dirs"),
+        abc_max: 15,
+        line_length: 80,
+        no_doc: "n",
+        no_readme: "n",
+        filetypes: ["rb"]
       }
     end
 
@@ -31,6 +30,5 @@ module MetricFu
     def activate
       super
     end
-
   end
 end

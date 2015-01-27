@@ -1,5 +1,4 @@
 class MetricFu::StatsHotspot < MetricFu::Hotspot
-
   COLUMNS = %w{stat_name stat_value}
 
   def columns
@@ -25,7 +24,7 @@ class MetricFu::StatsHotspot < MetricFu::Hotspot
   def generate_records(data, table)
     return if data == nil
     data.each do |key, value|
-      next if value.kind_of?(Array)
+      next if value.is_a?(Array)
       table << {
         "metric" => name,
         "stat_name" => key,
@@ -33,5 +32,4 @@ class MetricFu::StatsHotspot < MetricFu::Hotspot
       }
     end
   end
-
 end

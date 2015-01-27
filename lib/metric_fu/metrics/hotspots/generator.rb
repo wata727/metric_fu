@@ -1,13 +1,11 @@
-MetricFu.metrics_require   { 'hotspots/hotspot_analyzer' }
+MetricFu.metrics_require   { "hotspots/hotspot_analyzer" }
 module MetricFu
-
   class HotspotsGenerator < Generator
-
     def self.metric
       :hotspots
     end
 
-    def initialize(options={})
+    def initialize(options = {})
       MetricFu::Metric.enabled_metrics.each do |metric|
         require_hotspot(metric.name)
       end
@@ -24,7 +22,7 @@ module MetricFu
     end
 
     def to_h
-      result = {:hotspots => {}}
+      result = { hotspots: {} }
       @hotspots.each do |granularity, hotspots|
         result[:hotspots][granularity.to_s] = hotspots.map(&:to_hash)
       end
@@ -39,5 +37,4 @@ module MetricFu
       mf_debug "*** No hotspot for #{metric_name}"
     end
   end
-
 end

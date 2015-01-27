@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'roodi/grapher' }
+MetricFu.metrics_require { "roodi/grapher" }
 
 describe RoodiGrapher do
   before :each do
@@ -49,7 +49,7 @@ describe RoodiGrapher do
       end
 
       it "should update labels with the date" do
-        expect(@roodi_grapher.labels).to receive(:update).with({ 0 => "1/2" })
+        expect(@roodi_grapher.labels).to receive(:update).with(0 => "1/2")
         @roodi_grapher.get_metrics(@metrics, @date)
       end
     end

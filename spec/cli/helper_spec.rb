@@ -1,19 +1,16 @@
-require 'spec_helper'
-require 'metric_fu/cli/helper'
+require "spec_helper"
+require "metric_fu/cli/helper"
 MetricFu.configuration.configure_metric(:rcov) do |rcov|
   rcov.enabled = true
 end
 MetricFu.configure
 
 describe MetricFu::Cli::Helper do
-
   describe "defaults" do
-
     let(:helper)  { MetricFu::Cli::Helper.new }
     let(:defaults) { helper.process_options }
 
     context "on every Ruby version" do
-
       it "opens the report in a browser" do
         expect(defaults[:open]).to be_truthy
       end
@@ -59,12 +56,11 @@ describe MetricFu::Cli::Helper do
 
     if MetricFu.configuration.mri?
 
-        it "enables Rails Best Practices" do
-          expect(defaults[:rails_best_practices]).to be_truthy
-        end
+      it "enables Rails Best Practices" do
+        expect(defaults[:rails_best_practices]).to be_truthy
+      end
 
     end
-
   end
 
   describe ".parse" do
@@ -122,7 +118,6 @@ describe MetricFu::Cli::Helper do
 
     end
 
-
     it "turns hotspots off" do
       expect(helper.process_options(["--no-hotspots"])[:hotspots]).to be_falsey
     end
@@ -157,16 +152,14 @@ describe MetricFu::Cli::Helper do
 
     context "given a single format" do
       it "sets the format" do
-        expect(helper.process_options(["--format", "json"])[:format]).to eq([['json']])
+        expect(helper.process_options(["--format", "json"])[:format]).to eq([["json"]])
       end
     end
 
     context "given multiple formats" do
       it "sets multiple formats" do
-        expect(helper.process_options(["--format", "json", "--format", "yaml"])[:format]).to eq([['json'], ['yaml']])
+        expect(helper.process_options(["--format", "json", "--format", "yaml"])[:format]).to eq([["json"], ["yaml"]])
       end
     end
-
   end
-
 end

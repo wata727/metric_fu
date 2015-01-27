@@ -1,8 +1,7 @@
-require 'spec_helper'
-MetricFu.metrics_require { 'hotspots/analysis/rankings' }
+require "spec_helper"
+MetricFu.metrics_require { "hotspots/analysis/rankings" }
 
 describe MetricFu::HotspotRankings do
-
   before do
     enable_hotspots
   end
@@ -14,7 +13,7 @@ describe MetricFu::HotspotRankings do
       common_columns = %w{metric}
       granularities =  %w{file_path class_name method_name}
       tool_analyzers = MetricFu::Hotspot.analyzers
-      analyzer_columns = common_columns + granularities + tool_analyzers.map{|analyzer| analyzer.columns}.flatten
+      analyzer_columns = common_columns + granularities + tool_analyzers.map(&:columns).flatten
 
       analyzer_tables = MetricFu::AnalyzerTables.new(analyzer_columns)
       tool_analyzers.each do |analyzer|
@@ -30,8 +29,8 @@ describe MetricFu::HotspotRankings do
   context "with several types of data" do
     it "gives all files, in order, from worst to best" do
       expected = [
-                  "lib/client/client.rb",
-                  "lib/client/foo.rb"]
+        "lib/client/client.rb",
+        "lib/client/foo.rb"]
       expect(rankings(result_hash).worst_files).to eq(expected)
     end
     def result_hash
@@ -39,7 +38,6 @@ describe MetricFu::HotspotRankings do
     end
   end
   context "with Reek data" do
-
     before do
       @result_hash = HOTSPOT_DATA["reek.yml"]
     end
@@ -55,10 +53,8 @@ describe MetricFu::HotspotRankings do
     it "gives worst file" do
       expect(rankings(@result_hash).worst_files[0]).to eq("lib/client/client.rb")
     end
-
   end
   context "with Saikuro data" do
-
     before do
       @result_hash = HOTSPOT_DATA["saikuro.yml"]
     end
@@ -70,10 +66,8 @@ describe MetricFu::HotspotRankings do
     it "gives worst class" do
       expect(rankings(@result_hash).worst_classes[0]).to eq("Bitly")
     end
-
   end
   context "with Flog data" do
-
     before do
       @result_hash = HOTSPOT_DATA["flog.yml"]
     end
@@ -89,11 +83,9 @@ describe MetricFu::HotspotRankings do
     it "gives worst file" do
       expect(rankings(@result_hash).worst_files[0]).to eq("lib/generators/rcov.rb:57")
     end
-
   end
 
   context "with Roodi data" do
-
     before do
       @result_hash = HOTSPOT_DATA["roodi.yml"]
     end
@@ -101,6 +93,5 @@ describe MetricFu::HotspotRankings do
     it "gives worst file" do
       expect(rankings(@result_hash).worst_files[0]).to eq("lib/client/client.rb")
     end
-
   end
 end

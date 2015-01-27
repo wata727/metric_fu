@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'saikuro/generator' }
+MetricFu.metrics_require { "saikuro/generator" }
 
 describe MetricFu::SaikuroGenerator do
   STUB_TEST_DATA = lambda do |generator|
@@ -22,7 +22,7 @@ describe MetricFu::SaikuroGenerator do
     end
 
     it "should find the filename of a file" do
-      expect(@output[:saikuro][:files].first[:filename]).to eq('app/controllers/users_controller.rb')
+      expect(@output[:saikuro][:files].first[:filename]).to eq("app/controllers/users_controller.rb")
     end
 
     it "should find the name of the classes" do
@@ -55,16 +55,16 @@ describe MetricFu::SaikuroGenerator do
 
     it "doesn't try to get information if the file does not exist" do
       expect(@saikuro).to receive(:file_not_exists?).at_least(:once).and_return(true)
-      @saikuro.per_file_info('ignore_me')
+      @saikuro.per_file_info("ignore_me")
     end
   end
 
   describe MetricFu::SaikuroScratchFile do
     describe "getting elements from a Saikuro result file" do
-     it "should parse nested START/END sections" do
-       path = FIXTURE.fixtures_path.join("saikuro_sfiles", "thing.rb_cyclo.html").to_s
-       sfile = MetricFu::SaikuroScratchFile.new path
-       expect(sfile.elements.map { |e| e.complexity }.sort).to eql(["0","0","2"])
+      it "should parse nested START/END sections" do
+        path = FIXTURE.fixtures_path.join("saikuro_sfiles", "thing.rb_cyclo.html").to_s
+        sfile = MetricFu::SaikuroScratchFile.new path
+        expect(sfile.elements.map(&:complexity).sort).to eql(["0", "0", "2"])
       end
     end
   end

@@ -1,5 +1,4 @@
 shared_examples "rcov test coverage generator" do |metric_name|
-
   before do
     setup_fs
     MetricFu::Configuration.run do |config|
@@ -15,26 +14,25 @@ shared_examples "rcov test coverage generator" do |metric_name|
 
   describe "emit" do
     before :each do
-      options = {:external =>  nil}
+      options = { external: nil }
       @rcov = MetricFu::RcovGenerator.new(@default_options.merge(options))
     end
 
     # TODO: should this be true of this metric?
     it "should clear out previous output and make output folder" do
-      expect(MetricFu::Utility).to receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, :verbose => false)
+      expect(MetricFu::Utility).to receive(:rm_rf).with(MetricFu::RcovGenerator.metric_directory, verbose: false)
       expect(MetricFu::Utility).to receive(:mkdir_p).with(MetricFu::RcovGenerator.metric_directory)
       @rcov.reset_output_location
     end
-
   end
 
   def rcov_output
-    FIXTURE.load_file('rcov_output.txt')
+    FIXTURE.load_file("rcov_output.txt")
   end
 
   describe "with rcov_output fed into" do
     before :each do
-      options = {:external =>  nil}
+      options = { external: nil }
       @rcov = MetricFu::RcovGenerator.new(@default_options.merge(options))
       expect(@rcov).to receive(:load_output).and_return(rcov_output)
       @files = @rcov.analyze
@@ -76,7 +74,7 @@ shared_examples "rcov test coverage generator" do |metric_name|
   end
   describe "with external configuration option set" do
     before :each do
-      options = {:external =>  'coverage/rcov.txt'}
+      options = { external: "coverage/rcov.txt" }
       @rcov = MetricFu::RcovGenerator.new(@default_options.merge(options))
     end
 
@@ -89,11 +87,9 @@ shared_examples "rcov test coverage generator" do |metric_name|
       expect(@rcov).to receive(:load_output).and_return(rcov_output)
       @files = @rcov.analyze
     end
-
   end
 
   after do
     cleanup_fs
   end
-
 end

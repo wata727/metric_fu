@@ -1,5 +1,4 @@
 RSpec::Matchers.define :create_file do |expected|
-
   match do |block|
     @before = exists?(expected)
     block.call
@@ -7,13 +6,13 @@ RSpec::Matchers.define :create_file do |expected|
     !@before && @after
   end
 
-  failure_message do |block|
+  failure_message do |_block|
     existed_before_message expected do
       "The file #{expected.inspect} was not created"
     end
   end
 
-  failure_message_when_negated do |block|
+  failure_message_when_negated do |_block|
     existed_before_message expected do
       "The file #{expected.inspect} was created"
     end
@@ -35,5 +34,4 @@ RSpec::Matchers.define :create_file do |expected|
       yield
     end
   end
-
 end

@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'stats/grapher' }
+MetricFu.metrics_require { "stats/grapher" }
 
 describe StatsGrapher do
   before :each do
@@ -61,7 +61,7 @@ describe StatsGrapher do
       end
 
       it "should update labels with the date" do
-        expect(@stats_grapher.labels).to receive(:update).with({ 0 => "01022003" })
+        expect(@stats_grapher.labels).to receive(:update).with(0 => "01022003")
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end

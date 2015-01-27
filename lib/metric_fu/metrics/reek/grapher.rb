@@ -1,4 +1,4 @@
-MetricFu.reporting_require { 'graphs/grapher' }
+MetricFu.reporting_require { "graphs/grapher" }
 module MetricFu
   class ReekGrapher < Grapher
     attr_accessor :reek_count, :labels
@@ -16,7 +16,7 @@ module MetricFu
     def get_metrics(metrics, date)
       if metrics && metrics[:reek]
         counter = @labels.size
-        @labels.update( { @labels.size => date })
+        @labels.update(@labels.size => date)
 
         metrics[:reek][:matches].each do |reek_chunk|
           reek_chunk[:code_smells].each do |code_smell|
@@ -33,17 +33,17 @@ module MetricFu
     end
 
     def title
-      'Reek: code smells'
+      "Reek: code smells"
     end
 
     def data
       @reek_count.map do |name, count|
-        [name, nil_counts_to_zero(count).join(',')]
+        [name, nil_counts_to_zero(count).join(",")]
       end
     end
 
     def output_filename
-      'reek.js'
+      "reek.js"
     end
 
     private
@@ -51,6 +51,5 @@ module MetricFu
     def nil_counts_to_zero(counts)
       counts.map { |count| count || 0 }
     end
-
   end
 end

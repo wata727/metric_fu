@@ -1,9 +1,8 @@
-require 'redcard'
-require 'rbconfig'
-MetricFu.lib_require { 'logger' }
+require "redcard"
+require "rbconfig"
+MetricFu.lib_require { "logger" }
 module MetricFu
   module Environment
-
     # TODO: Set log_level here, instead
     def verbose
       MetricFu.logger.debug_on
@@ -28,7 +27,7 @@ module MetricFu
     end
 
     def is_cruise_control_rb?
-      !!ENV['CC_BUILD_ARTIFACTS']
+      !!ENV["CC_BUILD_ARTIFACTS"]
     end
 
     def jruby?
@@ -48,11 +47,11 @@ module MetricFu
     end
 
     def ruby18?
-      @ruby18 ||= mri? && !!RedCard.check('1.8'...'1.9')
+      @ruby18 ||= mri? && !!RedCard.check("1.8"..."1.9")
     end
 
     def ruby192?
-      @ruby192 ||= mri? && ruby_version == '1.9.2'
+      @ruby192 ||= mri? && ruby_version == "1.9.2"
     end
 
     def rubinius?
@@ -61,7 +60,7 @@ module MetricFu
 
     def supports_ripper?
       @supports_ripper ||= begin
-                             require 'ripper'
+                             require "ripper"
                              true
                            rescue LoadError
                              false
@@ -69,7 +68,7 @@ module MetricFu
     end
 
     def platform #:nodoc:
-      return RUBY_PLATFORM
+      RUBY_PLATFORM
     end
 
     def version
@@ -78,12 +77,12 @@ module MetricFu
 
     def environment_details
       @environment_details ||= {
-        'VERBOSE' => $VERBOSE.inspect,
-        'External Encoding' => Encoding.default_external.to_s,
-        'Internal Encoding' => Encoding.default_internal.to_s,
-        'Host Architecture' => RbConfig::CONFIG['build'],
-        'Ruby Prefix'       => RbConfig::CONFIG['prefix'],
-        'Ruby Options'      => ENV.keys.grep(/RUBYOPT/).map{|key| "#{key}=#{ENV[key]}" }.join(', '),
+        "VERBOSE" => $VERBOSE.inspect,
+        "External Encoding" => Encoding.default_external.to_s,
+        "Internal Encoding" => Encoding.default_internal.to_s,
+        "Host Architecture" => RbConfig::CONFIG["build"],
+        "Ruby Prefix"       => RbConfig::CONFIG["prefix"],
+        "Ruby Options"      => ENV.keys.grep(/RUBYOPT/).map { |key| "#{key}=#{ENV[key]}" }.join(", "),
       }
     end
 
@@ -92,40 +91,39 @@ module MetricFu
     # $LOAD_PATH
     def ruby_details
       @ruby_details ||= {
-        'Engine' => ruby_flavor,
-        'Version' => ruby_version,
-        'Patchlevel' => (defined?(RUBY_PATCHLEVEL) && RUBY_PATCHLEVEL),
-        'Ripper Support' => supports_ripper?,
-        'Rubygems Version' => Gem::VERSION,
-        'Long Description' => (defined?(RUBY_DESCRIPTION) ? RUBY_DESCRIPTION : platform),
+        "Engine" => ruby_flavor,
+        "Version" => ruby_version,
+        "Patchlevel" => (defined?(RUBY_PATCHLEVEL) && RUBY_PATCHLEVEL),
+        "Ripper Support" => supports_ripper?,
+        "Rubygems Version" => Gem::VERSION,
+        "Long Description" => (defined?(RUBY_DESCRIPTION) ? RUBY_DESCRIPTION : platform),
       }
     end
 
     def library_details
       @library_details ||= {
-        'Version' =>  version,
-        'Verbose Mode' => verbose,
-        'Enabled Metrics' => MetricFu::Metric.enabled_metrics.map(&:name),
-        'Dependencies' => MetricFu::GemVersion.dependencies_summary,
+        "Version" =>  version,
+        "Verbose Mode" => verbose,
+        "Enabled Metrics" => MetricFu::Metric.enabled_metrics.map(&:name),
+        "Dependencies" => MetricFu::GemVersion.dependencies_summary,
       }
     end
 
     def debug_info
       @debug_info ||= {
-        'Ruby' => ruby_details,
-        'Environment' => environment_details,
-        'MetricFu' => library_details,
+        "Ruby" => ruby_details,
+        "Environment" => environment_details,
+        "MetricFu" => library_details,
       }
     end
 
     def osx?
-      @osx ||= platform.include?('darwin')
+      @osx ||= platform.include?("darwin")
     end
 
     def ruby_strangely_makes_accessors_private?
-       @private_accessors ||= ruby192? || jruby?
+      @private_accessors ||= ruby192? || jruby?
     end
     module_function :ruby_strangely_makes_accessors_private?
-
   end
 end

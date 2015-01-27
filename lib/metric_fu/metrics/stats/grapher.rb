@@ -1,4 +1,4 @@
-MetricFu.reporting_require { 'graphs/grapher' }
+MetricFu.reporting_require { "graphs/grapher" }
 module MetricFu
   class StatsGrapher < Grapher
     attr_accessor :loc_counts, :lot_counts, :labels
@@ -16,26 +16,25 @@ module MetricFu
 
     def get_metrics(metrics, date)
       if metrics && metrics[:stats]
-        self.loc_counts.push(metrics[:stats][:codeLOC].to_i)
-        self.lot_counts.push(metrics[:stats][:testLOC].to_i)
-        self.labels.update( { self.labels.size => date })
+        loc_counts.push(metrics[:stats][:codeLOC].to_i)
+        lot_counts.push(metrics[:stats][:testLOC].to_i)
+        labels.update(labels.size => date)
       end
     end
 
     def title
-      'Stats: LOC & LOT'
+      "Stats: LOC & LOT"
     end
 
     def data
       [
-        ['LOC', @loc_counts.join(',')],
-        ['LOT', @lot_counts.join(',')],
+        ["LOC", @loc_counts.join(",")],
+        ["LOT", @lot_counts.join(",")],
       ]
     end
 
     def output_filename
-      'stats.js'
+      "stats.js"
     end
-
   end
 end

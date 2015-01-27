@@ -1,21 +1,20 @@
 module MetricFu
   class MetricRcov < Metric
-
     def name
       :rcov
     end
 
     def default_run_options
       {
-        :environment => 'test',
-        :test_files =>  Dir['{spec,test}/**/*_{spec,test}.rb'],
-        :rcov_opts => rcov_opts,
-        :external  => nil,
+        environment: "test",
+        test_files: Dir["{spec,test}/**/*_{spec,test}.rb"],
+        rcov_opts: rcov_opts,
+        external: nil,
       }
     end
 
     def coverage_file=(coverage_file)
-      configured_run_options.update(:external => coverage_file)
+      configured_run_options.update(external: coverage_file)
     end
 
     def has_graph?
@@ -58,6 +57,5 @@ module MetricFu
       rcov_opts << "-Ispec" if File.exist?("spec")
       rcov_opts
     end
-
   end
 end

@@ -1,6 +1,5 @@
-MetricFu.lib_require { 'utility' }
+MetricFu.lib_require { "utility" }
 module MetricFu
-
   # = Generator
   #
   # The Generator class is an abstract class that provides the
@@ -31,10 +30,9 @@ module MetricFu
   # in general setup the directory structure that the MetricFu system
   # expects.
   class Generator
-
     attr_reader :result, :template, :options
 
-    def initialize(options={})
+    def initialize(options = {})
       @options = options
     end
 
@@ -53,7 +51,7 @@ module MetricFu
     end
 
     def self.get_generator(metric)
-      generators.find{|generator|generator.metric.to_s == metric.to_s.downcase}
+      generators.find { |generator|generator.metric.to_s == metric.to_s.downcase }
     end
 
     def self.inherited(subclass)
@@ -66,7 +64,7 @@ module MetricFu
         MetricFu::Metric.get_metric(metric).run_options[:output_directory] ||
         begin
           metric_directory = MetricFu::Io::FileSystem.scratch_directory(metric)
-          MetricFu::Utility.mkdir_p(metric_directory, :verbose => false)
+          MetricFu::Utility.mkdir_p(metric_directory, verbose: false)
         end
     end
 
@@ -109,7 +107,7 @@ module MetricFu
     end
 
     def round_to_tenths(decimal)
-      decimal = 0.0 if decimal.to_s.eql?('NaN')
+      decimal = 0.0 if decimal.to_s.eql?("NaN")
       (decimal * 10).round / 10.0
     end
 
@@ -133,6 +131,5 @@ module MetricFu
         information.
       EOF
     end
-
   end
 end

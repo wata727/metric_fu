@@ -1,11 +1,10 @@
-require 'erb'
+require "erb"
 module MetricFu
-
   class Template
     attr_accessor :output_directory
 
     def output_directory
-      @output_directory || MetricFu::Io::FileSystem.directory('output_directory')
+      @output_directory || MetricFu::Io::FileSystem.directory("output_directory")
     end
 
     # Renders a partial and add optional instance variables to the template
@@ -18,6 +17,7 @@ module MetricFu
     end
 
     private
+
     # Creates a new erb evaluated result from the passed in section.
     #
     # @param section String
@@ -82,7 +82,7 @@ module MetricFu
     end
 
     def metric_template_path(metric)
-      File.join(MetricFu.metrics_dir, metric, 'report.html.erb')
+      File.join(MetricFu.metrics_dir, metric, "report.html.erb")
     end
 
     # Determines whether a template file exists for a given section
@@ -118,7 +118,7 @@ module MetricFu
     # @return String
     #   The contents of the css file
     def inline_css(css)
-      css_file = File.join(MetricFu.lib_dir,'templates', css)
+      css_file = File.join(MetricFu.lib_dir, "templates", css)
       MetricFu::Utility.binread(css_file)
     end
 
@@ -140,11 +140,11 @@ module MetricFu
     end
 
     def round_to_tenths(decimal)
-      decimal = 0.0 if decimal.to_s.eql?('NaN')
+      decimal = 0.0 if decimal.to_s.eql?("NaN")
       (decimal * 10).round / 10.0
     end
 
-    def link_content(name, line=nil, link_content=nil) # :nodoc:
+    def link_content(name, line = nil, link_content = nil) # :nodoc:
       if link_content
         link_content
       elsif line
@@ -155,33 +155,33 @@ module MetricFu
     end
 
     def display_location(location)
-      class_name, method_name = location.fetch('class_name'), location.fetch('method_name')
+      class_name, method_name = location.fetch("class_name"), location.fetch("method_name")
       str = ""
-      str += link_to_filename(location.fetch('file_name'), location.fetch('line_number'))
+      str += link_to_filename(location.fetch("file_name"), location.fetch("line_number"))
       str += " : " if method_name || class_name
-      if(method_name)
+      if method_name
         str += "#{method_name}"
       else
-        #TODO HOTSPOTS BUG ONLY exists on move over to metric_fu
+        # TODO HOTSPOTS BUG ONLY exists on move over to metric_fu
         if class_name.is_a?(String)
-          str+= "#{class_name}"
+          str += "#{class_name}"
         end
       end
       str
     end
 
     def file_url(name, line) # :nodoc:
-      return '' unless name
+      return "" unless name
       filename = complete_file_path(name)
 
       if render_as_txmt_protocol?
         "txmt://open/?url=file://#{filename}" << (line ? "&line=#{line}" : "")
       else
-        link_prefix = MetricFu.configuration.templates_option('link_prefix')
+        link_prefix = MetricFu.configuration.templates_option("link_prefix")
         if link_prefix == MetricFu::Templates::Configuration::FILE_PREFIX
           path = filename
         else
-          path = name.gsub(/:.*$/, '')
+          path = name.gsub(/:.*$/, "")
         end
         "#{link_prefix}/#{path}"
       end
@@ -193,7 +193,7 @@ module MetricFu
 
     def render_as_txmt_protocol? # :nodoc:
       if MetricFu.configuration.osx?
-        !MetricFu.configuration.templates_option('darwin_txmt_protocol_no_thanks')
+        !MetricFu.configuration.templates_option("darwin_txmt_protocol_no_thanks")
       else
         false
       end
@@ -215,14 +215,14 @@ module MetricFu
     #   iteration is odd.
     def cycle(first_value, second_value, iteration)
       return first_value if iteration % 2 == 0
-      return second_value
+      second_value
     end
 
     # available in the erb template
     # as it's processed in the context of
     # the binding of this class
     def metric_links
-      @metrics.keys.map {|metric| metric_link(metric.to_s) }
+      @metrics.keys.map { |metric| metric_link(metric.to_s) }
     end
 
     def metric_link(metric)
@@ -234,7 +234,7 @@ module MetricFu
     end
 
     def snake_case_to_title_case(string)
-      string.split('_').collect{|word| word[0] = word[0..0].upcase; word}.join(" ")
+      string.split("_").collect { |word| word[0] = word[0..0].upcase; word }.join(" ")
     end
 
     def template_directory

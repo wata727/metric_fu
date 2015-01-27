@@ -1,6 +1,5 @@
-MetricFu.lib_require { 'logger' }
+MetricFu.lib_require { "logger" }
 module MetricFu
-
   # Even though the below class methods are defined on the MetricFu module
   # They are included here as they deal with configuration
 
@@ -12,9 +11,7 @@ module MetricFu
   end
 
   def self.configure
-    configuration.tap do |config|
-      config.configure_metrics
-    end
+    configuration.tap(&:configure_metrics)
   end
 
   # = Configuration
@@ -51,10 +48,10 @@ module MetricFu
   #   config.configure_formatter(MyCustomFormatter)
   #
   class Configuration
-    require_relative 'environment'
-    require_relative 'io'
-    require_relative 'formatter'
-    require_relative 'templates/configuration'
+    require_relative "environment"
+    require_relative "io"
+    require_relative "formatter"
+    require_relative "templates/configuration"
 
     # TODO: Remove need to include the module
     include MetricFu::Environment
@@ -122,7 +119,7 @@ module MetricFu
     # @return [Array<Symbol>] names of enabled metrics with graphs
     def graphed_metrics
       # TODO: This is a common enough need to be pushed into MetricFu::Metric as :enabled_metrics_with_graphs
-      MetricFu::Metric.enabled_metrics.select{|metric|metric.has_graph?}.map(&:name)
+      MetricFu::Metric.enabled_metrics.select(&:has_graph?).map(&:name)
     end
 
     def configure_graph_engine(graph_engine)
@@ -149,6 +146,5 @@ module MetricFu
     def templates_option(option)
       @templates_configuration.option(option)
     end
-
   end
 end

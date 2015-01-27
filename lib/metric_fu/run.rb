@@ -3,15 +3,17 @@ module MetricFu
     def initialize
       STDOUT.sync = true
     end
-    def run(options={})
+
+    def run(options = {})
       configure_run(options)
       measure
       display_results if options[:open]
     end
 
-    def report_metrics(metrics=MetricFu::Metric.enabled_metrics)
+    def report_metrics(metrics = MetricFu::Metric.enabled_metrics)
       metrics.map(&:name)
     end
+
     def measure
       reporter.start
       report_metrics.each {|metric|
@@ -21,19 +23,23 @@ module MetricFu
       }
       reporter.finish
     end
+
     def display_results
       reporter.display_results
     end
+
     private
+
     def configure_run(options)
       disable_metrics(options)
       configure_formatters(options)
     end
+
     def disable_metrics(options)
       return if options.size == 0
       report_metrics.each do |metric|
         metric = metric.to_sym
-        if (metric_options = options[metric] )
+        if (metric_options = options[metric])
           mf_debug "using metric #{metric}"
           configure_metric(metric, metric_options) if metric_options.is_a?(Hash)
         else
@@ -43,6 +49,7 @@ module MetricFu
         end
       end
     end
+
     def configure_metric(metric, metric_options)
       MetricFu::Configuration.configure_metric(metric) do |metric|
         metric_options.each do |option, value|
@@ -51,6 +58,7 @@ module MetricFu
         end
       end
     end
+
     def configure_formatters(options)
       # Configure from command line if any.
       if options[:format]
@@ -66,6 +74,7 @@ module MetricFu
         end
       end
     end
+
     def reporter
       MetricFu::Reporter.new(MetricFu.configuration.formatters)
     end

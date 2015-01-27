@@ -1,14 +1,13 @@
 module MetricFu
   class MetricReek < Metric
-
     def name
       :reek
     end
 
     def default_run_options
       {
-        :dirs_to_reek => MetricFu::Io::FileSystem.directory('code_dirs'),
-        :config_file_pattern => nil,
+        dirs_to_reek: MetricFu::Io::FileSystem.directory("code_dirs"),
+        config_file_pattern: nil,
       }
     end
 
@@ -23,6 +22,5 @@ module MetricFu
     def activate
       super
     end
-
   end
 end

@@ -1,10 +1,10 @@
 # coding: utf-8
-require 'metric_fu/version'
-require 'forwardable'
-require 'pathname'
+require "metric_fu/version"
+require "forwardable"
+require "pathname"
 module MetricFu
-  APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__),'..'))
-  LIB_ROOT = File.join(APP_ROOT,'lib/metric_fu')
+  APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+  LIB_ROOT = File.join(APP_ROOT, "lib/metric_fu")
 
   module_function
 
@@ -13,11 +13,11 @@ module MetricFu
   end
 
   def metric_url
-    'https://github.com/metricfu/metric_fu'
+    "https://github.com/metricfu/metric_fu"
   end
 
   def metric_name
-    'MetricFu'
+    "MetricFu"
   end
 
   def run_dir
@@ -71,11 +71,12 @@ module MetricFu
   def root_dir
     APP_ROOT
   end
+
   def lib_dir
     LIB_ROOT
   end
 
-  require 'metric_fu/loader'
+  require "metric_fu/loader"
   LOADER = MetricFu::Loader.new(LIB_ROOT)
   def loader
     LOADER
@@ -94,7 +95,7 @@ module MetricFu
 
   # @note artifact_dir is relative to where the task is being run,
   #   not to the metric_fu library
-  require 'metric_fu/io'
+  require "metric_fu/io"
   def artifact_dir
     MetricFu::Io::FileSystem.artifact_dir
   end
@@ -121,6 +122,7 @@ module MetricFu
   def run(options)
     MetricFu::Run.new.run(options)
   end
+
   def run_only(metrics_to_run_names, options)
     metrics_to_run_names = Array(metrics_to_run_names).map(&:to_s)
     MetricFu::Configuration.run do |config|

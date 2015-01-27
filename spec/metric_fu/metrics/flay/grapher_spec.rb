@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'flay/grapher' }
+MetricFu.metrics_require { "flay/grapher" }
 
 describe FlayGrapher do
   before :each do
@@ -49,7 +49,7 @@ describe FlayGrapher do
       end
 
       it "should update labels with the date" do
-        expect(@flay_grapher.labels).to receive(:update).with({ 0 => "1/2" })
+        expect(@flay_grapher.labels).to receive(:update).with(0 => "1/2")
         @flay_grapher.get_metrics(@metrics, @date)
       end
     end
