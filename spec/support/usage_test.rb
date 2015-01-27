@@ -81,7 +81,7 @@ SnippetRunner = Struct.new(:code, :language) do
     test_result.success =  false
     test_result
   rescue SystemExit => system_exit
-    puts "I am a system exit"
+    mf_debug "I am a system exit"
     test_result.captured_output = exception_message(system_exit)
     test_result.success = system_exit.success?
     test_result
