@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'rubygems'
 require 'digest/sha2'
+require 'rake/tasklib'
 # require 'bundler/gem_helper'
 # Bundler::GemHelper.install_tasks
 
