@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
   # open browser support
   s.add_runtime_dependency 'launchy', '~> 2.0'
 
+  s.add_development_dependency   'rspec', '~> 3.1'
   # temporary filesystem to act on
   s.add_development_dependency   'test_construct'
   # ensure we have a JSON parser
