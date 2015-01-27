@@ -1,5 +1,7 @@
 # https://github.com/colszowka/simplecov#using-simplecov-for-centralized-config
 # see https://github.com/colszowka/simplecov/blob/master/lib/simplecov/defaults.rb
+# vim: set ft=ruby
+@minimum_coverage = ENV.fetch("COVERAGE_MINIMUM") { 87.8 }.to_f.round(2)
 if SimpleCov.respond_to?(:profiles)
   SimpleCov.profiles
 else
@@ -31,12 +33,42 @@ end.define 'metric_fu' do
 
   # Exclude these paths from analysis
   add_filter 'bundle'
+  add_filter 'vendor/bundle'
   add_filter 'bin'
   add_filter 'lib/metric_fu/tasks'
+
+  # https://github.com/colszowka/simplecov/blob/v0.9.1/lib/simplecov/defaults.rb#L60
+  # minimum_coverage @minimum_coverage
+end
+
+## RUN SIMPLECOV
+if defined?(@running_tests)
+  @running_tests = false
+else
+  @running_tests = caller.any? {|line| line =~ /exe\/rspec/ }
+end
+if ENV["COVERAGE"] =~ /\Atrue\z/i
+  puts "[COVERAGE] Running with SimpleCov HTML Formatter"
+  formatters = [SimpleCov::Formatter::HTMLFormatter]
+  begin
+    puts '[COVERAGE] Running with SimpleCov HTML Formatter'
+    require 'metric_fu/metrics/rcov/simplecov_formatter'
+    formatters << SimpleCov::Formatter::MetricFu
+    puts '[COVERAGE] Running with SimpleCov MetricFu Formatter'
+  rescue LoadError
+    puts '[COVERAGE] SimpleCov MetricFu formatter could not be loaded'
+  end
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[ *formatters ]
+  SimpleCov.start "metric_fu" if @running_tests
+else
+  SimpleCov.formatters = []
 end
 SimpleCov.at_exit do
-  File.open(File.join(SimpleCov.coverage_path, 'coverage_percent.txt'), 'w') do |f|
-    f.write SimpleCov.result.covered_percent
-  end
   SimpleCov.result.format!
+  percent = Float(SimpleCov.result.covered_percent)
+  if percent < @minimum_coverage
+    abort "Spec coverage was not high enough: #{percent.round(2)} is < #{@minimum_coverage}%"
+  else
+    puts "Nice job! Spec coverage is still above #{@minimum_coverage}%"
+  end
 end

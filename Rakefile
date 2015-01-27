@@ -4,6 +4,7 @@ if using_git
   require 'bundler/setup'
 end
 require 'rake'
+require 'simplecov'
 
 Dir['./gem_tasks/*.rake'].each do |task|
   import(task)
@@ -22,20 +23,5 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 require File.expand_path File.join(File.dirname(__FILE__),'lib/metric_fu')
-
-# Borrowed from vcr
-desc "Checks the spec coverage and fails if it is less than 100%"
-task :check_code_coverage do
-  if RUBY_VERSION.to_f < 1.9 || RUBY_ENGINE != 'ruby'
-    puts "Cannot check code coverage--simplecov is not supported on this platform"
-  else
-    percent = Float(File.read("./coverage/coverage_percent.txt"))
-    if percent < 98.0
-      abort "Spec coverage was not high enough: #{percent.round(2)}%"
-    else
-      puts "Nice job! Spec coverage is still above 98%"
-    end
-  end
-end
 
 task :default => :spec

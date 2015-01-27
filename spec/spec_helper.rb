@@ -1,19 +1,6 @@
 # add lib to the load path just like rubygems does
 $:.unshift File.expand_path("../../lib", __FILE__)
-if ENV['COVERAGE']
-  require 'simplecov'
-  formatters = [SimpleCov::Formatter::HTMLFormatter]
-  SimpleCov.start 'metric_fu'
-  begin
-    puts '[COVERAGE] Running with SimpleCov HTML Formatter'
-    require 'metric_fu/metrics/rcov/simplecov_formatter'
-    formatters << SimpleCov::Formatter::MetricFu
-    puts '[COVERAGE] Running with SimpleCov MetricFu Formatter'
-  rescue LoadError
-    puts '[COVERAGE] SimpleCov MetricFu formatter could not be loaded'
-  end
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[ *formatters ]
-end
+require 'simplecov'
 
 require 'date'
 require 'test_construct'

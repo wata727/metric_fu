@@ -66,6 +66,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency   'test_construct'
   # ensure we have a JSON parser
   s.add_development_dependency   'json'
-  s.add_development_dependency   'simplecov'
+  s.add_development_dependency   'simplecov', '~> 0.9'
 
 end
