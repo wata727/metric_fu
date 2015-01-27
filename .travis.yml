@@ -19,6 +19,5 @@ rvm:
 matrix:
   allow_failures:
     - rvm: rbx-2
-    - rvm: 1.9.2
     - rvm: 2.2
   fast_finish: true
