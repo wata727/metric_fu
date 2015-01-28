@@ -9,6 +9,7 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 * Breaking Changes
 * Features
 * Fixes
+  * Fix incorrectly passing --config option to reek. (Martin Gotink, #243, fixes #242)
 * Misc
 
 ### [4.11.2](https://github.com/metricfu/metric_fu/compare/v4.11.1...v4.11.2)

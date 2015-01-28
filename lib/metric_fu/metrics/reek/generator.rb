@@ -105,7 +105,7 @@ module MetricFu
       [
         disable_line_number_option,
         turn_off_color,
-        config_option,
+        *config_option,
         *files
       ].reject(&:empty?)
     end
@@ -114,9 +114,9 @@ module MetricFu
     def config_option
       config_file_pattern =  options[:config_file_pattern]
       if config_file_pattern.to_s.empty?
-        ''
+        ['']
       else
-        "--config #{config_file_pattern}"
+        ['--config', config_file_pattern]
       end
     end
 

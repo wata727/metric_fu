@@ -14,7 +14,7 @@ describe MetricFu::ReekGenerator do
     it "includes config file pattern into reek parameters when specified" do
       options.merge!({:config_file_pattern => 'lib/config/*.reek' })
       expect(reek).to receive(:run!) do |args|
-        expect(args).to include('--config lib/config/*.reek')
+        expect(args).to include('--config', 'lib/config/*.reek')
       end.and_return('')
       reek.emit
     end
