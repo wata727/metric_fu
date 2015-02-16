@@ -188,11 +188,7 @@ module MetricFu
     end
 
     def complete_file_path(filename)
-      File.expand_path(remove_leading_slash(filename))
-    end
-
-    def remove_leading_slash(filename)
-      filename.gsub(/^\//, '')
+      File.expand_path(filename)
     end
 
     def render_as_txmt_protocol? # :nodoc:

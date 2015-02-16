@@ -175,6 +175,23 @@ describe MetricFu::Template do
         expect(result).to eq("<a href='http://example.org/files/filename'>filename</a>")
       end
     end
+
+    context "given an absolute path" do
+      it "returns a link with that absolute path" do
+        name = "/some/file.rb"
+        result = @template.send(:link_to_filename, name)
+        expect(result).to eq("<a href='file:///some/file.rb'>/some/file.rb</a>")
+      end
+    end
+
+    context "given a relative path" do
+      it "returns a link with the absolute path" do
+        name = "./some/file.rb"
+        expected = File.expand_path(name)
+        result = @template.send(:link_to_filename, name)
+        expect(result).to eq("<a href='file://#{expected}'>./some/file.rb</a>")
+      end
+    end
   end
 
   describe "#cycle" do
