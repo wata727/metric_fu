@@ -36,7 +36,7 @@
             </b>
             <% unless per_file_data[file].empty? %>
               <small>&laquo;
-                <b><a href="<%= file.gsub(%r{/}, '_') %>.html<%= (line.nil? ? '' : "#line#{line}") %>">annotate</a></b>
+                <b><a href="<%= html_filename(file) %><%= (line.nil? ? '' : "#line#{line}") %>">annotate</a></b>
                &raquo;</small>
             <% end %>
             <br/><br/>
