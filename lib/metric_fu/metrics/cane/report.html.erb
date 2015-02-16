@@ -15,7 +15,7 @@
   <% count = 0 %>
   <% @cane[:violations][:abc_complexity].each do |violation| %>
     <tr class='<%= cycle("light", "dark", count) %>'>
-      <td><%=violation[:file]%></td>
+      <td><%=link_to_filename(violation[:file])%></td>
       <td><%=violation[:method]%></td>
       <td><%=violation[:complexity]%></td>
     </tr>
@@ -33,7 +33,7 @@
   <% count = 0 %>
   <% @cane[:violations][:line_style].each do |violation| %>
     <tr class='<%= cycle("light", "dark", count) %>'>
-      <td><%=violation[:line]%></td>
+      <td><%=link_to_filename(*violation[:line].split(':'))%></td>
       <td><%=violation[:description]%></td>
     </tr>
     <% count += 1 %>
@@ -63,7 +63,7 @@
   <% count = 0 %>
   <% @cane[:violations][:comment].each do |violation| %>
     <tr class='<%= cycle("light", "dark", count) %>'>
-      <td><%=violation[:line]%></td>
+      <td><%=link_to_filename(*violation[:line].split(':'))%></td>
       <td><%=violation[:class_name]%></td>
     </tr>
     <% count += 1 %>

@@ -11,6 +11,7 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 * Fixes
   * Hash hotspots output filenames. (Martin Gotink, #247, fixes #246)
   * Fix invalid file links for rails best practices (Martin Gotink, #248)
+  * Add file links to cane report (Martin Gotink, #248)
 * Misc
 
 ### [4.11.3](https://github.com/metricfu/metric_fu/compare/v4.11.2...v4.11.3)
