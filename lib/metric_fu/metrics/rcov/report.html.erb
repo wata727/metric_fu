@@ -29,7 +29,7 @@
     <table class="rcov_code">
     <% file[:lines].each_with_index do |line, index| %>
       <tr>
-        <% css_class = line[:was_run] ? "rcov_run" : "rcov_not_run" %>
+        <% css_class = line[:was_run] == 0 ? "rcov_not_run" : "rcov_run" %>
         <td class="<%= css_class %>"><%= link_to_filename(fname, index + 1, "<pre>#{line[:content]}</pre>") %></td>
       </tr>
     <% end %>
