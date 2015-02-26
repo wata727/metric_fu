@@ -24,7 +24,7 @@ module MetricFu
     end
 
     def html_filename(file)
-      file = Digest::SHA1.hexdigest(file)
+      file = Digest::SHA1.hexdigest(file)[0..29]
       "#{file.gsub(%r{/}, '_')}.html"
     end
 

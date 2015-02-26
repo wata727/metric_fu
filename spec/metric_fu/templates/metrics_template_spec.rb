@@ -6,7 +6,7 @@ describe MetricFu::Templates::MetricsTemplate do
 
   describe "#html_filename" do
     it "returns the hashed filename ending with .html" do
-      expect(template.html_filename("some_file.rb")).to eq("10580a1fcbe74a931db8210462a584791545ab06.html")
+      expect(template.html_filename("some_file.rb")).to eq("10580a1fcbe74a931db8210462a584.html")
     end
   end
 
