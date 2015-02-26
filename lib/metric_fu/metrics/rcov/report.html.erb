@@ -29,8 +29,8 @@
     <table class="rcov_code">
     <% file[:lines].each_with_index do |line, index| %>
       <tr>
-        <% css_class = line[:was_run] ? "rcov_run" : "rcov_not_run" %>
-        <td class="<%= css_class %>"><%= link_to_filename(fname, index + 1, "<pre>#{line[:content]}</pre>") %></td>
+        <% rcov_line = RCovLine.new(line[:content], line[:was_run]) %>
+        <td class="<%= rcov_line.css_class %>"><%= link_to_filename(fname, index + 1, "<pre>#{line[:content]}</pre>") %></td>
       </tr>
     <% end %>
     </table>

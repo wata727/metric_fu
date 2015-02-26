@@ -2,6 +2,7 @@ MetricFu.lib_require { 'utility' }
 MetricFu.lib_require { 'calculate' }
 MetricFu.data_structures_require { 'line_numbers' }
 require_relative 'rcov_format_coverage'
+require_relative 'rcov_line'
 require_relative 'external_client'
 
 module MetricFu
