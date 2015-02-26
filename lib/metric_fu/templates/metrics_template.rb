@@ -23,6 +23,11 @@ module MetricFu
       write_file_data
     end
 
+    def html_filename(file)
+      file = Digest::SHA1.hexdigest(file)[0..29]
+      "#{file.gsub(%r{/}, '_')}.html"
+    end
+
     private
 
     def copy_javascripts
@@ -66,10 +71,6 @@ module MetricFu
 
         formatter.write_template(report, html_filename(file))
       end
-    end
-
-    def html_filename(file)
-      "#{file.gsub(%r{/}, '_')}.html"
     end
 
     def template_directory

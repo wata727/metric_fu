@@ -9,6 +9,7 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 * Breaking Changes
 * Features
 * Fixes
+  * Hash hotspots output filenames. (Martin Gotink, #247, fixes #246)
 * Misc
 
 ### [4.11.3](https://github.com/metricfu/metric_fu/compare/v4.11.2...v4.11.3)
