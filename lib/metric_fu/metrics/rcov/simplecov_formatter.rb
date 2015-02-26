@@ -8,6 +8,7 @@ if defined?(JRUBY_VERSION)
   end
 end
 require 'simplecov'
+require 'metric_fu/logger'
 require_relative 'external_client'
 require_relative 'rcov_format_coverage'
 
