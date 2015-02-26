@@ -7,41 +7,6 @@ module MetricFu
       @rcov_text = rcov_text
     end
 
-    class Line
-      attr_accessor :content, :was_run
-
-      def initialize(content, was_run)
-        @content = content
-        @was_run = was_run
-      end
-
-      def to_h
-        {:content => @content, :was_run => @was_run}
-      end
-
-      def covered?
-        @was_run.one?
-      end
-      def missed?
-        @was_run.zero?
-      end
-      def ignored?
-        @was_run.nil?
-      end
-      def self.line_coverage(lines)
-        lines.map{|line| line[:was_run] }
-      end
-      def self.covered_lines(line_coverage)
-        line_coverage.count(1)
-      end
-      def self.missed_lines(line_coverage)
-        line_coverage.count(0)
-      end
-      def self.ignored_lines(line_coverage)
-        line_coverage.count(nil)
-      end
-    end
-
     def to_h
       rcov_text = @rcov_text.split(NEW_FILE_MARKER)
 
@@ -68,7 +33,7 @@ module MetricFu
                          else
                            1
                          end
-          Line.new(raw_line[3..-1], covered_line).to_h
+          RCovLine.new(raw_line[3..-1], covered_line).to_h
         end
         content.reject! {|line| line[:content].to_s == '' }
         files[fname] = {:lines => content}
@@ -101,9 +66,9 @@ module MetricFu
       end
 
       def self.percent_run(lines)
-        line_coverage = Line.line_coverage(lines)
-        covered_lines = Line.covered_lines(line_coverage)
-        ignored_lines = Line.ignored_lines(line_coverage)
+        line_coverage = RCovLine.line_coverage(lines)
+        covered_lines = RCovLine.covered_lines(line_coverage)
+        ignored_lines = RCovLine.ignored_lines(line_coverage)
         relevant_lines = lines.count - ignored_lines
         if block_given?
           yield covered_lines, relevant_lines
