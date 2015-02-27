@@ -4,17 +4,21 @@ Each change should fall into categories that would affect whether the release is
 
 As such, a _Feature_ would map to either major (breaking change) or minor. A _bug fix_ to a patch.  And _misc_ is either minor or patch, the difference being kind of fuzzy for the purposes of history.  Adding tests would be patch level.
 
-### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.11.3...master)
+### Master [changes](https://github.com/metricfu/metric_fu/compare/v4.11.4...master)
 
 * Breaking Changes
 * Features
+* Fixes
+* Misc
+
+### [4.11.4](https://github.com/metricfu/metric_fu/compare/v4.11.3...v4.11.4)
+
 * Fixes
   * Hash hotspots output filenames. (Martin Gotink, #247, fixes #246)
   * Fix invalid file links for rails best practices (Martin Gotink, #248)
   * Add file links to cane and saikuro reports (Martin Gotink, #248)
   * Fix incorrectly displaying not covered lines. (Martin Gotink, #249)
   * Fix simplecov missing logger dependency. (Martin Gotink, #250, fixes #235)
-* Misc
 
 ### [4.11.3](https://github.com/metricfu/metric_fu/compare/v4.11.2...v4.11.3)
 
