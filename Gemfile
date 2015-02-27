@@ -8,6 +8,7 @@ if RUBY_VERSION == '1.9.2'
   gem 'reek', '~> 1.4.0'
   # rbp -> as -> i18n
   gem 'i18n', '0.6.11'
+  gem "parallel", "= 1.3.3" # 1.3.4 disallows 1.9.2
 end
 
 gemspec :path => File.expand_path('..', __FILE__)
