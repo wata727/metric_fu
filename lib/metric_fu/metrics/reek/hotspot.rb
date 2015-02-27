@@ -1,13 +1,12 @@
 # coding: utf-8
 class MetricFu::ReekHotspot < MetricFu::Hotspot
-
   # Note that in practice, the prefix reek__ is appended to each one
   # This was a partially implemented idea to avoid column name collisions
   # but it is only done in the ReekHotspot
   COLUMNS = %w{type_name message value value_description comparable_message}
 
   def columns
-    COLUMNS.map{|column| "#{name}__#{column}"}
+    COLUMNS.map { |column| "#{name}__#{column}" }
   end
 
   def name
@@ -27,7 +26,7 @@ class MetricFu::ReekHotspot < MetricFu::Hotspot
   end
 
   def generate_records(data, table)
-    return if data==nil
+    return if data == nil
     data[:matches].each do |match|
       file_path = match[:file_path]
       match[:code_smells].each do |smell|
@@ -65,7 +64,7 @@ class MetricFu::ReekHotspot < MetricFu::Hotspot
   def comparable_message(type_name, message)
     if self.class.numeric_smell?(type_name)
       match = message.match(/\d+/)
-      if(match)
+      if match
         match.pre_match + match.post_match
       else
         message
@@ -77,7 +76,7 @@ class MetricFu::ReekHotspot < MetricFu::Hotspot
 
   def build_value_description(type_name, message)
     item_type = message.match(/\d+ (.*)$/)
-    if(item_type)
+    if item_type
       "number of #{item_type[1]} in #{type_name.downcase}"
     else
       nil
@@ -87,11 +86,10 @@ class MetricFu::ReekHotspot < MetricFu::Hotspot
   def parse_value(message)
     # mf_debug "parsing #{message}"
     match = message.match(/\d+/)
-    if(match)
+    if match
       match[0].to_i
     else
       nil
     end
   end
-
 end

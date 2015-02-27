@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rcov/grapher' }
+MetricFu.metrics_require { "rcov/grapher" }
 
 describe RcovGrapher do
   before :each do
@@ -49,7 +49,7 @@ describe RcovGrapher do
       end
 
       it "should update labels with the date" do
-        expect(@rcov_grapher.labels).to receive(:update).with({ 0 => "1/2" })
+        expect(@rcov_grapher.labels).to receive(:update).with(0 => "1/2")
         @rcov_grapher.get_metrics(@metrics, @date)
       end
     end

@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'metric_fu/utility'
+require "spec_helper"
+require "metric_fu/utility"
 
 describe MetricFu::Utility do
   it "strips ANSI escape codes from text" do

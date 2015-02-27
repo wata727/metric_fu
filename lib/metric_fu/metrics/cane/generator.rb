@@ -1,4 +1,4 @@
-MetricFu.metrics_require { 'cane/violations' }
+MetricFu.metrics_require { "cane/violations" }
 module MetricFu
   class CaneGenerator < Generator
     attr_reader :violations, :total_violations
@@ -23,8 +23,9 @@ module MetricFu
     end
 
     def to_h
-      {:cane => {:total_violations => @total_violations, :violations => @violations}}
+      { cane: { total_violations: @total_violations, violations: @violations } }
     end
+
     private
 
     def abc_max_param
@@ -36,11 +37,11 @@ module MetricFu
     end
 
     def no_doc_param
-      options[:no_doc] == 'y' ? " --no-doc" : ""
+      options[:no_doc] == "y" ? " --no-doc" : ""
     end
 
     def no_readme_param
-      options[:no_readme] == 'y' ? " --no-readme" : ""
+      options[:no_readme] == "y" ? " --no-readme" : ""
     end
 
     def violations_by_category
@@ -54,12 +55,12 @@ module MetricFu
 
     def category_from(description)
       category_descriptions = {
-        :abc_complexity => /ABC complexity/,
-        :line_style => /style requirements/,
-        :comment => /comment/,
-        :documentation => /documentation/
+        abc_complexity: /ABC complexity/,
+        line_style: /style requirements/,
+        comment: /comment/,
+        documentation: /documentation/
       }
-      category, desc_matcher = category_descriptions.find {|k,v| description =~ v}
+      category, desc_matcher = category_descriptions.find { |_k, v| description =~ v }
       mf_debug desc_matcher.inspect
       category
     end

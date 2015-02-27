@@ -1,6 +1,5 @@
 module MetricFu
   class MetricRailsBestPractices < Metric
-
     def name
       :rails_best_practices
     end
@@ -22,9 +21,8 @@ module MetricFu
     end
 
     def activate
-      activate_library('rails_best_practices')
+      activate_library("rails_best_practices")
       super
     end
-
   end
 end

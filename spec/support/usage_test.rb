@@ -3,7 +3,7 @@
 
 # puts "SUCCESS!"
 # Process.exit! 0
-require 'open3'
+require "open3"
 
 class UsageTest
   CodeBlock = Struct.new(:matchdata) do
@@ -12,6 +12,7 @@ class UsageTest
     def code
       matchdata[3].strip
     end
+
     def language
       matchdata[2].strip
     end
@@ -60,18 +61,18 @@ SnippetRunner = Struct.new(:code, :language) do
     test_result = run_code
     mf_debug "#{Time.now - time} seconds"
     if test_result.success
-      print '.'
+      print "."
     else
-      puts 'x'
+      puts "x"
       puts "Red :( language: #{language}, code #{code}, #{test_result.captured_output}"
       Process.exit! 1
     end
   end
 
-  def run_code(test_result = TestResult.new(:no_result,''))
+  def run_code(test_result = TestResult.new(:no_result, ""))
     test_result.captured_output = case language
-                                  when 'ruby' then eval_ruby
-                                  when 'sh'   then run_system_command
+                                  when "ruby" then eval_ruby
+                                  when "sh"   then run_system_command
                                   else mf_debug "Cannot test language: #{language.inspect}"
                                   end
     test_result.success = true
@@ -87,18 +88,18 @@ SnippetRunner = Struct.new(:code, :language) do
     test_result
   end
 
-  def eval_ruby(fail_on_empty=false)
+  def eval_ruby(fail_on_empty = false)
     capture_output(fail_on_empty) do
       instance_eval(code)
     end
   end
 
-  def run_system_command(fail_on_empty=true)
-    out = ''
-    err = ''
+  def run_system_command(_fail_on_empty = true)
+    out = ""
+    err = ""
     pid = :not_set
     exit_status = :not_set
-    Open3.popen3(code) do |stdin, stdout, stderr, wait_thr|
+    Open3.popen3(code) do |_stdin, stdout, stderr, wait_thr|
       out << stdout.read.chomp
       err << stderr.read.chomp
       pid = wait_thr.pid
@@ -110,7 +111,6 @@ SnippetRunner = Struct.new(:code, :language) do
     when (1..Float::INFINITY) then fail SystemCommandError.new("Failed with exit status #{exit_code}. #{err}----#{out}")
     else fail SystemCommandError.new("Execution failed with exit status #{exit_code}. #{err}----#{out}")
     end
-
   end
 
   def exception_message(e)
@@ -122,19 +122,19 @@ SnippetRunner = Struct.new(:code, :language) do
     stderr = :not_set
     stdout = :not_set
     MetricFu::Utility.capture_output(STDOUT) do
-     stdout =
-     MetricFu::Utility.capture_output(STDERR) do
-       begin
-         stderr = yield
-       rescue Exception => e
-         exception  = e
-       end
-     end
+      stdout =
+      MetricFu::Utility.capture_output(STDERR) do
+        begin
+          stderr = yield
+        rescue Exception => e
+          exception  = e
+        end
+      end
     end
-    if [nil, '', :not_set].none? {|c| c == stderr }
+    if [nil, "", :not_set].none? { |c| c == stderr }
       mf_debug "Captured STDERR"
       stderr
-    elsif [nil, '', :not_set].none? {|c| c == stdout }
+    elsif [nil, "", :not_set].none? { |c| c == stdout }
       mf_debug "Captured STDOUT"
       stdout
     elsif exception
@@ -143,9 +143,8 @@ SnippetRunner = Struct.new(:code, :language) do
     else
       mf_debug "Captured Nothing"
       if fail_on_empty
-        fail SystemCommandError.new 'No output generated or exception caught'
+        fail SystemCommandError.new "No output generated or exception caught"
       end
     end
   end
-
 end

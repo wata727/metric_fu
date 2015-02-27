@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rails_best_practices/grapher' }
+MetricFu.metrics_require { "rails_best_practices/grapher" }
 
 describe RailsBestPracticesGrapher do
   before :each do
@@ -50,11 +50,11 @@ describe RailsBestPracticesGrapher do
 
       it "should push 0 to rails_best_practices_count when no problems were found" do
         expect(@stats_grapher.rails_best_practices_count).to receive(:push).with(0)
-        @stats_grapher.get_metrics({ :rails_best_practices => {} }, @date)
+        @stats_grapher.get_metrics({ rails_best_practices: {} }, @date)
       end
 
       it "should update labels with the date" do
-        expect(@stats_grapher.labels).to receive(:update).with({ 0 => "01022003" })
+        expect(@stats_grapher.labels).to receive(:update).with(0 => "01022003")
         @stats_grapher.get_metrics(@metrics, @date)
       end
     end

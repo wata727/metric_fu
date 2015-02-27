@@ -1,7 +1,6 @@
-require 'multi_json'
+require "multi_json"
 module MetricFu
   class Grapher
-
     @graphers = []
     # @return all subclassed graphers [Array<MetricFu::Grapher>]
     def self.graphers
@@ -13,7 +12,7 @@ module MetricFu
     end
 
     def self.get_grapher(metric)
-      graphers.find{|grapher|grapher.metric.to_s == metric.to_s}
+      graphers.find { |grapher|grapher.metric.to_s == metric.to_s }
     end
 
     attr_accessor :output_directory
@@ -23,10 +22,10 @@ module MetricFu
     end
 
     def output_directory
-      @output_directory || MetricFu::Io::FileSystem.directory('output_directory')
+      @output_directory || MetricFu::Io::FileSystem.directory("output_directory")
     end
 
-    def get_metrics(metrics, sortable_prefix)
+    def get_metrics(_metrics, _sortable_prefix)
       not_implemented
     end
 
@@ -37,7 +36,7 @@ module MetricFu
         #{build_data(data)}
         var graph_labels = #{labels};
       EOS
-      File.open(File.join(self.output_directory, output_filename), 'w') {|f| f << content }
+      File.open(File.join(output_directory, output_filename), "w") { |f| f << content }
     end
 
     def title
@@ -55,14 +54,13 @@ module MetricFu
     private
 
     def build_data(data)
-      'var graph_series = [' << Array(data).map do |label, datum|
+      "var graph_series = [" << Array(data).map do |label, datum|
         "{name: '#{label}', data: [#{datum}]}"
-      end.join(",") << '];'
+      end.join(",") << "];"
     end
 
     def not_implemented
       raise "#{__LINE__} in #{__FILE__} from #{caller[0]}"
     end
-
   end
 end

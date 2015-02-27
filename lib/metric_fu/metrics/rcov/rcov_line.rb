@@ -8,7 +8,7 @@ module MetricFu
     end
 
     def to_h
-      {:content => @content, :was_run => @was_run}
+      { content: @content, was_run: @was_run }
     end
 
     def covered?
@@ -24,7 +24,7 @@ module MetricFu
     end
 
     def self.line_coverage(lines)
-      lines.map{|line| line[:was_run] }
+      lines.map { |line| line[:was_run] }
     end
 
     def self.covered_lines(line_coverage)
@@ -40,9 +40,9 @@ module MetricFu
     end
 
     def css_class
-      return '' if ignored?
+      return "" if ignored?
 
-      missed? ? 'rcov_not_run' : 'rcov_run'
+      missed? ? "rcov_not_run" : "rcov_run"
     end
   end
 end

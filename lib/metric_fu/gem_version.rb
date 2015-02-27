@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'rubygems'
+require "rubygems"
 module MetricFu
   class GemVersion
     # regexp from https://github.com/gemnasium/gemnasium-parser/blob/807d7ccc/lib/gemnasium/parser/patterns.rb#L11
@@ -14,13 +14,12 @@ module MetricFu
     COMMENT = /(#[^\n]*)?/
     ADD_DEPENDENCY_CALL = /^[ \t]*\w+\.add(?<type>_runtime|_development)?_dependency\(?[ \t]*#{QUOTED_GEM_NAME}(?:[ \t]*,[ \t]*#{REQUIREMENTS})?[ \t]*\)?[ \t]*#{COMMENT}$/
 
-
     def initialize
-      @gem_spec = File.open(gemspec, 'rb') {|f| f.readlines }
+      @gem_spec = File.open(gemspec, "rb") { |f| f.readlines }
     end
 
     def gemspec
-      File.join(MetricFu.root_dir, 'metric_fu.gemspec')
+      File.join(MetricFu.root_dir, "metric_fu.gemspec")
     end
 
     def new_dependency(name, version)
@@ -32,10 +31,10 @@ module MetricFu
         begin
           @gem_spec.grep(/add_dependency|add_runtime/).map do |line|
             match = line.match(ADD_DEPENDENCY_CALL)
-            name = match['name'].downcase.sub('metric_fu-', '')
-            version = [match['req1'], match['req2']].compact
+            name = match["name"].downcase.sub("metric_fu-", "")
+            version = [match["req1"], match["req2"]].compact
             new_dependency(name, version)
-          end.compact << new_dependency('rcov', ['~> 0.8'])
+          end.compact << new_dependency("rcov", ["~> 0.8"])
         end
     end
 
@@ -49,7 +48,7 @@ module MetricFu
     end
 
     def unknown_dependency(name)
-      ->{ new_dependency(name, ['>= 0']) }
+      -> { new_dependency(name, [">= 0"]) }
     end
 
     RESOLVER = new
@@ -79,8 +78,8 @@ module MetricFu
       name = gem_dep.name
       version = activated_version(gem_dep.name) || gem_dep.requirements_list
       {
-        'name' => name,
-        'version' => version,
+        "name" => name,
+        "version" => version,
       }
     end
 
@@ -89,6 +88,5 @@ module MetricFu
         dependency_summary(gem_dep)
       end
     end
-
   end
 end

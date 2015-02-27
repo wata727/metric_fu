@@ -1,4 +1,4 @@
-MetricFu.reporting_require { 'graphs/grapher' }
+MetricFu.reporting_require { "graphs/grapher" }
 module MetricFu
   class RailsBestPracticesGrapher < Grapher
     attr_accessor :rails_best_practices_count, :labels
@@ -17,23 +17,22 @@ module MetricFu
       if metrics && metrics[:rails_best_practices]
         size = (metrics[:rails_best_practices][:problems] || []).size
         @rails_best_practices_count.push(size)
-        @labels.update( { @labels.size => date })
+        @labels.update(@labels.size => date)
       end
     end
 
     def title
-      'Rails Best Practices: design problems'
+      "Rails Best Practices: design problems"
     end
 
     def data
       [
-        ['rails_best_practices', @rails_best_practices_count.join(',')]
+        ["rails_best_practices", @rails_best_practices_count.join(",")]
       ]
     end
 
     def output_filename
-      'rails_best_practices.js'
+      "rails_best_practices.js"
     end
-
   end
 end

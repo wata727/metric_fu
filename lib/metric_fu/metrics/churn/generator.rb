@@ -1,7 +1,5 @@
 module MetricFu
-
   class ChurnGenerator < Generator
-
     def self.metric
       :churn
     end
@@ -16,7 +14,7 @@ module MetricFu
 
     def analyze
       if @output.nil? || @output.size.zero?
-        @churn = {:churn => {}}
+        @churn = { churn: {} }
       else
         @churn = @output
       end
@@ -25,7 +23,7 @@ module MetricFu
 
     # ensure hash only has the :churn key
     def to_h
-      {:churn => @churn[:churn]}
+      { churn: @churn[:churn] }
     end
 
     # @param args [Hash] churn metric run options
@@ -35,7 +33,5 @@ module MetricFu
       #    instead of the default String
       ::Churn::ChurnCalculator.new(args).report(false)
     end
-
   end
-
 end

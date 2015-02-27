@@ -1,10 +1,10 @@
 require "spec_helper"
-MetricFu.metrics_require { 'reek/generator' }
+MetricFu.metrics_require { "reek/generator" }
 
 describe MetricFu::ReekGenerator do
   describe "emit" do
-    let(:options) { {:dirs_to_reek => []} }
-    let(:files_to_analyze) { ['lib/foo.rb','lib/bar.rb'] }
+    let(:options) { { dirs_to_reek: [] } }
+    let(:files_to_analyze) { ["lib/foo.rb", "lib/bar.rb"] }
     let(:reek) { MetricFu::ReekGenerator.new(options) }
 
     before :each do
@@ -12,54 +12,53 @@ describe MetricFu::ReekGenerator do
     end
 
     it "includes config file pattern into reek parameters when specified" do
-      options.merge!({:config_file_pattern => 'lib/config/*.reek' })
+      options.merge!(config_file_pattern: "lib/config/*.reek")
       expect(reek).to receive(:run!) do |args|
-        expect(args).to include('--config', 'lib/config/*.reek')
-      end.and_return('')
+        expect(args).to include("--config", "lib/config/*.reek")
+      end.and_return("")
       reek.emit
     end
 
     it "doesn't add an empty parameter when no config file pattern is specified" do
       expect(reek).to receive(:run!) do |args|
-        expect(args).not_to include('')
-      end.and_return('')
+        expect(args).not_to include("")
+      end.and_return("")
       reek.emit
     end
 
     it "turns off color output from reek output, for reek 1.3.7 or greater" do
-      allow(reek).to receive(:reek_version).and_return('1.3.7')
+      allow(reek).to receive(:reek_version).and_return("1.3.7")
       expect(reek).to receive(:run!) do |args|
-        expect(args).to include('--no-color')
+        expect(args).to include("--no-color")
       end.and_return("")
       reek.emit
     end
 
     it "does not set an (invalid) --no-color option for reek < 1.3.7" do
-      allow(reek).to receive(:reek_version).and_return('1.3.6')
+      allow(reek).to receive(:reek_version).and_return("1.3.6")
       expect(reek).to receive(:run!) do |args|
-        expect(args).not_to include('--no-color')
+        expect(args).not_to include("--no-color")
       end.and_return("")
       reek.emit
     end
 
     it "disables lines numbers from reek output" do
       expect(reek).to receive(:run!) do |args|
-        expect(args).to include('--no-line-numbers')
+        expect(args).to include("--no-line-numbers")
       end.and_return("")
       reek.emit
     end
 
     it "includes files to analyze into reek parameters" do
       expect(reek).to receive(:run!) do |args|
-        expect(args).to include('lib/foo.rb', 'lib/bar.rb')
+        expect(args).to include("lib/foo.rb", "lib/bar.rb")
       end.and_return("")
       reek.emit
     end
   end
 
-  #TODO review tested output
+  # TODO review tested output
   describe "analyze method" do
-
     before :each do
       MetricFu::Configuration.run {}
       allow(File).to receive(:directory?).and_return(true)
@@ -110,10 +109,10 @@ NewlineController#some_method calls current_user.<< "new line\n" multiple times 
 
       it "should NOT insert nil smells into the array when there's a newline in the method call" do
         expect(@matches.last[:code_smells]).to eq(@matches.last[:code_smells].compact)
-        expect(@matches.last).to eq({:file_path=>"app/controllers/newline_controller.rb",
-                                  :code_smells=>[{:type=>"Duplication",
-                                                    :method=>"\"",
-                                                    :message=>"multiple times"}]})
+        expect(@matches.last).to eq(file_path: "app/controllers/newline_controller.rb",
+                                    code_smells: [{ type: "Duplication",
+                                                    method: "\"",
+                                                    message: "multiple times" }])
         # Note: hopefully a temporary solution until I figure out how to deal with newlines in the method call more effectively -Jake 5/11/2009
       end
     end

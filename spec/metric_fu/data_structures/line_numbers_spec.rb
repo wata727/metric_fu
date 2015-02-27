@@ -1,9 +1,9 @@
 require "spec_helper"
-MetricFu.data_structures_require { 'line_numbers' }
+MetricFu.data_structures_require { "line_numbers" }
 
 describe MetricFu::LineNumbers do
   FIXTURE_DATA = ->(paths) {
-    FIXTURE.load_file( ['line_numbers'].concat(Array(paths)) )
+    FIXTURE.load_file(["line_numbers"].concat(Array(paths)))
   }
   describe "in_method?" do
     it "should know if a line is NOT in a method" do
@@ -51,7 +51,7 @@ describe MetricFu::LineNumbers do
 
     it "should work with modules" do
       ln = MetricFu::LineNumbers.new(FIXTURE_DATA["module.rb"])
-      expect(ln.method_at_line(4)).to eq('KickAss#get_beat_up?')
+      expect(ln.method_at_line(4)).to eq("KickAss#get_beat_up?")
     end
 
     it "should work with module surrounding class" do
@@ -59,7 +59,5 @@ describe MetricFu::LineNumbers do
       expect(ln.method_at_line(5)).to eq("StuffModule::ThingClass#do_it")
       # ln.method_at_line(12).should == "StuffModule#blah" #why no work?
     end
-
   end
-
 end

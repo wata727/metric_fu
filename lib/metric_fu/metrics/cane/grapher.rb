@@ -1,4 +1,4 @@
-MetricFu.reporting_require { 'graphs/grapher' }
+MetricFu.reporting_require { "graphs/grapher" }
 module MetricFu
   class CaneGrapher < Grapher
     attr_accessor :cane_violations, :labels
@@ -16,24 +16,22 @@ module MetricFu
     def get_metrics(metrics, date)
       if metrics && metrics[:cane]
         @cane_violations.push(metrics[:cane][:total_violations].to_i)
-        @labels.update( { @labels.size => date })
+        @labels.update(@labels.size => date)
       end
     end
 
     def title
-      'Cane: code quality threshold violations'
+      "Cane: code quality threshold violations"
     end
 
     def data
       [
-        ['cane', @cane_violations.join(',')]
+        ["cane", @cane_violations.join(",")]
       ]
     end
 
     def output_filename
-      'cane.js'
+      "cane.js"
     end
-
   end
 end
-

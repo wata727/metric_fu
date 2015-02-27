@@ -1,14 +1,13 @@
 require "spec_helper"
-MetricFu.metrics_require { 'hotspots/generator' }
+MetricFu.metrics_require { "hotspots/generator" }
 
 describe MetricFu::HotspotsGenerator do
   describe "analyze method" do
-
     it "should be empty on error" do
       hotspots = MetricFu::HotspotsGenerator.new
       hotspots.instance_variable_set(:@analyzer, nil)
       result = hotspots.analyze
-      expect(result).to eq({:files => [], :classes => [], :methods => []})
+      expect(result).to eq(files: [], classes: [], methods: [])
     end
 
     it "should put the changes into a hash" do
@@ -20,13 +19,13 @@ describe MetricFu::HotspotsGenerator do
       expect(result.keys).to eq(expected.keys)
 
       # for each granularity's location details
-      result.each do |granularity,location_details|
+      result.each do |granularity, location_details|
         # map 2d array for this granularity of [details, location]
-        expected_result = expected.fetch(granularity).map {|ld| [ld.fetch('details'), ld.fetch('location')] }
+        expected_result = expected.fetch(granularity).map { |ld| [ld.fetch("details"), ld.fetch("location")] }
         # verify all the location details for this granularity match elements of expected_result
         location_details.each do |location_detail|
-          location = location_detail.fetch('location')
-          details  = location_detail.fetch('details')
+          location = location_detail.fetch("location")
+          details  = location_detail.fetch("details")
           # get the location_detail array where the  where the locations (second element) match
           expected_location_details = expected_result.rassoc(location)
           # get the details (first element) from the expected location_details array
@@ -44,5 +43,4 @@ describe MetricFu::HotspotsGenerator do
       expect(hotspots.analyze.keys).to eq([:files, :classes, :methods])
     end
   end
-
 end

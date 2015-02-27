@@ -7,13 +7,12 @@ if defined?(JRUBY_VERSION)
     #     https://github.com/colszowka/simplecov/issues/86
   end
 end
-require 'simplecov'
-require 'metric_fu/logger'
-require_relative 'external_client'
-require_relative 'rcov_format_coverage'
+require "simplecov"
+require "metric_fu/logger"
+require_relative "external_client"
+require_relative "rcov_format_coverage"
 
 class SimpleCov::Formatter::MetricFu
-
   def format(result)
     rcov_text = FormatLikeRCov.new(result).format
     client = MetricFu::RCovTestCoverageClient.new(coverage_file_path)
@@ -27,7 +26,7 @@ class SimpleCov::Formatter::MetricFu
   end
 
   def default_coverage_file_path
-    File.join(SimpleCov.root, 'coverage', 'rcov', output_file_name)
+    File.join(SimpleCov.root, "coverage", "rcov", output_file_name)
   end
 
   # TODO: Read in from legacy coverage/rcov/rcov.txt path, when set
@@ -41,7 +40,7 @@ class SimpleCov::Formatter::MetricFu
   #   going forward, the file name will be in a date-stamped
   #   format like for all other reported metrics.
   def output_file_name
-    'rcov.txt'
+    "rcov.txt"
   end
 
   # report should reference file used to build it
@@ -58,9 +57,9 @@ class SimpleCov::Formatter::MetricFu
         content << "=" * 80
         content << "\n"
         source_file.lines.each do |line|
-          content << '!!' if line.missed?
-          content << '--' if line.never? || line.skipped?
-          content << '  ' if line.covered?
+          content << "!!" if line.missed?
+          content << "--" if line.never? || line.skipped?
+          content << "  " if line.covered?
           content << " #{line.src.chomp}\n"
         end
         content << "\n"
@@ -69,8 +68,7 @@ class SimpleCov::Formatter::MetricFu
     end
 
     def simple_file_name(source_file)
-      source_file.filename.gsub(SimpleCov.root, '.')
+      source_file.filename.gsub(SimpleCov.root, ".")
     end
   end
-
 end

@@ -1,12 +1,11 @@
 require "spec_helper"
-MetricFu.metrics_require { 'rails_best_practices/generator' }
+MetricFu.metrics_require { "rails_best_practices/generator" }
 
 describe RailsBestPracticesGenerator do
-
   break if metric_not_activated?(:rails_best_practices)
 
   describe "emit method" do
-    let(:analyzer) { ::RailsBestPractices::Analyzer.new('.', { 'silent' => true }) }
+    let(:analyzer) { ::RailsBestPractices::Analyzer.new(".",  "silent" => true) }
     context "RailsBestPractices provides the expected API" do
       it { expect(analyzer).to respond_to :analyze }
       it { expect(analyzer).to respond_to :errors }

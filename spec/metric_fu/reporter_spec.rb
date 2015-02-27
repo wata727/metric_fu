@@ -1,11 +1,10 @@
 require "spec_helper"
-MetricFu.lib_require { 'reporter' }
+MetricFu.lib_require { "reporter" }
 
 describe MetricFu::Reporter do
-
   context "given a single formatter" do
     before do
-      @formatter = double('formatter')
+      @formatter = double("formatter")
       allow(@formatter).to receive(:to_a).and_return([@formatter])
       @reporter = Reporter.new(@formatter)
     end
@@ -26,7 +25,7 @@ describe MetricFu::Reporter do
 
   context "given multiple formatters" do
     before do
-      @formatters = [double('formatter'), double('formatter')]
+      @formatters = [double("formatter"), double("formatter")]
       @reporter = Reporter.new(@formatters)
     end
 

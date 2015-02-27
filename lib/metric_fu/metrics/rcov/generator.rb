@@ -1,14 +1,12 @@
-MetricFu.lib_require { 'utility' }
-MetricFu.lib_require { 'calculate' }
-MetricFu.data_structures_require { 'line_numbers' }
-require_relative 'rcov_format_coverage'
-require_relative 'rcov_line'
-require_relative 'external_client'
+MetricFu.lib_require { "utility" }
+MetricFu.lib_require { "calculate" }
+MetricFu.data_structures_require { "line_numbers" }
+require_relative "rcov_format_coverage"
+require_relative "rcov_line"
+require_relative "external_client"
 
 module MetricFu
-
   class RcovGenerator < MetricFu::Generator
-
     def self.metric
       :rcov
     end
@@ -30,16 +28,16 @@ module MetricFu
     end
 
     def reset_output_location
-      MetricFu::Utility.rm_rf(metric_directory, :verbose => false)
+      MetricFu::Utility.rm_rf(metric_directory, verbose: false)
       MetricFu::Utility.mkdir_p(metric_directory)
     end
 
     def default_command
-      require 'rake'
+      require "rake"
       reset_output_location
-      test_files = FileList[*options[:test_files]].join(' ')
-      rcov_opts = options[:rcov_opts].join(' ')
-      %Q(RAILS_ENV=#{options[:environment]} rcov #{test_files} #{rcov_opts} >> #{default_output_file})
+      test_files = FileList[*options[:test_files]].join(" ")
+      rcov_opts = options[:rcov_opts].join(" ")
+      %(RAILS_ENV=#{options[:environment]} rcov #{test_files} #{rcov_opts} >> #{default_output_file})
     end
 
     def analyze
@@ -50,7 +48,7 @@ module MetricFu
 
     def to_h
       {
-        :rcov => @rcov
+        rcov: @rcov
       }
     end
 
@@ -71,8 +69,7 @@ module MetricFu
 
     # Only used if run_rcov? is true
     def default_output_file
-      output_file || File.join(metric_directory, 'rcov.txt')
+      output_file || File.join(metric_directory, "rcov.txt")
     end
-
   end
 end

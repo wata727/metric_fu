@@ -1,11 +1,10 @@
 require "spec_helper"
-MetricFu.metrics_require { 'flog/grapher' }
+MetricFu.metrics_require { "flog/grapher" }
 
 describe MetricFu::FlogGrapher do
   before :each do
     MetricFu.configuration
     @flog_grapher = MetricFu::FlogGrapher.new
-
   end
 
   it "should respond to flog_total, flog_average and labels" do
@@ -26,12 +25,12 @@ describe MetricFu::FlogGrapher do
     before(:each) do
       methods = {}
       100.times do |i|
-        methods["method_name_#{i}"] = {:score => i.to_f}
+        methods["method_name_#{i}"] = { score: i.to_f }
       end
 
-      @metrics = {:flog => {:total => 111.1,
-                            :average => 7.7,
-                            :method_containers => [ {:methods => methods } ] } }
+      @metrics = { flog: { total: 111.1,
+                           average: 7.7,
+                           method_containers: [{ methods: methods }] } }
       @date = "1/2"
     end
 
@@ -48,7 +47,7 @@ describe MetricFu::FlogGrapher do
 
     context "when metrics were not generated" do
       before(:each) do
-        @metrics = FIXTURE.load_metric('metric_missing.yml')
+        @metrics = FIXTURE.load_metric("metric_missing.yml")
         @date = "1/2"
       end
 
@@ -70,7 +69,7 @@ describe MetricFu::FlogGrapher do
 
     context "when metrics have been generated" do
       before(:each) do
-        @metrics = FIXTURE.load_metric('20090630.yml')
+        @metrics = FIXTURE.load_metric("20090630.yml")
         @date = "1/2"
       end
 
@@ -86,7 +85,7 @@ describe MetricFu::FlogGrapher do
       end
 
       it "should update labels with the date" do
-        expect(@flog_grapher.labels).to receive(:update).with({ 0 => "1/2" })
+        expect(@flog_grapher.labels).to receive(:update).with(0 => "1/2")
         @flog_grapher.get_metrics(@metrics, @date)
       end
     end
@@ -105,5 +104,4 @@ describe MetricFu::FlogGrapher do
       @flog_grapher.get_metrics(@metrics, @date)
     end
   end
-
 end

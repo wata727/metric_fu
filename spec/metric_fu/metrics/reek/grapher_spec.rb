@@ -1,5 +1,5 @@
 require "spec_helper"
-MetricFu.metrics_require { 'reek/grapher' }
+MetricFu.metrics_require { "reek/grapher" }
 
 describe ReekGrapher do
   before :each do
@@ -45,7 +45,7 @@ describe ReekGrapher do
 
       it "should set a hash of code smells to reek_count" do
         @reek_grapher.get_metrics(@metrics, @date)
-        expect(@reek_grapher.reek_count).to eq({
+        expect(@reek_grapher.reek_count).to eq(
           "Uncommunicative Name" => [27],
           "Feature Envy" => [20],
           "Utility Function" => [15],
@@ -54,11 +54,11 @@ describe ReekGrapher do
           "Control Couple" => [4],
           "Duplication" => [48],
           "Large Class" => [1]
-        })
+        )
       end
 
       it "should update labels with the date" do
-        expect(@reek_grapher.labels).to receive(:update).with({ 0 => "1/2" })
+        expect(@reek_grapher.labels).to receive(:update).with(0 => "1/2")
         @reek_grapher.get_metrics(@metrics, @date)
       end
     end

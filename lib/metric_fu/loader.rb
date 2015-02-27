@@ -9,14 +9,14 @@ module MetricFu
       @loaded_files = []
     end
 
-    def lib_require(base='',&block)
+    def lib_require(base = "", &_block)
       paths = []
       base_path = File.join(@lib_root, base)
       Array((yield paths, base_path)).each do |path|
         file = File.join(base_path, *Array(path))
         require file
         if @loaded_files.include?(file)
-          puts "!!!\tAlready loaded #{file}" if !!(ENV['MF_DEBUG'] =~ /true/i)
+          puts "!!!\tAlready loaded #{file}" if !!(ENV["MF_DEBUG"] =~ /true/i)
         else
           @loaded_files << file
         end
@@ -36,9 +36,9 @@ module MetricFu
       class << klass
         Array(yield).each do |dir|
           define_method("#{dir}_dir") do
-            File.join(lib_dir,dir)
+            File.join(lib_dir, dir)
           end
-          module_eval(%Q(def #{dir}_require(&block); lib_require('#{dir}', &block); end),  __FILE__, __LINE__)
+          module_eval(%(def #{dir}_require(&block); lib_require('#{dir}', &block); end),  __FILE__, __LINE__)
         end
       end
     end
@@ -52,41 +52,41 @@ module MetricFu
     def create_artifact_subdirs(klass)
       class << klass
         Array(yield).each do |dir|
-          define_method("#{dir.gsub(/[^A-Za-z0-9]/,'')}_dir") do
-            File.join(artifact_dir,dir)
+          define_method("#{dir.gsub(/[^A-Za-z0-9]/, '')}_dir") do
+            File.join(artifact_dir, dir)
           end
         end
       end
     end
 
     def setup
-      MetricFu.lib_require { 'logger' }
-      MetricFu.logger.debug_on = !!(ENV['MF_DEBUG'] =~ /true/i)
+      MetricFu.lib_require { "logger" }
+      MetricFu.logger.debug_on = !!(ENV["MF_DEBUG"] =~ /true/i)
 
       load_metric_configuration
 
-      MetricFu.lib_require       { 'reporter' }
-      MetricFu.reporting_require { 'result' }
+      MetricFu.lib_require       { "reporter" }
+      MetricFu.reporting_require { "result" }
 
-      MetricFu.load_tasks('metric_fu.rake', task_name: 'metrics:all')
+      MetricFu.load_tasks("metric_fu.rake", task_name: "metrics:all")
     end
 
     def load_metric_configuration
-      MetricFu.lib_require { 'configuration' }
+      MetricFu.lib_require { "configuration" }
       load_installed_metrics
       MetricFu.configuration.configure_metrics
       load_user_configuration
     end
 
     def load_installed_metrics
-      MetricFu.lib_require { 'metric' }
-      Dir.glob(File.join(MetricFu.metrics_dir, '**/metric.rb')).each do |metric_config|
+      MetricFu.lib_require { "metric" }
+      Dir.glob(File.join(MetricFu.metrics_dir, "**/metric.rb")).each do |metric_config|
         require metric_config
       end
     end
 
     def load_user_configuration
-      file = File.join(MetricFu.run_dir, '.metrics')
+      file = File.join(MetricFu.run_dir, ".metrics")
       load file if File.exist?(file)
     end
 
@@ -96,11 +96,10 @@ module MetricFu
     # @param tasks_relative_path [String] 'metric_fu.rake' by default
     # @param options [Hash] optional task_name to check if loaded
     # @option options [String] :task_name The task_name to load, if not yet loaded
-    def load_tasks(tasks_relative_path, options={task_name: ''})
+    def load_tasks(tasks_relative_path, options = { task_name: "" })
       if defined?(Rake::Task) and not Rake::Task.task_defined?(options[:task_name])
-        load File.join(@lib_root, 'tasks', *Array(tasks_relative_path))
+        load File.join(@lib_root, "tasks", *Array(tasks_relative_path))
       end
     end
-
   end
 end

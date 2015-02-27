@@ -1,7 +1,6 @@
 # Reads and writes external coverage files as BINARY
 module MetricFu
   class RCovTestCoverageClient
-
     def initialize(coverage_file)
       @file_path = Pathname(coverage_file)
       @file_path.dirname.mkpath
@@ -17,8 +16,7 @@ module MetricFu
     end
 
     def dump(payload)
-      File.open(@file_path, 'wb') {|file| file.write(payload) }
+      File.open(@file_path, "wb") { |file| file.write(payload) }
     end
-
   end
 end

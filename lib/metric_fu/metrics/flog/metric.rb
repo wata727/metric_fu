@@ -1,12 +1,11 @@
 module MetricFu
   class MetricFlog < Metric
-
     def name
       :flog
     end
 
     def default_run_options
-      { :dirs_to_flog => MetricFu::Io::FileSystem.directory('code_dirs'), :continue => true, :all => true, :quiet => true  }
+      { dirs_to_flog: MetricFu::Io::FileSystem.directory("code_dirs"), continue: true, all: true, quiet: true  }
     end
 
     def has_graph?
@@ -22,10 +21,9 @@ module MetricFu
     end
 
     def activate
-      activate_library 'flog'
-      activate_library 'flog_cli'
+      activate_library "flog"
+      activate_library "flog_cli"
       super
     end
-
   end
 end

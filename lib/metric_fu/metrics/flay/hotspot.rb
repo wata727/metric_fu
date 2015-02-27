@@ -1,5 +1,4 @@
 class MetricFu::FlayHotspot < MetricFu::Hotspot
-
   COLUMNS = %w{flay_reason flay_matching_reason}
 
   def columns
@@ -23,23 +22,23 @@ class MetricFu::FlayHotspot < MetricFu::Hotspot
   end
 
   def generate_records(data, table)
-    return if data==nil
+    return if data == nil
     Array(data[:matches]).each do |match|
       problems  = match[:reason]
-      matching_reason = problems.gsub(/^[0-9]+\) /,'').gsub(/\:[0-9]+/,'')
+      matching_reason = problems.gsub(/^[0-9]+\) /, "").gsub(/\:[0-9]+/, "")
       files     = []
       locations = []
       match[:matches].each do |file_match|
-        file_path = file_match[:name].sub(%r{^/},'')
+        file_path = file_match[:name].sub(%r{^/}, "")
         locations << "#{file_path}:#{file_match[:line]}"
         files     << file_path
       end
       files = files.uniq
       files.each do |file|
         table << {
-          "metric" => self.name,
+          "metric" => name,
           "file_path" => file,
-          "flay_reason" => problems+" files: #{locations.join(', ')}",
+          "flay_reason" => problems + " files: #{locations.join(', ')}",
           "flay_matching_reason" => matching_reason
         }
       end
@@ -50,5 +49,4 @@ class MetricFu::FlayHotspot < MetricFu::Hotspot
     occurences = group.size
     "found #{occurences} code duplications"
   end
-
 end

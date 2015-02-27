@@ -1,11 +1,9 @@
-require 'spec_helper'
-require 'shared/configured'
+require "spec_helper"
+require "shared/configured"
 
-describe MetricFu::Configuration, 'for rails_best_practices' do
-  it_behaves_like 'configured' do
-
+describe MetricFu::Configuration, "for rails_best_practices" do
+  it_behaves_like "configured" do
     describe "if #rails? is true " do
-
       before(:each) do
         @config = MetricFu.configuration
         allow(@config).to receive(:rails?).and_return(true)
@@ -23,11 +21,10 @@ describe MetricFu::Configuration, 'for rails_best_practices' do
       end
 
       it "should set @rails_best_practices to {}" do
-        load_metric 'rails_best_practices'
+        load_metric "rails_best_practices"
         expect(MetricFu::Metric.get_metric(:rails_best_practices).run_options).to eql({})
       end
     end
-
 
     describe "if #rails? is false " do
       before(:each) do
@@ -39,9 +36,8 @@ describe MetricFu::Configuration, 'for rails_best_practices' do
       end
 
       it "should set the registered code_dirs to ['lib']" do
-        expect(directory('code_dirs')).to eq(['lib'])
+        expect(directory("code_dirs")).to eq(["lib"])
       end
     end
-
   end
 end

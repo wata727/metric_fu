@@ -1,8 +1,7 @@
-MetricFu.lib_require { 'templates/metrics_template' }
+MetricFu.lib_require { "templates/metrics_template" }
 module MetricFu::Templates
   class Configuration
-
-    FILE_PREFIX = 'file:/'
+    FILE_PREFIX = "file:/"
 
     def initialize
       @options = {}
@@ -22,7 +21,5 @@ module MetricFu::Templates
     def option(name)
       @options.fetch(name.to_sym) { raise "No such template option: #{name}" }
     end
-
   end
-
 end

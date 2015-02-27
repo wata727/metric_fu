@@ -1,5 +1,4 @@
 class MetricFu::RoodiHotspot < MetricFu::Hotspot
-
   COLUMNS = %w{problems}
 
   def columns
@@ -23,7 +22,7 @@ class MetricFu::RoodiHotspot < MetricFu::Hotspot
   end
 
   def generate_records(data, table)
-    return if data==nil
+    return if data == nil
     Array(data[:problems]).each do |problem|
       table << {
         "metric" => name,
@@ -37,5 +36,4 @@ class MetricFu::RoodiHotspot < MetricFu::Hotspot
     occurences = group.size
     "found #{occurences} design problems"
   end
-
 end
