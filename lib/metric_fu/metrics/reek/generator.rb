@@ -1,22 +1,5 @@
 module MetricFu
   class ReekGenerator < Generator
-    REEK_REGEX = /
-      ^            # start of line
-        \s*        # 0 or more space characters
-        \[         # left bracket
-          ([^:]+)  # 1 or more characters, not a colon (match group - line numbers)
-        \]         # right bracket
-        :          # colon
-        (\S+)      # 1 or more non-space characters (match group - method name)
-        \s+        # 1 or more space characters
-        (.*)       # 0 or more characters (match group - smell message)
-        \s+        # 1 or more space characters
-        \(         # left paren
-          (.*)     # 0 or more characters (match group - smell type)
-        \)         # right paren
-      $            # end of line
-    /x
-
     def self.metric
       :reek
     end
@@ -27,35 +10,20 @@ module MetricFu
         mf_log "Skipping Reek, no files found to analyze"
         @output = ""
       else
-        args = cli_options(files)
-        @output = run!(args)
-        @output = massage_for_reek_12 if reek_12?
+        @output = run!(files, config_files)
       end
     end
 
-    def run!(args)
-      require "reek/cli/application"
+    def run!(files, config_files)
+      require "reek"
 
-      MetricFu::Utility.capture_output do
-        Reek::Cli::Application.new(args).execute
-      end
+      Reek::Examiner.new(files, config_files)
     end
 
     def analyze
-      @matches = @output.chomp.split("\n\n").map { |m| m.gsub(/\n\s+\[/, "SPLIT_ME_HERE_PLEASE[").split("SPLIT_ME_HERE_PLEASE") }
-      @matches = @matches.map do |match|
-        break {} if zero_warnings?(match)
-        file_path = match.shift.split(" -- ").first
-        file_path = file_path.gsub('"', " ").strip
-        code_smells = match.map do |smell|
-          match_object = smell.match(REEK_REGEX)
-          next unless match_object
-          {:lines => match_object[1].strip.split(', '),
-           :method => match_object[2].strip,
-           :message => match_object[3].strip,
-           :type => match_object[4].strip}
-        end.compact
-        { file_path: file_path, code_smells: code_smells }
+      @matches = @output.smells.group_by(&:source).collect do |file_path, smells|
+        { file_path: file_path,
+          code_smells: analyze_smells(smells) }
       end
     end
 
@@ -83,31 +51,6 @@ module MetricFu
       end
     end
 
-    def reek_12?
-      return false if @output.length == 0
-      (@output =~ /^"/) != 0
-    end
-
-    def massage_for_reek_12
-      section_break = ""
-      @output.split("\n").map do |line|
-        case line
-        when /^  /
-          "#{line.gsub(/^  /, '')}\n"
-        else
-          parts = line.split(" -- ")
-          if parts[1].nil?
-            "#{line}\n"
-          else
-            warnings = parts[1].gsub(/ \(.*\):/, ":")
-            result = "#{section_break}\"#{parts[0]}\" -- #{warnings}\n"
-            section_break = "\n"
-            result
-          end
-        end
-      end.join
-    end
-
     private
 
     def files_to_analyze
@@ -116,42 +59,26 @@ module MetricFu
       remove_excluded_files(files_to_reek)
     end
 
-    def cli_options(files)
-      [
-        turn_off_color,
-        *config_option,
-        *files
-      ].reject(&:empty?)
-    end
-
     # TODO: Check that specified line config file exists
-    def config_option
-      config_file_pattern =  options[:config_file_pattern]
-      if config_file_pattern.to_s.empty?
-        [""]
-      else
-        ["--config", config_file_pattern]
-      end
+    def config_files
+      Array(options[:config_file_pattern])
     end
 
-    # Work around "Error: invalid option: --no-color" in reek < 1.3.7
-    def turn_off_color
-      if reek_version >= "1.3.7"
-        "--no-color"
-      else
-        ""
-      end
+    def analyze_smells(smells)
+      smells.collect(&method(:smell_data))
     end
 
-    def reek_version
-      @reek_version ||=  `reek --version`.chomp.sub(/\s*reek\s*/, "")
-      # use the above, as the below may activate a version not available in
-      # a Bundler context
-      # MetricFu::GemVersion.activated_version('reek').to_s
+    def smell_data(smell)
+      { method: smell.context,
+        message: smell.message,
+        type: smell_type(smell),
+        lines: smell.lines }
     end
 
-    def zero_warnings?(match)
-      match.last == "\n0 total warnings"
+    def smell_type(smell)
+      return smell.subclass if smell.respond_to?(:subclass)
+
+      smell.smell_type
     end
   end
 end
