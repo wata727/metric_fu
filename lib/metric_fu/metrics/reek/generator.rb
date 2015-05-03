@@ -15,7 +15,12 @@ module MetricFu
     end
 
     def run!(files, config_files)
-      require "reek"
+      require 'reek'
+      begin
+        require 'reek/configuration/app_configuration'
+      rescue LoadError
+        # nothing we can do, it's probably an older reek version which doesn't need this file
+      end
 
       Reek::Examiner.new(files, config_files)
     end
