@@ -8,6 +8,9 @@ As such, a _Feature_ would map to either major (breaking change) or minor. A _bu
 
 * Breaking Changes
 * Features
+  * Add line numbers to reek output. (ggallen, #255)
+  * Use reek directly. (Martin Gotink, #258)
+  * Add support for reek 2. (Martin Gotink, #258)
 * Fixes
   * Use same styling for covered as ignored lines. (Martin Gotink, #254)
 * Misc
