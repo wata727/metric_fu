@@ -15,14 +15,14 @@ module MetricFu
     end
 
     def run!(files, config_files)
-      require 'reek'
-      begin
-        require 'reek/configuration/app_configuration'
-      rescue LoadError
-        # nothing we can do, it's probably an older reek version which doesn't need this file
-      end
+      require "reek"
+      # To load any changing dependencies such as "reek/configuration/app_configuration"
+      #   Added in 1.6.0 https://github.com/troessner/reek/commit/7f4ed2be442ca926e08ccc41945e909e8f710947
+      #   But not always loaded
+      require "reek/cli/application"
 
-      Reek::Examiner.new(files, config_files)
+      examiner = Reek.const_defined?(:Examiner) ? Reek.const_get(:Examiner) : Reek.const_get(:Core).const_get(:Examiner)
+      examiner.new(files, config_files)
     end
 
     def analyze
