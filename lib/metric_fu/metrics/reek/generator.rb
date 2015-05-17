@@ -1,7 +1,5 @@
 module MetricFu
   class ReekGenerator < Generator
-    REEK_REGEX = /^(\S+) (.*) \((.*)\)$/
-
     def self.metric
       :reek
     end
@@ -12,34 +10,25 @@ module MetricFu
         mf_log "Skipping Reek, no files found to analyze"
         @output = ""
       else
-        args = cli_options(files)
-        @output = run!(args)
-        @output = massage_for_reek_12 if reek_12?
+        @output = run!(files, config_files)
       end
     end
 
-    def run!(args)
+    def run!(files, config_files)
+      require "reek"
+      # To load any changing dependencies such as "reek/configuration/app_configuration"
+      #   Added in 1.6.0 https://github.com/troessner/reek/commit/7f4ed2be442ca926e08ccc41945e909e8f710947
+      #   But not always loaded
       require "reek/cli/application"
 
-      MetricFu::Utility.capture_output do
-        Reek::Cli::Application.new(args).execute
-      end
+      examiner = Reek.const_defined?(:Examiner) ? Reek.const_get(:Examiner) : Reek.const_get(:Core).const_get(:Examiner)
+      examiner.new(files, config_files)
     end
 
     def analyze
-      @matches = @output.chomp.split("\n\n").map { |m| m.split("\n") }
-      @matches = @matches.map do |match|
-        break {} if zero_warnings?(match)
-        file_path = match.shift.split(" -- ").first
-        file_path = file_path.gsub('"', " ").strip
-        code_smells = match.map do |smell|
-          match_object = smell.match(REEK_REGEX)
-          next unless match_object
-          { method: match_object[1].strip,
-            message: match_object[2].strip,
-            type: match_object[3].strip }
-        end.compact
-        { file_path: file_path, code_smells: code_smells }
+      @matches = @output.smells.group_by(&:source).collect do |file_path, smells|
+        { file_path: file_path,
+          code_smells: analyze_smells(smells) }
       end
     end
 
@@ -67,31 +56,6 @@ module MetricFu
       end
     end
 
-    def reek_12?
-      return false if @output.length == 0
-      (@output =~ /^"/) != 0
-    end
-
-    def massage_for_reek_12
-      section_break = ""
-      @output.split("\n").map do |line|
-        case line
-        when /^  /
-          "#{line.gsub(/^  /, '')}\n"
-        else
-          parts = line.split(" -- ")
-          if parts[1].nil?
-            "#{line}\n"
-          else
-            warnings = parts[1].gsub(/ \(.*\):/, ":")
-            result = "#{section_break}\"#{parts[0]}\" -- #{warnings}\n"
-            section_break = "\n"
-            result
-          end
-        end
-      end.join
-    end
-
     private
 
     def files_to_analyze
@@ -100,47 +64,26 @@ module MetricFu
       remove_excluded_files(files_to_reek)
     end
 
-    def cli_options(files)
-      [
-        disable_line_number_option,
-        turn_off_color,
-        *config_option,
-        *files
-      ].reject(&:empty?)
-    end
-
     # TODO: Check that specified line config file exists
-    def config_option
-      config_file_pattern =  options[:config_file_pattern]
-      if config_file_pattern.to_s.empty?
-        [""]
-      else
-        ["--config", config_file_pattern]
-      end
+    def config_files
+      Array(options[:config_file_pattern])
     end
 
-    # Work around "Error: invalid option: --no-color" in reek < 1.3.7
-    def turn_off_color
-      if reek_version >= "1.3.7"
-        "--no-color"
-      else
-        ""
-      end
+    def analyze_smells(smells)
+      smells.collect(&method(:smell_data))
     end
 
-    def reek_version
-      @reek_version ||=  `reek --version`.chomp.sub(/\s*reek\s*/, "")
-      # use the above, as the below may activate a version not available in
-      # a Bundler context
-      # MetricFu::GemVersion.activated_version('reek').to_s
+    def smell_data(smell)
+      { method: smell.context,
+        message: smell.message,
+        type: smell_type(smell),
+        lines: smell.lines }
     end
 
-    def disable_line_number_option
-      "--no-line-numbers"
-    end
+    def smell_type(smell)
+      return smell.subclass if smell.respond_to?(:subclass)
 
-    def zero_warnings?(match)
-      match.last == "0 total warnings"
+      smell.smell_type
     end
   end
 end

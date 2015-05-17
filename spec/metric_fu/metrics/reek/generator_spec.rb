@@ -13,51 +13,31 @@ describe MetricFu::ReekGenerator do
 
     it "includes config file pattern into reek parameters when specified" do
       options.merge!(config_file_pattern: "lib/config/*.reek")
-      expect(reek).to receive(:run!) do |args|
-        expect(args).to include("--config", "lib/config/*.reek")
+
+      expect(reek).to receive(:run!) do |_files, config_files|
+        expect(config_files).to eq(["lib/config/*.reek"])
       end.and_return("")
+
       reek.emit
     end
 
-    it "doesn't add an empty parameter when no config file pattern is specified" do
-      expect(reek).to receive(:run!) do |args|
-        expect(args).not_to include("")
+    it "passes an empty array when no config file pattern is specified" do
+      expect(reek).to receive(:run!) do |_files, config_files|
+        expect(config_files).to eq([])
       end.and_return("")
-      reek.emit
-    end
 
-    it "turns off color output from reek output, for reek 1.3.7 or greater" do
-      allow(reek).to receive(:reek_version).and_return("1.3.7")
-      expect(reek).to receive(:run!) do |args|
-        expect(args).to include("--no-color")
-      end.and_return("")
-      reek.emit
-    end
-
-    it "does not set an (invalid) --no-color option for reek < 1.3.7" do
-      allow(reek).to receive(:reek_version).and_return("1.3.6")
-      expect(reek).to receive(:run!) do |args|
-        expect(args).not_to include("--no-color")
-      end.and_return("")
-      reek.emit
-    end
-
-    it "disables lines numbers from reek output" do
-      expect(reek).to receive(:run!) do |args|
-        expect(args).to include("--no-line-numbers")
-      end.and_return("")
       reek.emit
     end
 
     it "includes files to analyze into reek parameters" do
-      expect(reek).to receive(:run!) do |args|
-        expect(args).to include("lib/foo.rb", "lib/bar.rb")
+      expect(reek).to receive(:run!) do |files, _config_files|
+        expect(files).to eq(["lib/foo.rb", "lib/bar.rb"])
       end.and_return("")
+
       reek.emit
     end
   end
 
-  # TODO review tested output
   describe "analyze method" do
     before :each do
       MetricFu::Configuration.run {}
@@ -67,24 +47,54 @@ describe MetricFu::ReekGenerator do
 
     context "with reek warnings" do
       before :each do
-        @lines = <<-HERE
-"app/controllers/activity_reports_controller.rb" -- 4 warnings:
-ActivityReportsController#authorize_user calls current_user.primary_site_ids multiple times (Duplication)
-ActivityReportsController#authorize_user calls params[id] multiple times (Duplication)
-ActivityReportsController#authorize_user calls params[primary_site_id] multiple times (Duplication)
-ActivityReportsController#authorize_user has approx 6 statements (Long Method)
+        @smells = [
+            double(source: "app/controllers/activity_reports_controller.rb",
+                   context: "ActivityReportsController#authorize_user",
+                   message: "calls current_user.primary_site_ids multiple times",
+                   smell_type: "Duplication",
+                   lines: [2, 4]),
+            double(source: "app/controllers/activity_reports_controller.rb",
+                   context: "ActivityReportsController#authorize_user",
+                   message: "calls params[id] multiple times",
+                   smell_type: "Duplication",
+                   lines: [5, 7]),
+            double(source: "app/controllers/activity_reports_controller.rb",
+                   context: "ActivityReportsController#authorize_user",
+                   message: "calls params[primary_site_id] multiple times",
+                   smell_type: "Duplication",
+                   lines: [11, 15]),
+            double(source: "app/controllers/activity_reports_controller.rb",
+                   context: "ActivityReportsController#authorize_user",
+                   message: "has approx 6 statements",
+                   smell_type: "Long Method",
+                   lines: [8]),
 
-"app/controllers/application.rb" -- 1 warnings:
-ApplicationController#start_background_task/block/block is nested (Nested Iterators)
+            double(source: "app/controllers/application.rb",
+                   context: "ApplicationController#start_background_task/block/block",
+                   message: "is nested",
+                   smell_type: "Nested Iterators",
+                   lines: [23]),
 
-"app/controllers/link_targets_controller.rb" -- 1 warnings:
-LinkTargetsController#authorize_user calls current_user.role multiple times (Duplication)
+            double(source: "app/controllers/link_targets_controller.rb",
+                   context: "LinkTargetsController#authorize_user",
+                   message: "calls current_user.role multiple times",
+                   smell_type: "Duplication",
+                   lines: [8]),
 
-"app/controllers/newline_controller.rb" -- 1 warnings:
-NewlineController#some_method calls current_user.<< "new line\n" multiple times (Duplication)
-      HERE
+            double(source: "app/controllers/newline_controller.rb",
+                   context: "NewlineController#some_method",
+                   message: "calls current_user.<< \"new line\n\" multiple times",
+                   smell_type: "Duplication",
+                   lines: [6, 9])
+        ]
+        @lines = double(smells: @smells)
         @reek.instance_variable_set(:@output, @lines)
         @matches = @reek.analyze
+      end
+
+      it "should find the code smell's line numbers" do
+        smell = @matches.first[:code_smells].first
+        expect(smell[:lines]).to eq([2, 4])
       end
 
       it "should find the code smell's method name" do
@@ -109,91 +119,39 @@ NewlineController#some_method calls current_user.<< "new line\n" multiple times 
 
       it "should NOT insert nil smells into the array when there's a newline in the method call" do
         expect(@matches.last[:code_smells]).to eq(@matches.last[:code_smells].compact)
-        expect(@matches.last).to eq(file_path: "app/controllers/newline_controller.rb",
-                                    code_smells: [{ type: "Duplication",
-                                                    method: "\"",
-                                                    message: "multiple times" }])
-        # Note: hopefully a temporary solution until I figure out how to deal with newlines in the method call more effectively -Jake 5/11/2009
+      end
+    end
+
+    context "with reek 1.3 output" do
+        before :each do
+          @smells = [
+              double(source: "app/controllers/activity_reports_controller.rb",
+                     context: "ActivityReportsController#authorize_user",
+                     message: "calls current_user.primary_site_ids multiple times",
+                     subclass: "Duplication",
+                     lines: [2, 4]),
+          ]
+          @lines = double(smells: @smells)
+          @reek.instance_variable_set(:@output, @lines)
+          @matches = @reek.analyze
+        end
+
+      it "uses the subclass field to find the smell type" do
+        smell = @matches.first[:code_smells].first
+        expect(smell[:type]).to eq('Duplication')
       end
     end
 
     context "without reek warnings" do
       before :each do
-        @lines = <<-HERE
-
-0 total warnings
-      HERE
+        @lines = double(smells: [])
         @reek.instance_variable_set(:@output, @lines)
         @matches = @reek.analyze
       end
 
       it "returns empty analysis" do
-        expect(@matches).to eq({})
+        expect(@matches).to eq([])
       end
-    end
-  end
-end
-
-describe MetricFu::ReekGenerator do
-  before :each do
-    MetricFu::Configuration.run {}
-    @reek = MetricFu::ReekGenerator.new
-    @lines11 = <<-HERE
-"app/controllers/activity_reports_controller.rb" -- 4 warnings:
-ActivityReportsController#authorize_user calls current_user.primary_site_ids multiple times (Duplication)
-ActivityReportsController#authorize_user calls params[id] multiple times (Duplication)
-ActivityReportsController#authorize_user calls params[primary_site_id] multiple times (Duplication)
-ActivityReportsController#authorize_user has approx 6 statements (Long Method)
-
-"app/controllers/application.rb" -- 1 warnings:
-ApplicationController#start_background_task/block/block is nested (Nested Iterators)
-
-"app/controllers/link_targets_controller.rb" -- 1 warnings:
-LinkTargetsController#authorize_user calls current_user.role multiple times (Duplication)
-
-"app/controllers/newline_controller.rb" -- 1 warnings:
-NewlineController#some_method calls current_user.<< "new line\n" multiple times (Duplication)
-      HERE
-    @lines12 = <<-HERE
-app/controllers/activity_reports_controller.rb -- 4 warnings (+3 masked):
-  ActivityReportsController#authorize_user calls current_user.primary_site_ids multiple times (Duplication)
-  ActivityReportsController#authorize_user calls params[id] multiple times (Duplication)
-  ActivityReportsController#authorize_user calls params[primary_site_id] multiple times (Duplication)
-  ActivityReportsController#authorize_user has approx 6 statements (Long Method)
-app/controllers/application.rb -- 1 warnings:
-  ApplicationController#start_background_task/block/block is nested (Nested Iterators)
-app/controllers/link_targets_controller.rb -- 1 warnings (+1 masked):
-  LinkTargetsController#authorize_user calls current_user.role multiple times (Duplication)
-app/controllers/newline_controller.rb -- 1 warnings:
-  NewlineController#some_method calls current_user.<< "new line\n" multiple times (Duplication)
-      HERE
-  end
-
-  context "with Reek 1.1 output format" do
-    it "reports 1.1 style when the output is empty" do
-      @reek.instance_variable_set(:@output, "")
-      expect(@reek).not_to be_reek_12
-    end
-    it "detects 1.1 format output" do
-      @reek.instance_variable_set(:@output, @lines11)
-      expect(@reek).not_to be_reek_12
-    end
-
-    it "massages empty output to be unchanged" do
-      @reek.instance_variable_set(:@output, "")
-      expect(@reek.massage_for_reek_12).to be_empty
-    end
-  end
-
-  context "with Reek 1.2 output format" do
-    it "detects 1.2 format output" do
-      @reek.instance_variable_set(:@output, @lines12)
-      expect(@reek).to be_reek_12
-    end
-
-    it "correctly massages 1.2 output" do
-      @reek.instance_variable_set(:@output, @lines12)
-      expect(@reek.massage_for_reek_12).to eq(@lines11)
     end
   end
 end
