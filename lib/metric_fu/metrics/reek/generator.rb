@@ -1,3 +1,4 @@
+require "metric_fu/gem_version"
 module MetricFu
   class ReekGenerator < Generator
     def self.metric
@@ -15,14 +16,17 @@ module MetricFu
     end
 
     def run!(files, config_files)
-      require 'reek'
-      begin
-        require 'reek/configuration/app_configuration'
-      rescue LoadError
-        # nothing we can do, it's probably an older reek version which doesn't need this file
+      require "reek"
+      version = MetricFu::GemVersion.activated_version("reek")
+      if version >= "2.2.0"
+        examiner = Reek::Core::Examiner
+      else
+        examiner = Reek::Examiner
+        if version > "1.6.0"
+          require "reek/configuration/app_configuration"
+        end
       end
-
-      Reek::Examiner.new(files, config_files)
+      examiner.new(files, config_files)
     end
 
     def analyze
