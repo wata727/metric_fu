@@ -45,6 +45,9 @@ describe MetricFu::ReekGenerator do
       @reek = MetricFu::ReekGenerator.new
       @examiner = @reek.send(:examiner)
       @smell_warning = Reek.const_defined?(:SmellWarning) ? Reek.const_get(:SmellWarning) : Reek.const_get(:Smells).const_get(:SmellWarning)
+      if @smell_warning.instance_methods.include?(:subclass)
+        @smell_warning.send(:alias_method, :smell_type, :subclass)
+      end
     end
 
     context "with reek warnings" do
