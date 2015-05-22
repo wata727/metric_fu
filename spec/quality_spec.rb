@@ -8,18 +8,39 @@ if defined?(Encoding) && Encoding.default_external != "UTF-8"
 end
 
 RSpec.describe "The library itself" do
+  # For some reason RSpec may expect this to be defined
+  # and crash really bad without it
+  def self.uses_transaction?(*)
+    false
+  end
+
+  def encode_utf8!(string)
+    string.encode!(Encoding::UTF_8,
+                   invalid: :replace,
+                   undef: :replace,
+                   replace: "<?>".freeze
+                  )
+  end
+
+  def ignore_whitespace?(filename)
+    @whitespace_regex ||=
+      /\.gitmodules|fixtures|vendor|LICENSE|etc|db|public|reports/
+    !!(filename =~ @whitespace_regex)
+  end
+
   def check_for_spec_defs_with_single_quotes(filename)
     failing_lines = []
 
     File.readlines(filename).each_with_index do |line, number|
-      line.encode!(Encoding::UTF_8, invalid: :replace, undef: :replace, replace: "<?>")
+      encode_utf8!(line)
       failing_lines << number + 1 if line =~ /^ *(describe|it|context) {1}'{1}/
     end
 
-    unless failing_lines.empty?
+    if failing_lines.any?
       # Prevent rubocop from looping infinitely
       # rubocop:disable Style/StringLiterals
-      "#{filename} uses inconsistent single quotes on lines #{failing_lines.join(', ')}"
+      "#{filename} uses inconsistent single quotes "\
+      "on lines #{failing_lines.join(', ')}"
       # rubocop:enable Style/StringLiterals
     end
   end
@@ -27,7 +48,7 @@ RSpec.describe "The library itself" do
   def check_for_tab_characters(filename)
     failing_lines = []
     File.readlines(filename).each_with_index do |line, number|
-      line.encode!(Encoding::UTF_8, invalid: :replace, undef: :replace, replace: "<?>")
+      encode_utf8!(line)
       failing_lines << number + 1 if line =~ /\t/
     end
 
@@ -42,7 +63,7 @@ RSpec.describe "The library itself" do
   def check_for_extra_spaces(filename)
     failing_lines = []
     File.readlines(filename).each_with_index do |line, number|
-      line.encode!(Encoding::UTF_8, invalid: :replace, undef: :replace, replace: "<?>")
+      encode_utf8!(line)
       next if line =~ /^\s+#.*\s+\n$/
       failing_lines << number + 1 if line =~ /\s+\n$/
     end
@@ -63,15 +84,12 @@ RSpec.describe "The library itself" do
     match(&:empty?)
   end
 
-  WHITESPACE_OK =
-    /\.gitmodules|\.marshal|fixtures|ssl_certs|vendor|LICENSE|etc|reports/
-
   it "has no malformed whitespace" do
     error_messages = []
     Dir.chdir(File.expand_path("../..", __FILE__)) do
       `git ls-files -z`.split("\x0").each do |filename|
         next if !File.exist?(filename)
-        next if filename =~ WHITESPACE_OK
+        next if ignore_whitespace?(filename)
         error_messages << check_for_tab_characters(filename)
         error_messages << check_for_extra_spaces(filename)
       end
@@ -83,7 +101,7 @@ RSpec.describe "The library itself" do
     included = /spec/
     error_messages = []
     Dir.chdir(File.expand_path("../", __FILE__)) do
-      `git ls-files -z`.split("\x0").each do |filename|
+      `git ls-files -z spec`.split("\x0").each do |filename|
         next unless filename =~ included
         error_messages << check_for_spec_defs_with_single_quotes(filename)
       end

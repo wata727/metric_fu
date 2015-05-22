@@ -7,10 +7,10 @@ require "tempfile"
 require "fileutils"
 
 stderr_file = Tempfile.new("app.stderr")
-app_dir = File.expand_path("../..", __FILE__)
-output_dir = File.join(app_dir, "tmp")
+app_root ||= Dir.pwd
+output_dir = File.join(app_root, "tmp")
 FileUtils.mkdir_p(output_dir)
-bundle_dir = File.join(app_dir, "bundle")
+bundle_dir = File.join(app_root, "bundle")
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -25,9 +25,9 @@ RSpec.configure do |config|
 
     $stderr.reopen(STDERR)
 
-    app_warnings, other_warnings = lines.partition do |line|
-      line.include?(app_dir) && !line.include?(bundle_dir)
-    end
+    app_warnings, other_warnings = lines.partition { |line|
+      line.include?(app_root) && !line.include?(bundle_dir)
+    }
 
     if app_warnings.any?
       puts <<-WARNINGS
@@ -40,13 +40,16 @@ RSpec.configure do |config|
     end
 
     if other_warnings.any?
-      File.write(File.join(output_dir, "warnings.txt"), other_warnings.join("\n") << "\n")
+      output_file = File.join(output_dir, "warnings.txt")
+      File.write(output_file, other_warnings.join("\n") << "\n")
       puts
       puts "Non-app warnings written to tmp/warnings.txt"
       puts
     end
 
     # fail the build...
-    abort "Failing build due to app warnings: #{app_warnings.inspect}" if app_warnings.any?
+    if app_warnings.any?
+      abort "Failing build due to app warnings: #{app_warnings.inspect}"
+    end
   end
 end

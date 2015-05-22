@@ -18,7 +18,9 @@ Dir[MetricFu.root_dir + "/spec/support/**/*.rb"].each { |f| require f }
 RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
+  # Skip specs tagged `:slow` unless SLOW_SPECS is set
   config.filter_run_excluding :slow unless ENV["SLOW_SPECS"]
+  # End specs on first failure if FAIL_FAST is set
   config.fail_fast = ENV.include?("FAIL_FAST")
   config.order = :rand
   config.color = true
@@ -27,6 +29,7 @@ RSpec.configure do |config|
   end
   config.mock_with :rspec do |mocks|
     mocks.syntax = :expect
+    mocks.verify_partial_doubles = true
   end
 
   # :suite after/before all specs
