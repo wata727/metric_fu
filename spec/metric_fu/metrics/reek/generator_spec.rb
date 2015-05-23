@@ -43,51 +43,63 @@ describe MetricFu::ReekGenerator do
       MetricFu::Configuration.run {}
       allow(File).to receive(:directory?).and_return(true)
       @reek = MetricFu::ReekGenerator.new
+      @examiner = @reek.send(:examiner)
+      @smell_warning = Reek.const_defined?(:SmellWarning) ? Reek.const_get(:SmellWarning) : Reek.const_get(:Smells).const_get(:SmellWarning)
+      if @smell_warning.instance_methods.include?(:subclass)
+        @smell_warning.send(:alias_method, :smell_type, :subclass)
+      end
     end
 
     context "with reek warnings" do
       before :each do
         @smells = [
-            double(source: "app/controllers/activity_reports_controller.rb",
-                   context: "ActivityReportsController#authorize_user",
-                   message: "calls current_user.primary_site_ids multiple times",
-                   smell_type: "Duplication",
-                   lines: [2, 4]),
-            double(source: "app/controllers/activity_reports_controller.rb",
-                   context: "ActivityReportsController#authorize_user",
-                   message: "calls params[id] multiple times",
-                   smell_type: "Duplication",
-                   lines: [5, 7]),
-            double(source: "app/controllers/activity_reports_controller.rb",
-                   context: "ActivityReportsController#authorize_user",
-                   message: "calls params[primary_site_id] multiple times",
-                   smell_type: "Duplication",
-                   lines: [11, 15]),
-            double(source: "app/controllers/activity_reports_controller.rb",
-                   context: "ActivityReportsController#authorize_user",
-                   message: "has approx 6 statements",
-                   smell_type: "Long Method",
-                   lines: [8]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/activity_reports_controller.rb",
+                            context: "ActivityReportsController#authorize_user",
+                            message: "calls current_user.primary_site_ids multiple times",
+                            smell_type: "Duplication",
+                            lines: [2, 4]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/activity_reports_controller.rb",
+                            context: "ActivityReportsController#authorize_user",
+                            message: "calls params[id] multiple times",
+                            smell_type: "Duplication",
+                            lines: [5, 7]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/activity_reports_controller.rb",
+                            context: "ActivityReportsController#authorize_user",
+                            message: "calls params[primary_site_id] multiple times",
+                            smell_type: "Duplication",
+                            lines: [11, 15]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/activity_reports_controller.rb",
+                            context: "ActivityReportsController#authorize_user",
+                            message: "has approx 6 statements",
+                            smell_type: "Long Method",
+                            lines: [8]),
 
-            double(source: "app/controllers/application.rb",
-                   context: "ApplicationController#start_background_task/block/block",
-                   message: "is nested",
-                   smell_type: "Nested Iterators",
-                   lines: [23]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/application.rb",
+                            context: "ApplicationController#start_background_task/block/block",
+                            message: "is nested",
+                            smell_type: "Nested Iterators",
+                            lines: [23]),
 
-            double(source: "app/controllers/link_targets_controller.rb",
-                   context: "LinkTargetsController#authorize_user",
-                   message: "calls current_user.role multiple times",
-                   smell_type: "Duplication",
-                   lines: [8]),
+            instance_double(@smell_warning,
+                            source: "app/controllers/link_targets_controller.rb",
+                            context: "LinkTargetsController#authorize_user",
+                            message: "calls current_user.role multiple times",
+                            smell_type: "Duplication",
+                            lines: [8]),
 
-            double(source: "app/controllers/newline_controller.rb",
-                   context: "NewlineController#some_method",
-                   message: "calls current_user.<< \"new line\n\" multiple times",
-                   smell_type: "Duplication",
-                   lines: [6, 9])
+            instance_double(@smell_warning,
+                            source: "app/controllers/newline_controller.rb",
+                            context: "NewlineController#some_method",
+                            message: "calls current_user.<< \"new line\n\" multiple times",
+                            smell_type: "Duplication",
+                            lines: [6, 9])
         ]
-        @lines = double(smells: @smells)
+        @lines = instance_double(@examiner, smells: @smells)
         @reek.instance_variable_set(:@output, @lines)
         @matches = @reek.analyze
       end
@@ -123,18 +135,18 @@ describe MetricFu::ReekGenerator do
     end
 
     context "with reek 1.3 output" do
-        before :each do
-          @smells = [
-              double(source: "app/controllers/activity_reports_controller.rb",
-                     context: "ActivityReportsController#authorize_user",
-                     message: "calls current_user.primary_site_ids multiple times",
-                     subclass: "Duplication",
-                     lines: [2, 4]),
-          ]
-          @lines = double(smells: @smells)
-          @reek.instance_variable_set(:@output, @lines)
-          @matches = @reek.analyze
-        end
+      before :each do
+        @smells = [
+            double(source: "app/controllers/activity_reports_controller.rb",
+                   context: "ActivityReportsController#authorize_user",
+                   message: "calls current_user.primary_site_ids multiple times",
+                   subclass: "Duplication",
+                   lines: [2, 4]),
+        ]
+        @lines = instance_double(@examiner, smells: @smells)
+        @reek.instance_variable_set(:@output, @lines)
+        @matches = @reek.analyze
+      end
 
       it "uses the subclass field to find the smell type" do
         smell = @matches.first[:code_smells].first
@@ -144,7 +156,7 @@ describe MetricFu::ReekGenerator do
 
     context "without reek warnings" do
       before :each do
-        @lines = double(smells: [])
+        @lines = instance_double(@examiner, smells: [])
         @reek.instance_variable_set(:@output, @lines)
         @matches = @reek.analyze
       end
