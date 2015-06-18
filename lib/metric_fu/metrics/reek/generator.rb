@@ -8,7 +8,7 @@ module MetricFu
       files = files_to_analyze
       if files.empty?
         mf_log "Skipping Reek, no files found to analyze"
-        @output = ""
+        @output = run!([], config_files)
       else
         @output = run!(files, config_files)
       end
