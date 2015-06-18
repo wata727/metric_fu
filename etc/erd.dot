@@ -61,8 +61,8 @@ digraph classes {
 	MetricFu__MetricSaikuro [label="MetricFu::MetricSaikuro"]
 	MetricFu__MetricStats [label="MetricFu::MetricStats"]
 	MetricFu__RCovFormatCoverage [label="MetricFu::RCovFormatCoverage"]
-	MetricFu__RCovFormatCoverage__Line [label="MetricFu::RCovFormatCoverage::Line"]
 	MetricFu__RCovFormatCoverage__TestCoverage [label="MetricFu::RCovFormatCoverage::TestCoverage"]
+	MetricFu__RCovLine [label="MetricFu::RCovLine"]
 	MetricFu__RCovTestCoverageClient [label="MetricFu::RCovTestCoverageClient"]
 	MetricFu__Ranking [label="MetricFu::Ranking"]
 	MetricFu__RcovGenerator [label="MetricFu::RcovGenerator"]
@@ -92,6 +92,7 @@ digraph classes {
 	MetricFu__Templates__Configuration [label="MetricFu::Templates::Configuration"]
 	MetricFu__Templates__MetricsTemplate [label="MetricFu::Templates::MetricsTemplate"]
 	MetricFu__Templates__Report [label="MetricFu::Templates::Report"]
+	MetricFu__Version [label="MetricFu::Version"]
 	Object [label="Object"]
 	RuntimeError [label="RuntimeError"]
 	SimpleCov__Formatter__MetricFu__FormatLikeRCov [label="SimpleCov::Formatter::MetricFu::FormatLikeRCov"]
@@ -156,8 +157,8 @@ digraph classes {
 	MetricFu__MetricSaikuro -> MetricFu__Metric
 	MetricFu__MetricStats -> MetricFu__Metric
 	MetricFu__RCovFormatCoverage -> Object
-	MetricFu__RCovFormatCoverage__Line -> Object
 	MetricFu__RCovFormatCoverage__TestCoverage -> Object
+	MetricFu__RCovLine -> Object
 	MetricFu__RCovTestCoverageClient -> Object
 	MetricFu__Ranking -> Object
 	MetricFu__RcovGenerator -> MetricFu__Generator
@@ -187,6 +188,7 @@ digraph classes {
 	MetricFu__Templates__Configuration -> Object
 	MetricFu__Templates__MetricsTemplate -> MetricFu__Template
 	MetricFu__Templates__Report -> MetricFu__Template
+	MetricFu__Version -> Object
 	Object -> BasicObject
 	RuntimeError -> StandardError
 	SimpleCov__Formatter__MetricFu__FormatLikeRCov -> Object
