@@ -20,9 +20,11 @@ describe MetricFu::Configuration, "for rails_best_practices" do
         end
       end
 
-      it "should set @rails_best_practices to {}" do
+      it "should set @rails_best_practices to { :silent => true }" do
         load_metric "rails_best_practices"
-        expect(MetricFu::Metric.get_metric(:rails_best_practices).run_options).to eql({})
+        expect(MetricFu::Metric.get_metric(:rails_best_practices).run_options).to eq(
+                                                                                    "silent" => true
+                                                                                  )
       end
     end
 
