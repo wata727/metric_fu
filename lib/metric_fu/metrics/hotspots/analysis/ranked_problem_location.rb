@@ -12,16 +12,8 @@ module MetricFu
     def to_hash
       {
         "location" => location.to_hash,
-        "details" =>  stringify_keys(problems),
+        "details" =>  MetricFu::Utility.stringify_keys(problems),
       }
-    end
-
-    def stringify_keys(hash)
-      result = {}
-      hash.each do |key, value|
-        result[key.to_s] = value
-      end
-      result
     end
 
     # @todo redo as item,value, options = {}

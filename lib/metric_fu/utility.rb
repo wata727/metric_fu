@@ -19,6 +19,14 @@ module MetricFu
       end
     end
 
+    def stringify_keys(hash)
+      result = {}
+      hash.each do |key, value|
+        result[key.to_s] = value
+      end
+      result
+    end
+
     def strip_escape_codes(text)
       text.gsub(ESCAPE_CODES_PATTERN, "")
     end

@@ -6,7 +6,8 @@ module MetricFu
 
     def default_run_options
       {
-        "silent" => true
+        silent: true,
+        exclude: []
       }
     end
 

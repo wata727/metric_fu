@@ -4,6 +4,10 @@ module MetricFu
       :rails_best_practices
     end
 
+    def initialize(options = {})
+      super(MetricFu::Utility.stringify_keys(options))
+    end
+
     def emit
       mf_debug "** Rails Best Practices"
       path = "."

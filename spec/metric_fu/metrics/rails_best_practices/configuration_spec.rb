@@ -20,11 +20,23 @@ describe MetricFu::Configuration, "for rails_best_practices" do
         end
       end
 
-      it "should set @rails_best_practices to { :silent => true }" do
+      it "should default @rails_best_practices to { :silent => true }" do
         load_metric "rails_best_practices"
         expect(MetricFu::Metric.get_metric(:rails_best_practices).run_options).to eq(
-                                                                                    "silent" => true
+                                                                                    exclude: [],
+                                                                                    silent: true
                                                                                   )
+      end
+
+      it "can configure @rails_best_practices 'exclude' using the sugar" do
+        load_metric "rails_best_practices"
+        rbp = MetricFu::Metric.get_metric(:rails_best_practices)
+        rbp.exclude = ["config/chef"]
+        expect(rbp.run_options).to eq(
+                                     exclude: ["config/chef"],
+                                     silent: true
+                                   )
+
       end
     end
 
