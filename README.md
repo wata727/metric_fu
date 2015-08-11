@@ -87,6 +87,16 @@ MetricFu.configuration.configure_metrics.each do |metric|
 end
 ```
 
+### Rails Best Practices
+```ruby
+MetricFu::Configuration.run do |config|
+  config.configure_metric(:rails_best_practices) do |rbp|
+    rbp.silent = true
+    rbp.exclude = ["config/chef"]
+  end
+end
+```
+
 ## Formatters
 
 ### Built-in Formatters
