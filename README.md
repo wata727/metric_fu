@@ -47,7 +47,6 @@ See:
 
 ## Documentation
 
-
 MetricFu will attempt to load configuration data from a
 `.metrics` file, if present in your repository root.
 
@@ -87,100 +86,18 @@ MetricFu.configuration.configure_metrics.each do |metric|
 end
 ```
 
-## Formatters
-
-### Built-in Formatters
-
-By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs.
-
-These reports are generated in metric_fu's output directory (`tmp/metric_fu/output`) by default. You can customize the output directory by specifying an out directory at the command line
-using a relative path:
-
-```sh
-metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
-```
-
-or a full path:
-
-```sh
-metric_fu --out $HOME/tmp/metrics      # outputs to $HOME/tmp/metrics
-```
-
-You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
-
-
-```sh
-metric_fu --format yaml --out custom_report.yml
-```
-
-Or in Ruby, such as in your `.metrics`
+### Rails Best Practices
 
 ```ruby
-# Specify multiple formatters
-# The second argument, the output file, is optional
 MetricFu::Configuration.run do |config|
-  config.configure_formatter(:html)
-  config.configure_formatter(:yaml, "customreport.yml")
-  config.configure_formatter(:yaml)
+  config.configure_metric(:rails_best_practices) do |rbp|
+    rbp.silent = true
+    rbp.exclude = ["config/chef"]
+  end
 end
 ```
 
-### Custom Formatters
-
-You can customize metric_fu's output format with a custom formatter.
-
-To create a custom formatter, you simply need to create a class
-that takes an options hash and responds to one or more notifications:
-
-```ruby
-class MyCustomFormatter
-  def initialize(opts={}); end    # metric_fu will pass in an output param if provided.
-
-  # Should include one or more of...
-  def start; end           # Sent before metric_fu starts metric measurements.
-  def start_metric(metric); end   # Sent before individual metric is measured.
-  def finish_metric(metric); end   # Sent after individual metric measurement is complete.
-  def finish; end           # Sent after metric_fu has completed all measurements.
-  def display_results; end     # Used to open results in browser, etc.
-end
-```
-
-Then
-
-```shell
-metric_fu --format MyCustomFormatter
-```
-
-See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
-
-MetricFu will attempt to require a custom formatter by
-fully qualified name based on ruby search path. So if you include a custom
-formatter as a gem in your Gemfile, you should be able to use it out of the box.
-But you may find in certain cases that you need to add a require to
-your .metrics configuration file.
-
-For instance, to require a formatter in your app's lib directory `require './lib/my_custom_formatter.rb'`
-
-##  Configure Graph Engine
-
-By default, MetricFu uses the Bluff (JavaScript) graph engine.
-
-```ruby
-MetricFu.configuration.configure_graph_engine(:bluff)
-```
-
-But it you may also use the [Highcharts JS library](http://shop.highsoft.com/highcharts.html)
-
-```ruby
-MetricFu.configuration.configure_graph_engine(:highcharts)
-```
-
-Notice: There was previously a :gchart option.
-It was not properly deprecated in the 4.x series.
-
-### Using Coverage Metrics
-
-in your .metrics file add the below to run pre-generated metrics
+### Coverage Metrics
 
 ```ruby
 MetricFu::Configuration.run do |config|
@@ -225,8 +142,98 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 SimpleCov.start
 ```
 
-Additionally, the `coverage_file` path must be specified as above
-and must exist.
+Additionally, the `coverage_file` path must be specified as above and must exist.
+
+### Formatters
+
+#### Built-in Formatters
+
+By default, metric_fu will use the built-in html formatter to generate HTML reports for each metric with pretty graphs.
+
+These reports are generated in metric_fu's output directory (`tmp/metric_fu/output`) by default. You can customize the output directory by specifying an out directory at the command line
+using a relative path:
+
+```sh
+metric_fu --out custom_directory    # outputs to tmp/metric_fu/custom_directory
+```
+
+or a full path:
+
+```sh
+metric_fu --out $HOME/tmp/metrics      # outputs to $HOME/tmp/metrics
+```
+
+You can specify a different formatter at the command line by referencing a built-in formatter or providing the fully-qualified name of a custom formatter.
+
+
+```sh
+metric_fu --format yaml --out custom_report.yml
+```
+
+Or in Ruby, such as in your `.metrics`
+
+```ruby
+# Specify multiple formatters
+# The second argument, the output file, is optional
+MetricFu::Configuration.run do |config|
+  config.configure_formatter(:html)
+  config.configure_formatter(:yaml, "customreport.yml")
+  config.configure_formatter(:yaml)
+end
+```
+
+#### Custom Formatters
+
+You can customize metric_fu's output format with a custom formatter.
+
+To create a custom formatter, you simply need to create a class
+that takes an options hash and responds to one or more notifications:
+
+```ruby
+class MyCustomFormatter
+  def initialize(opts={}); end    # metric_fu will pass in an output param if provided.
+
+  # Should include one or more of...
+  def start; end           # Sent before metric_fu starts metric measurements.
+  def start_metric(metric); end   # Sent before individual metric is measured.
+  def finish_metric(metric); end   # Sent after individual metric measurement is complete.
+  def finish; end           # Sent after metric_fu has completed all measurements.
+  def display_results; end     # Used to open results in browser, etc.
+end
+```
+
+Then
+
+```shell
+metric_fu --format MyCustomFormatter
+```
+
+See [lib/metric_fu/formatter/](lib/metric_fu/formatter/) for examples.
+
+MetricFu will attempt to require a custom formatter by
+fully qualified name based on ruby search path. So if you include a custom
+formatter as a gem in your Gemfile, you should be able to use it out of the box.
+But you may find in certain cases that you need to add a require to
+your .metrics configuration file.
+
+For instance, to require a formatter in your app's lib directory `require './lib/my_custom_formatter.rb'`
+
+###  Configure Graph Engine
+
+By default, MetricFu uses the Bluff (JavaScript) graph engine.
+
+```ruby
+MetricFu.configuration.configure_graph_engine(:bluff)
+```
+
+But it you may also use the [Highcharts JS library](http://shop.highsoft.com/highcharts.html)
+
+```ruby
+MetricFu.configuration.configure_graph_engine(:highcharts)
+```
+
+Notice: There was previously a :gchart option.
+It was not properly deprecated in the 4.x series.
 
 ## Common problems / debugging
 

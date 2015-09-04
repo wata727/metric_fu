@@ -5,7 +5,10 @@ module MetricFu
     end
 
     def default_run_options
-      {}
+      {
+        silent: true,
+        exclude: []
+      }
     end
 
     def has_graph?
