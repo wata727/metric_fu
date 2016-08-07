@@ -6,12 +6,14 @@
     <tr>
       <th>Method Name</th>
       <th>Complexity</th>
+      <th>FirstLine</th>
       <th># Lines</th>
     </tr>
     <% @saikuro[:methods].each do |method| %>
     <tr>
       <td><%= method[:name] %></td>
       <td><%= method[:complexity] %></td>
+      <td><%= method[:first_line] %></td>
       <td><%= method[:lines] %></td>
     </tr>
     <% end %>
@@ -24,12 +26,14 @@
     <tr>
       <th>Class Name</th>
       <th>Complexity</th>
+      <th>FirstLine</th>
       <th># Lines</th>
     </tr>
     <% @saikuro[:classes].each do |klass| %>
     <tr>
       <td><%= klass[:name] %></td>
       <td><%= klass[:complexity] %></td>
+      <td><%= klass[:first_line] %></td>
       <td><%= klass[:lines] %></td>
     </tr>
     <% end %>
@@ -42,12 +46,14 @@
       <% if !klass[:methods].empty? %>
         <h3><%=link_to_filename(file[:filename])%></h3>
         <h4>Class : <%= klass[:class_name] %></h4>
+        <h5>First Line : <%= klass[:first_line] %></h5>
         <h5>Total complexity : <%= klass[:complexity] %></h5>
         <h5>Total lines : <%= klass[:lines] %></h5>
         <table>
             <tr>
               <th>Method</th>
               <th>Complexity</th>
+              <th>FirstLine</th>
               <th># Lines</th>
             </tr>
           <% klass[:methods].each do |method| %>
@@ -57,6 +63,9 @@
               </td>
               <td>
                 <%= method[:complexity] %>
+              </td>
+              <td>
+                <%= method[:first_line] %>
               </td>
               <td>
                 <%= method[:lines]  %>
