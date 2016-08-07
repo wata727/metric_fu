@@ -74,16 +74,19 @@ module MetricFu
       get_class_names.each do |target_class|
         elements = @elements.find_all { |el| el.name == target_class }
         complexity = 0
+        first_line = 0
         lines = 0
         defns = []
         elements.each do |el|
           complexity += el.complexity.to_i
+          first_line = el.first_line.to_i
           lines += el.lines.to_i
           defns << el.defs
         end
 
         new_element = { class_name: target_class,
                         complexity: complexity,
+                        first_line: first_line,
                         lines: lines,
                         methods: defns.flatten.map(&:to_h) }
         new_element[:methods] = new_element[:methods].
